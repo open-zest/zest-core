@@ -1,68 +1,50 @@
-# Prerequisites
-*.d
+# ==========================================
+# Project ZeST (.gitignore)
+# ==========================================
 
-# Compiled Object files
-*.slo
-*.lo
+# IDEs & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# C++ Build & Binaries
+/solvers/zestow/build/
+/solvers/zestow/bin/
 *.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
+*.a
 *.so
 *.dylib
-*.dll
-*.so.*
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
 *.exe
-*.out
-*.app
 
-# Build directories
-build/
-Build/
-build-*/
+# Rust / Cargo
+/solvers/des/target/
+Cargo.lock
 
-# CMake generated files
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
-install_manifest.txt
-compile_commands.json
+# Python / Virtual Environments & Solvers
+venv/
+env/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
 
-# Temporary files
-*.tmp
+# Julia
+/solvers/des/Manifest.toml
+*.jl.mem
+*.jl.cov
+
+# Sensitive Data, Local Configs & Logs
 *.log
-*.bak
-*.swp
+.env
+secret_token.json
+data/private/
 
-# vcpkg
-vcpkg_installed/
-
-# debug information files
-*.dwo
-
-# test output & cache
-Testing/
-.cache/
+ # Python
+venv/
+env/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
