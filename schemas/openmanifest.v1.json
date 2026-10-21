@@ -1,0 +1,133 @@
+json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openzest.org/schemas/v1/openmanifest.json",
+  "title": "OpenManifest",
+  "type": "object",
+  "required": [
+    "manifestId",
+    "eFTIComplianceRef",
+    "token",
+    "physicalAttributes",
+    "routing"
+  ],
+  "properties": {
+    "manifestId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "eFTIComplianceRef": {
+      "type": "string",
+      "pattern": "^EU-eFTI-[0-9]{4}-[A-Z]{3}-[0-9]{8}$"
+    },
+    "token": {
+      "type": "object",
+      "required": [
+        "tokenId",
+        "hashAlg",
+        "payloadHash"
+      ],
+      "properties": {
+        "tokenId": {
+          "type": "string"
+        },
+        "hashAlg": {
+          "type": "string",
+          "enum": [
+            "sha256",
+            "sha384"
+          ]
+        },
+        "payloadHash": {
+          "type": "string"
+        }
+      }
+    },
+    "physicalAttributes": {
+      "type": "object",
+      "required": [
+        "isoCode",
+        "grossMassKg",
+        "centerOfGravityMm",
+        "imoHazmatClass"
+      ],
+      "properties": {
+        "isoCode": {
+          "type": "string",
+          "pattern": "^[A-Z]{4}[0-9]{7}$"
+        },
+        "grossMassKg": {
+          "type": "number",
+          "minimum": 1000,
+          "maximum": 40000
+        },
+        "centerOfGravityMm": {
+          "type": "object",
+          "required": [
+            "x",
+            "y",
+            "z"
+          ],
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "imoHazmatClass": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        }
+      }
+    },
+    "routing": {
+      "type": "object",
+      "required": [
+        "originUnlocode",
+        "destinationZoneCode",
+        "priorityClass"
+      ],
+      "properties": {
+        "originUnlocode": {
+          "type": "string",
+          "pattern": "^[A-Z]{5}$"
+        },
+        "destinationZoneCode": {
+          "type": "string",
+          "pattern": "^Z-[A-Z]{3}-[0-9]{2}$"
+        },
+        "priorityClass": {
+          "type": "string",
+          "enum": [
+            "FLOW_RAIL_EXPRESS",
+            "STANDARD_RAIL",
+            "BUFFER_YARD"
+          ]
+        },
+        "allowedTransshipmentWindows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "earliestStart": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "latestEnd": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
