@@ -1,44 +1,48 @@
-#!/usr/bin/env python3
-"""
-Open-ZeST Interactive CLI Showcase
-Demonstrates traditional vs. ZeST dynamic pull staging on a 1,500-box mixed corridor.
-"""
 import sys
-import time
+from pathlib import Path
 
-def run_demo():
-    print("=" * 65)
-    print("  OPEN-ZeST: EUROPEAN CORRIDOR DISPATCH BENCHMARK DEMO")
-    print("=" * 65)
-    print("  Corridor Nodes: Rotterdam -> Duisburg, Verona, Poznań,")
-    print("                             Vienna, Lyon, Budapest")
-    print("  Dataset Scope:  1,500 Containers | 2,840.0 TEU | 31,192.7 tonnes")
-    print("=" * 65)
-    print("\n[1/3] Generating synthetic high-volume manifest...")
-    time.sleep(0.6)
-    print("      ✓ 1,500 containers validated against ISO 6346 & VGM limits.")
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from solvers.generators.manifest_gen import generate_synthetic_manifest
+from solvers.des.milkrun_sim import StochasticMilkRunSimulator, execute_corridor_benchmark
+
+def run_rotterdam_corridor_showcase():
+    print("=" * 80)
+    print("Project ZeST: Intermodal Europe 2026 Rotterdam Corridor Showcase")
+    print("=" * 80)
     
-    print("\n[2/3] Simulating Traditional Multi-Zone Yard Operations...")
-    time.sleep(0.8)
-    print("      ✓ Traditional baseline completed.")
+    # 1. Generate standard 1,500 container corridor manifest
+    print("\n[1/3] Generating synthetic vessel manifest (1,500 containers)...")
+    manifest = generate_synthetic_manifest(total_containers=1500, seed=42)
+    print(f"      Total Containers: {len(manifest.containers)}")
+    print(f"      Total TEU:        {manifest.total_teu}")
+    print(f"      Total VGM Mass:   {manifest.total_vgm_tonnes:,.2f} tonnes")
+    print(f"      Net Cargo Mass:   {manifest.total_payload_mass_tonnes:,.2f} tonnes")
 
-    print("\n[3/3] Simulating Open-ZeST Dynamic Pull-Staging...")
-    time.sleep(0.8)
-    print("      ✓ ZeST milk-run corridor completed.")
+    # 2. Run deterministic benchmark comparisons
+    print("\n[2/3] Evaluating corridor dwell benchmarks...")
+    bench = execute_corridor_benchmark(manifest)
+    print(f"      Traditional Dwell Baseline: {bench['baseline_dwell_hours']:.2f} hours")
+    print(f"      ZeST Delivery Dwell:        {bench['zest_dwell_hours']:.2f} hours")
+    print(f"      Total Shunting Rehandles:   {bench['rehandles']}")
 
-    print("\n" + "=" * 65)
-    print("                      BENCHMARK RESULTS")
-    print("=" * 65)
-    header = f"{'Metric':<28} | {'Traditional':<12} | {'Open-ZeST':<12} | {'Delta':<8}"
-    print(header)
-    print("-" * 65)
-    print(f"{'Mean Dwell Time':<28} | {'57.39 hrs':<12} | {'4.43 hrs':<12} | {'-92.3%':<8}")
-    print(f"{'p95 Dwell Time':<28} | {'170.72 hrs':<12} | {'6.86 hrs':<12} | {'-96.0%':<8}")
-    print(f"{'Yard Crane Rehandles':<28} | {'1.46 / box':<12} | {'0.00 / box':<12} | {'-100%':<8}")
-    print(f"{'Carrier Pre-Sort Reqd':<28} | {'Mandatory':<12} | {'Decoupled':<12} | {'N/A':<8}")
-    print("=" * 65)
-    print("\nOperational Verdict: Zero yard rehandles achieved without requiring")
-    print("carrier pre-sorting or pre-departure manifest lock.\n")
+    # 3. Execute stochastic SimPy queuing run
+    print("\n[3/3] Simulating stochastic terminal resource contention (SimPy)...")
+    simulator = StochasticMilkRunSimulator(manifest, random_seed=42)
+    metrics = simulator.run_simulation(duration=168.0)
+    
+    mean_dwell = sum(metrics["dwell_times"]) / max(len(metrics["dwell_times"]), 1)
+    mean_delay = sum(metrics["queue_delays"]) / max(len(metrics["queue_delays"]), 1)
+    max_delay = max(metrics["queue_delays"]) if metrics["queue_delays"] else 0.0
+
+    print(f"      Simulated Operational Hours: 168.0 hrs (7-day window)")
+    print(f"      Mean Dynamic Dwell:          {mean_dwell:.2f} hours")
+    print(f"      Mean Crane Queue Wait:       {mean_delay:.2f} hours")
+    print(f"      Max Observed Siding Delay:   {max_delay:.2f} hours")
+    print("\n" + "=" * 80)
+    print("Corridor simulation completed successfully. Ready for presentation.")
+    print("=" * 80)
 
 if __name__ == "__main__":
-    run_demo()
+    run_rotterdam_corridor_showcase()
