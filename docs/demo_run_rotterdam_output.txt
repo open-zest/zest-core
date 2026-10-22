@@ -1,0 +1,24 @@
+================================================================================
+Project ZeST: Intermodal Europe 2026 Rotterdam Corridor Showcase
+================================================================================
+
+[1/3] Generating synthetic vessel manifest (1,500 containers)...
+      Total Containers: 1500
+      Total TEU:        2840.0
+      Total VGM Mass:   31,192.68 tonnes
+      Net Cargo Mass:   25,748.68 tonnes
+
+[2/3] Evaluating corridor dwell benchmarks...
+      Traditional Dwell Baseline: 57.39 hours
+      ZeST Delivery Dwell:        4.43 hours
+      Total Shunting Rehandles:   0
+
+[3/3] Simulating stochastic terminal resource contention (SimPy)...
+      Simulated Operational Hours: 168.0 hrs (7-day window)
+      Mean Dynamic Dwell:          3.55 hours
+      Mean Crane Queue Wait:       0.00 hours
+      Max Observed Siding Delay:   0.00 hours
+
+================================================================================
+Corridor simulation completed successfully. Ready for presentation.
+================================================================================
