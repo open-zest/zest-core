@@ -49,3 +49,4 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 .venv/
+zest_core.egg-info/
