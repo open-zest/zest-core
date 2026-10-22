@@ -1,35 +1,35 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "open-zest"
+name = "zest-core"
 version = "0.1.0"
-description = "Open Zero-Sorting Terminal (ZeST) Discrete-Event Simulation & Dispatch Engine"
+description = "Core simulation, stowage optimization, and rail milk-run DES engine for Project Open-ZeST"
 readme = "README.md"
-requires-python = ">=3.11"
 authors = [
-    { name = "Open-ZeST Working Group" }
+    { name = "James P. Reefe", email = "jamespr615@gmail.com" }
 ]
+requires-python = ">=3.11"
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
+    "simpy>=4.0.1",
     "pydantic>=2.0.0",
-    "simpy>=4.0.0",
     "pandas>=2.0.0",
-    "numpy>=1.24.0",
-    "pytest>=7.0.0"
+    "numpy>=1.24.0"
 ]
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black",
+    "flake8",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]
