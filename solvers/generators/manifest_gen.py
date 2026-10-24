@@ -1,143 +1,129 @@
 """
-solvers/generators/manifest_gen.py
-==================================
-Project ZeST: Zero-Sort Transport
-Synthetic High-Volume Manifest Generator (Pydantic v2).
-
-Generates realistic 15,000–24,000 TEU aggregate vessel manifests matching
-schemas/manifest_models.py to stress-test stowage solvers and discrete-event models.
+Synthetic manifest generator for Project ZeST benchmarks.
+Generates realistic cargo weights, corridor distribution, cryptographic tokens,
+and eFTI regulatory data across configurable documentation filing regimes.
 """
 
-from __future__ import annotations
-
 import hashlib
-import os
 import random
-import sys
-from datetime import datetime, timezone
-from pathlib import Path
+import uuid
 from typing import List
-
-# Ensure repository root is in sys.path for direct execution
-REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
-
 from schemas.manifest_models import (
-    ContainerToken,
-    CustomsTransitStatus,
-    DestinationZoneCode,
-    GeographicCoordinates,
-    InlandFinalDestination,
-    ISOSizeTypeCode,
-    VesselCallInfo,
-    VesselManifest,
+    ContainerManifest,
+    VesselCallManifest,
+    IsoContainerType,
+    DestinationZone,
+    CustomsChannel,
+    RegulatoryTokens,
 )
-
-ZONE_COORDINATE_CENTROIDS = {
-    DestinationZoneCode.ZONE_A_DUISBURG: GeographicCoordinates(latitude=51.4508, longitude=6.7623),
-    DestinationZoneCode.ZONE_B_VERONA: GeographicCoordinates(latitude=45.3888, longitude=10.9577),
-    DestinationZoneCode.ZONE_C_POZNAN: GeographicCoordinates(latitude=52.3683, longitude=16.9930),
-    DestinationZoneCode.ZONE_D_VIENNA: GeographicCoordinates(latitude=48.1633, longitude=16.4719),
-    DestinationZoneCode.ZONE_E_LYON: GeographicCoordinates(latitude=45.7196, longitude=4.8972),
-    DestinationZoneCode.ZONE_F_BUDAPEST: GeographicCoordinates(latitude=47.4110, longitude=19.0620),
-}
-
-ZONE_COUNTRY_CODES = {
-    DestinationZoneCode.ZONE_A_DUISBURG: "DE",
-    DestinationZoneCode.ZONE_B_VERONA: "IT",
-    DestinationZoneCode.ZONE_C_POZNAN: "PL",
-    DestinationZoneCode.ZONE_D_VIENNA: "AT",
-    DestinationZoneCode.ZONE_E_LYON: "FR",
-    DestinationZoneCode.ZONE_F_BUDAPEST: "HU",
-}
 
 
 def generate_synthetic_manifest(
-    total_containers: int = 1000,
-    vessel_name: str = "ZeST Rotterdam Express",
-    imo_number: int = 9811000,
-    voyage_number: str = "2601W",
-    origin_locode: str = "CNSHA",
-    gateway_locode: str = "NLRTM",
+    total_containers: int = 1500,
     seed: int = 42,
-) -> VesselManifest:
+    vessel_name: str = "ZeST Rotterdam Pioneer",
+    vessel_imo: str = "IMO9988776",
+    filing_regime: str = "HIGH_SEAS_eFTI"
+) -> VesselCallManifest:
     """
-    Generates a deterministic, schema-compliant synthetic manifest.
+    filing_regime:
+      - 'HIGH_SEAS_eFTI': Settled during sea voyage; 90%+ green, pre-arrival lead time 12-96h.
+      - 'LEGACY_DISCHARGE_TRIGGER': Documentation starts near berth; 60%+ lags 10h cut-off.
     """
     random.seed(seed)
-    containers: List[ContainerToken] = []
-    zones = list(DestinationZoneCode)
+
+    containers: List[ContainerManifest] = []
+    zones = list(DestinationZone)
+    zone_weights = [0.35, 0.20, 0.15, 0.12, 0.10, 0.08]
+
+    iso_types = [
+        (IsoContainerType.FORTY_HIGH_CUBE, 2.0, 3800.0, 0.65),
+        (IsoContainerType.FORTY_FOOT, 2.0, 3650.0, 0.20),
+        (IsoContainerType.TWENTY_FOOT, 1.0, 2200.0, 0.15),
+    ]
 
     for i in range(total_containers):
-        container_id = f"ZSTU{i:07d}"
-        iso_code = random.choices(
-            [ISOSizeTypeCode.HC_40, ISOSizeTypeCode.GP_40, ISOSizeTypeCode.GP_20],
-            weights=[0.70, 0.20, 0.10],
-            k=1,
-        )[0]
+        c_prefix = random.choice(["MSKU", "CMAU", "COSU", "HLCU", "MEDU"])
+        c_num = f"{random.randint(1000000, 9999999)}"
+        c_id = f"{c_prefix}{c_num}"
 
-        # Realistic container gross mass: tare (3,800 kg) + cargo (8,000 to 26,000 kg)
-        vgm_kg = round(random.uniform(11800.0, 29800.0), 1)
-        is_hazmat = random.random() < 0.04
-        customs_status = (
-            CustomsTransitStatus.CUSTOMS_HOLD
-            if random.random() < 0.02
-            else CustomsTransitStatus.NCTS_T1_BOND
+        iso_pick = random.choices(iso_types, weights=[x[3] for x in iso_types])[0]
+        iso_type, teu, tare = iso_pick[0], iso_pick[1], iso_pick[2]
+
+        if teu == 1.0:
+            net_cargo = random.triangular(4000.0, 21800.0, 14000.0)
+        else:
+            net_cargo = random.triangular(8000.0, 26680.0, 18500.0)
+        vgm = round(tare + net_cargo, 2)
+
+        dest_zone = random.choices(zones, weights=zone_weights)[0]
+
+        if filing_regime == "LEGACY_DISCHARGE_TRIGGER":
+            # Reactive regime: Documentation starts when vessel is near or at berth
+            reg_roll = random.random()
+            if reg_roll < 0.70:
+                customs = CustomsChannel.GREEN
+                doc_release = random.random() < 0.60
+                # Heavy cluster around berth (-18h to +8h)
+                lead_time = random.uniform(-18.0, 8.0)
+                mrn = f"26NL{uuid.uuid4().hex[:12].upper()}T1"
+            elif reg_roll < 0.90:
+                customs = CustomsChannel.YELLOW
+                doc_release = False
+                lead_time = random.uniform(-24.0, 4.0)
+                mrn = f"26NL{uuid.uuid4().hex[:12].upper()}YEL"
+            else:
+                customs = CustomsChannel.RED
+                doc_release = False
+                lead_time = random.uniform(-48.0, -2.0)
+                mrn = f"26NL{uuid.uuid4().hex[:12].upper()}RED"
+        else:
+            # ZeST High-Seas eFTI regime: Settled 1-4 days prior to arrival
+            reg_roll = random.random()
+            if reg_roll < 0.92:
+                customs = CustomsChannel.GREEN
+                doc_release = True
+                lead_time = random.uniform(12.0, 96.0)
+                mrn = f"26NL{uuid.uuid4().hex[:12].upper()}T1"
+            elif reg_roll < 0.97:
+                customs = CustomsChannel.YELLOW
+                doc_release = random.choice([True, False])
+                lead_time = random.uniform(-6.0, 10.0)
+                mrn = f"26NL{uuid.uuid4().hex[:12].upper()}YEL"
+            else:
+                customs = CustomsChannel.RED
+                doc_release = False
+                lead_time = random.uniform(-48.0, -2.0)
+                mrn = f"26NL{uuid.uuid4().hex[:12].upper()}RED"
+
+        token_payload = f"{c_id}:{vgm}:{dest_zone.value}:{mrn}:{seed}:{i}".encode("utf-8")
+        crypto_token = hashlib.sha256(token_payload).hexdigest()
+
+        regulatory = RegulatoryTokens(
+            ics2_status="APPROVED",
+            customs_channel=customs,
+            ncts_mrn=mrn,
+            commercial_release=doc_release,
+            data_lead_time_hours=round(lead_time, 2)
         )
-        assigned_zone = random.choice(zones)
-        centroid = ZONE_COORDINATE_CENTROIDS[assigned_zone]
-        country_code = ZONE_COUNTRY_CODES[assigned_zone]
 
-        token_hash = hashlib.sha256(
-            f"{container_id}:{vgm_kg}:{assigned_zone.value}:{i}".encode()
-        ).hexdigest()
-
-        destination = InlandFinalDestination(
-            destination_id=f"DEST-{assigned_zone.name[-3:]}-{i:04d}",
-            postal_code=f"{random.randint(10000, 99999)}",
-            country_code=country_code,
-            coordinates=centroid,
+        containers.append(
+            ContainerManifest(
+                container_id=c_id,
+                iso_type=iso_type,
+                teu=teu,
+                tare_weight_kg=tare,
+                net_cargo_weight_kg=round(net_cargo, 2),
+                vgm_kg=vgm,
+                destination_zone=dest_zone,
+                cryptographic_token=crypto_token,
+                regulatory=regulatory
+            )
         )
 
-        token = ContainerToken(
-            container_id=container_id,
-            iso_code=iso_code,
-            vgm_kg=vgm_kg,
-            is_hazmat=is_hazmat,
-            customs_status=customs_status,
-            destination_zone=assigned_zone,
-            final_destination=destination,
-            cryptographic_token=token_hash,
-        )
-        containers.append(token)
-
-    vessel_call = VesselCallInfo(
+    return VesselCallManifest(
         vessel_name=vessel_name,
-        imo_number=imo_number,
-        voyage_number=voyage_number,
-        origin_port=origin_locode,
-        gateway_port=gateway_locode,
-        scheduled_berth_window=datetime(2026, 11, 10, 6, 0, tzinfo=timezone.utc),
+        vessel_imo=vessel_imo,
+        total_containers=total_containers,
+        containers=containers
     )
-
-    return VesselManifest(
-        manifest_version="1.0.0",
-        vessel_call=vessel_call,
-        containers=containers,
-    )
-
-
-if __name__ == "__main__":
-    count = 1500
-    manifest = generate_synthetic_manifest(total_containers=count)
-    print("=" * 65)
-    print(f"Generated Synthetic Manifest: {manifest.vessel_call.vessel_name}")
-    print("=" * 65)
-    print(f"Total Containers : {len(manifest.containers)}")
-    print(f"Total TEU        : {manifest.total_teu:.1f}")
-    print(f"Payload Mass     : {manifest.total_payload_mass_tonnes:,.2f} metric tonnes")
-    print("\nZone Distribution:")
-    for zone, qty in manifest.zone_distribution_summary().items():
-        print(f"  - {zone.value:<14}: {qty:>4} containers")
-    print("=" * 65)
