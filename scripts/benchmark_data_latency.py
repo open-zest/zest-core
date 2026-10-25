@@ -42,28 +42,21 @@ def run_simulation(mode="legacy", data_lag_hours=48.0):
 
     def process_container(cid, zone):
         arrival_time = engine.now
-        # Quay crane lift (1.5 - 2.2 mins = 0.03h)
         lift_time = random.uniform(0.025, 0.035)
 
         if mode == "legacy":
-            # Data arrives t+48h post-berth with variance
             data_resolution = max(0.0, data_lag_hours + random.gauss(0, 4.0))
-            # Yard digging overhead (1-3 re-handles when unstacking blind cargo)
             extra_moves = random.choices([1, 2, 3], weights=[0.50, 0.35, 0.15])[0]
-            dig_time = extra_moves * 0.083  # ~5 mins per re-handle
-            rail_slot_wait = random.uniform(4.0, 10.0) # reactive train assembly
+            dig_time = extra_moves * 0.083
+            rail_slot_wait = random.uniform(4.0, 10.0)
             total_delay = lift_time + data_resolution + dig_time + rail_slot_wait
             engine.schedule(total_delay, finish_container, arrival_time, extra_moves)
         else:
-            # ZeST Feed-Forward: Data crystallized 14d prior to arrival
-            # Direct Ramp-to-Rail loading; zero yard touches, zero re-handles
             direct_transfer_time = lift_time + random.uniform(0.15, 0.35)
             engine.schedule(direct_transfer_time, finish_container, arrival_time, 0)
 
-    # Ingest containers into simulation
     for i in range(TOTAL_CONTAINERS):
         zone = random.choice(CORRIDORS)
-        # Inter-arrival staggering at quay cranes
         engine.schedule(i * 0.002, process_container, i, zone)
 
     engine.run()
