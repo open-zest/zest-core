@@ -30,18 +30,21 @@ st.markdown(
             max-width: 1440px;
         }
         div[data-testid="stMetric"] {
-            background-color: #0f172a;
-            border: 1px solid #1e293b;
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-left: 4px solid #0284c7;
             border-radius: 6px;
             padding: 8px 12px;
         }
         div[data-testid="stMetricLabel"] > div {
-            font-size: 0.78rem !important;
-            color: #94a3b8 !important;
+            font-size: 0.80rem !important;
+            font-weight: 600 !important;
+            color: #334155 !important;
         }
         div[data-testid="stMetricValue"] > div {
             font-size: 1.35rem !important;
             font-weight: 700 !important;
+            color: #0f172a !important;
         }
         h1 { font-size: 1.45rem !important; margin-bottom: 0.1rem !important; }
         h2 { font-size: 1.05rem !important; margin-top: 0.4rem !important; margin-bottom: 0.2rem !important; }
