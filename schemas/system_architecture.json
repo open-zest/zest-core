@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "project": "Project ZeST",
+  "version": "1.1.0",
+  "title": "Dual-Stream Coupled Physical-Digital Terminal Architecture",
+  "description": "Architectural block specification mapping eFTI Common Data Set regulatory clearance to direct-to-rail intermodal container execution.",
+  "layers": [
+    {
+      "id": "LAYER_REGULATORY_DATA",
+      "name": "Upstream Regulatory & Consignment Data Layer",
+      "scope": "High-Seas & Pre-Arrival Phase (T - 336h to T - 10h)"
+    },
+    {
+      "id": "LAYER_TERMINAL_ORCHESTRATION",
+      "name": "Terminal Operating System (TOS) & Intermodal Planning",
+      "scope": "Quayside Gatekeeper & Stow Allocation (T - 10h Freeze Horizon)"
+    },
+    {
+      "id": "LAYER_PHYSICAL_EXECUTION",
+      "name": "Physical Quayside & Yard Handling Operations",
+      "scope": "Vessel Discharge to Rail Siding Transfer (T = 0h to T + 8h)"
+    },
+    {
+      "id": "LAYER_CORRIDOR_LINEHAUL",
+      "name": "TEN-T Hinterland Rail Line-Haul",
+      "scope": "Continuous Velocity Delivery to Macro-Corridors (RFC North Sea-Med)"
+    }
+  ],
+  "blocks": [
+    {
+      "id": "BLOCK_CARRIER_VOYAGE",
+      "layer": "LAYER_REGULATORY_DATA",
+      "name": "Ocean Carrier Stowage & Navigational Stream",
+      "type": "DATA_SOURCE",
+      "technology": "EDIFACT BAPLIE / AIS / Portbase Pre-Notification",
+      "responsibilities": [
+        "Vessel arrival ETA broadcasting",
+        "Physical stowage bay plan transmission",
+        "VGM and container tare/gross weight certification"
+      ]
+    },
+    {
+      "id": "BLOCK_EFTI_GATEWAY",
+      "layer": "LAYER_REGULATORY_DATA",
+      "name": "eFTI CDS Decentralized Exchange Gateway",
+      "type": "REGULATORY_ENGINE",
+      "technology": "EU Reg 2024/2024 / Open Logistics Foundation Reference Stack",
+      "responsibilities": [
+        "Consignment regulatory data token aggregation",
+        "ICS2 safety and security risk verification",
+        "Automated NCTS T1 transit declaration validation",
+        "Green/Yellow/Red customs routing assignment"
+      ]
+    },
+    {
+      "id": "BLOCK_TOS_STOW_PLANNER",
+      "layer": "LAYER_TERMINAL_ORCHESTRATION",
+      "name": "TOS Intermodal Train-Load Optimizer",
+      "type": "DECISION_GATE",
+      "technology": "Coupled SimPy Rule Engine / TOS Integration API",
+      "responsibilities": [
+        "10-Hour Planning Freeze execution (Crystalline Cutoff)",
+        "Direct-to-rail pocket wagon allocation for Green tokens",
+        "Yard buffer divert assignment for exceptions (unverified/holds)"
+      ],
+      "parameters": {
+        "planning_cutoff_hours": 10.0,
+        "direct_bypass_target_rate": 0.90
+      }
+    },
+    {
+      "id": "BLOCK_QUAYSIDE_GANTRY",
+      "layer": "LAYER_PHYSICAL_EXECUTION",
+      "name": "Quayside Ship-to-Shore (STS) Gantry Cranes",
+      "type": "PHYSICAL_ASSET",
+      "technology": "High-speed STS Cranes with automated spreader telemetry",
+      "cycle_time_hours": [0.025, 0.041],
+      "responsibilities": [
+        "Vessel offload execution",
+        "Container ID OCR and seal scan at spreader"
+      ]
+    },
+    {
+      "id": "BLOCK_RAIL_SIDING_MTS",
+      "layer": "LAYER_PHYSICAL_EXECUTION",
+      "name": "Direct-to-Rail Siding & RMG Transfer",
+      "type": "PHYSICAL_ASSET",
+      "technology": "Multi-Trailer System (MTS) / Rail Mounted Gantry (RMG)",
+      "dwell_window_hours": [0.05, 8.0],
+      "responsibilities": [
+        "Direct wagon pocket stowing",
+        "Axle-load balancing verification",
+        "Train brake tests and departure readiness"
+      ]
+    },
+    {
+      "id": "BLOCK_YARD_BUFFER_STACK",
+      "layer": "LAYER_PHYSICAL_EXECUTION",
+      "name": "Terminal Yard Buffer Stack (Exception Handling)",
+      "type": "PHYSICAL_ASSET",
+      "technology": "Automated Stacking Cranes (ASC) Storage Blocks",
+      "penalty_rehandles_mean": 1.46,
+      "dwell_window_hours": [18.0, 72.0],
+      "responsibilities": [
+        "Buffering late-paperwork containers",
+        "Holding Red Channel customs physical inspection containers",
+        "Secondary shuffling and dig-out handling"
+      ]
+    },
+    {
+      "id": "BLOCK_CORRIDOR_SHUTTLE",
+      "layer": "LAYER_CORRIDOR_LINEHAUL",
+      "name": "TEN-T 740m Corridor Block Trains",
+      "type": "LOGISTICS_NETWORK",
+      "technology": "Dedicated electric traction (65 km/h commercial average)",
+      "destinations": [
+        "ZONE_A_DUI (Duisburg)",
+        "ZONE_B_VRN (Verona)",
+        "ZONE_C_POZ (Poznan)",
+        "ZONE_D_VIE (Vienna)",
+        "ZONE_E_LYS (Lyon)",
+        "ZONE_F_BUD (Budapest)"
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "FLOW_DATA_01",
+      "type": "DATA_TOKEN",
+      "source": "BLOCK_CARRIER_VOYAGE",
+      "target": "BLOCK_TOS_STOW_PLANNER",
+      "protocol": "BAPLIE / EDIFACT 3.1",
+      "timing": "T - 24h",
+      "content": "Physical vessel stowage & VGM weight validation"
+    },
+    {
+      "id": "FLOW_DATA_02",
+      "type": "DATA_TOKEN",
+      "source": "BLOCK_EFTI_GATEWAY",
+      "target": "BLOCK_TOS_STOW_PLANNER",
+      "protocol": "eFTI CDS JSON-LD / REST API",
+      "timing": "T - 336h to T - 10h (High-Seas)",
+      "content": "Cryptographic tokens, ICS2 clearance, NCTS T1 MRN status"
+    },
+    {
+      "id": "FLOW_PHYS_01",
+      "type": "PHYSICAL_CONTAINER",
+      "source": "BLOCK_QUAYSIDE_GANTRY",
+      "target": "BLOCK_TOS_STOW_PLANNER",
+      "mechanism": "Optical spreader lift confirmation",
+      "decision_gate": "Query verified routing decision"
+    },
+    {
+      "id": "FLOW_PHYS_GREEN",
+      "type": "PHYSICAL_CONTAINER",
+      "source": "BLOCK_TOS_STOW_PLANNER",
+      "target": "BLOCK_RAIL_SIDING_MTS",
+      "condition": "Token Verified == TRUE && Lead Time >= 10h && Channel == GREEN",
+      "outcome": "Zero-stack direct-to-rail transfer (Dwell: ~4-8h, 0 Rehandles)"
+    },
+    {
+      "id": "FLOW_PHYS_EXCEPTION",
+      "type": "PHYSICAL_CONTAINER",
+      "source": "BLOCK_TOS_STOW_PLANNER",
+      "target": "BLOCK_YARD_BUFFER_STACK",
+      "condition": "Token Pending OR Lead Time < 10h OR Channel IN [YELLOW, RED]",
+      "outcome": "Yard stack buffering (Dwell: ~57h, 1.46 Rehandles)"
+    },
+    {
+      "id": "FLOW_PHYS_LINEHAUL",
+      "type": "PHYSICAL_CONTAINER",
+      "source": "BLOCK_RAIL_SIDING_MTS",
+      "target": "BLOCK_CORRIDOR_SHUTTLE",
+      "condition": "Train load list finalized & locked",
+      "outcome": "Hinterland corridor transit at continuous velocity"
+    }
+  ]
+}
