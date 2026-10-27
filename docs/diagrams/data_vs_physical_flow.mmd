@@ -1,0 +1,25 @@
+sequenceDiagram
+    autonumber
+    participant Vessel as Ocean Vessel (At Sea)
+    participant eFTI as eFTI Exchange / Customs (EU 2020/1056)
+    participant Portbase as Portbase Secure Chain
+    participant TOS as Terminal TOS (Maasvlakte II)
+    participant RFO as Rail Freight Operator (RFC NSRM)
+    participant Quay as Quayside Rail Buffer
+
+    Note over Vessel,RFO: T - 10 to T - 5 Days: Advance Data Crystallization
+    Vessel->>eFTI: Transmit Consignment & Manifest Dataset (eFTI e-CMR/e-CIM)
+    eFTI->>eFTI: Automated Customs Pre-Clearance & Risk Check
+    eFTI->>Portbase: Issue Cryptographic Release Token
+    Portbase->>TOS: Pre-Advise Inbound Container & Block Stowage
+    Portbase->>RFO: Pre-Allocate Wagon Slot & Departure Train ID
+
+    Note over TOS,RFO: T - 48 to T - 24 Hours: Resource Synchronization
+    TOS->>Quay: Assign Direct-to-Rail Staging Line (Bypass Stacking Yard)
+    RFO->>Quay: Stage Rolling Stock on Quayside Track
+
+    Note over Vessel,Quay: T = 0: Berth & Discharge Execution
+    Vessel->>Quay: STS Crane Discharges Container Directly to Rail Buffer
+    Quay->>TOS: Validate Container ID against Pre-Cleared Token
+    TOS->>Quay: Immediate Loading Clearance (0 Re-handles)
+    Quay->>RFO: Train Built & Ready for Dispatch (Dwell: 4.4h vs 54.9h Baseline)

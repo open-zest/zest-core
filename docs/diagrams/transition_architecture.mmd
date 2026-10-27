@@ -1,0 +1,27 @@
+flowchart TD
+    subgraph LEGACY["Current State: High Friction & Yard Churn (Avg Dwell: 54.9h)"]
+        L1[Vessel Discharge] -->|STS Crane| L2[Yard Chassis Transfer]
+        L2 -->|AGV / Straddle| L3[Main Stacking Yard Stack]
+        L3 -->|Manual Hold| L4{Customs & EDI Wait}
+        L4 -->|3 to 5 Re-handles| L5[Quayside Rail Terminal]
+        L5 -->|Gate Paper Check| L6[Wagon Loading]
+        L6 -->|CIM Paper Consignment| L7[Inland Border Handover]
+    end
+
+    subgraph ZEST["ZeST Proposed Architecture: Zero Re-handle Pipeline (Dwell: 4.4h)"]
+        Z1[Vessel at Sea] -->|T-5 Days: eFTI Manifest Token| Z2[(Portbase Secure Chain)]
+        Z2 -->|Pre-Cleared Token| Z3[Terminal TOS Pre-Plan]
+        Z2 -->|Slot Pre-Booking| Z4[RFC Rail Buffer Allocation]
+        
+        Z5[Vessel Discharge at MV II] -->|Direct Staging| Z6[Quayside Rail Buffer]
+        Z3 -.->|Instant Token Match| Z6
+        Z4 -.->|Pre-Staged Rolling Stock| Z6
+        
+        Z6 -->|0 Re-handles| Z7[Direct-to-Wagon Load]
+        Z7 -->|Continuous eFTI Digital Consignment| Z8[Cross-Border RFC Corridor Transit]
+    end
+
+    classDef legacyStyle fill:#f9f9f9,stroke:#999,stroke-width:1px,stroke-dasharray: 5 5;
+    classDef zestStyle fill:#e8f4f8,stroke:#2b7bb9,stroke-width:2px;
+    class LEGACY legacyStyle;
+    class ZEST zestStyle;
