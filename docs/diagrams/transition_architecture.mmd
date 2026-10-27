@@ -1,5 +1,7 @@
-flowchart TD
+flowchart TB
+
     subgraph LEGACY["Current State: High Friction & Yard Churn (Avg Dwell: 54.9h)"]
+        direction LR
         L1[Vessel Discharge] -->|STS Crane| L2[Yard Chassis Transfer]
         L2 -->|AGV / Straddle| L3[Main Stacking Yard Stack]
         L3 -->|Manual Hold| L4{Customs & EDI Wait}
@@ -8,7 +10,11 @@ flowchart TD
         L6 -->|CIM Paper Consignment| L7[Inland Border Handover]
     end
 
+    %% Invisible constraint link to force vertical stacking
+    LEGACY ~~~ ZEST
+
     subgraph ZEST["ZeST Proposed Architecture: Zero Re-handle Pipeline (Dwell: 4.4h)"]
+        direction LR
         Z1[Vessel at Sea] -->|T-5 Days: eFTI Manifest Token| Z2[(Portbase Secure Chain)]
         Z2 -->|Pre-Cleared Token| Z3[Terminal TOS Pre-Plan]
         Z2 -->|Slot Pre-Booking| Z4[RFC Rail Buffer Allocation]

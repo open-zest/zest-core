@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Project ZeST - System Architecture Verification</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad: true, theme: 'default'});</script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 40px; background: #fafbfc; color: #24292e; }
+        .card { background: #ffffff; border: 1px solid #e1e4e8; border-radius: 6px; padding: 24px; margin-bottom: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+        h1 { border-bottom: 1px solid #eaecef; padding-bottom: 12px; }
+        h2 { color: #0366d6; margin-top: 0; }
+    </style>
+</head>
+<body>
+    <h1>Project ZeST: Architecture Verification View</h1>
+    <div class="card">
+        <h2>1. Data Flow vs. Physical Flow (Advance eFTI Tokenization)</h2>
+        <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    participant Vessel as Ocean Vessel (At Sea)
+    participant eFTI as eFTI Exchange / Customs (EU 2020/1056)
+    participant Portbase as Portbase Secure Chain
+    participant TOS as Terminal TOS (Maasvlakte II)
+    participant RFO as Rail Freight Operator (RFC NSRM)
+    participant Quay as Quayside Rail Buffer
+
+    Note over Vessel,RFO: T - 10 to T - 5 Days: Advance Data Crystallization
+    Vessel->>eFTI: Transmit Consignment & Manifest Dataset (eFTI e-CMR/e-CIM)
+    eFTI->>eFTI: Automated Customs Pre-Clearance & Risk Check
+    eFTI->>Portbase: Issue Cryptographic Release Token
+    Portbase->>TOS: Pre-Advise Inbound Container & Block Stowage
+    Portbase->>RFO: Pre-Allocate Wagon Slot & Departure Train ID
+
+    Note over TOS,RFO: T - 48 to T - 24 Hours: Resource Synchronization
+    TOS->>Quay: Assign Direct-to-Rail Staging Line (Bypass Stacking Yard)
+    RFO->>Quay: Stage Rolling Stock on Quayside Track
+
+    Note over Vessel,Quay: T = 0: Berth & Discharge Execution
+    Vessel->>Quay: STS Crane Discharges Container Directly to Rail Buffer
+    Quay->>TOS: Validate Container ID against Pre-Cleared Token
+    TOS->>Quay: Immediate Loading Clearance (0 Re-handles)
+    Quay->>RFO: Train Built & Ready for Dispatch (Dwell: 4.4h vs 54.9h Baseline)
+
+        </pre>
+    </div>
+    <div class="card">
+        <h2>2. Transition Points: Legacy Baseline vs. ZeST Architecture</h2>
+        <pre class="mermaid">
+flowchart TD
+    subgraph LEGACY["Current State: High Friction & Yard Churn (Avg Dwell: 54.9h)"]
+        L1[Vessel Discharge] -->|STS Crane| L2[Yard Chassis Transfer]
+        L2 -->|AGV / Straddle| L3[Main Stacking Yard Stack]
+        L3 -->|Manual Hold| L4{Customs & EDI Wait}
+        L4 -->|3 to 5 Re-handles| L5[Quayside Rail Terminal]
+        L5 -->|Gate Paper Check| L6[Wagon Loading]
+        L6 -->|CIM Paper Consignment| L7[Inland Border Handover]
+    end
+
+    subgraph ZEST["ZeST Proposed Architecture: Zero Re-handle Pipeline (Dwell: 4.4h)"]
+        Z1[Vessel at Sea] -->|T-5 Days: eFTI Manifest Token| Z2[(Portbase Secure Chain)]
+        Z2 -->|Pre-Cleared Token| Z3[Terminal TOS Pre-Plan]
+        Z2 -->|Slot Pre-Booking| Z4[RFC Rail Buffer Allocation]
+        
+        Z5[Vessel Discharge at MV II] -->|Direct Staging| Z6[Quayside Rail Buffer]
+        Z3 -.->|Instant Token Match| Z6
+        Z4 -.->|Pre-Staged Rolling Stock| Z6
+        
+        Z6 -->|0 Re-handles| Z7[Direct-to-Wagon Load]
+        Z7 -->|Continuous eFTI Digital Consignment| Z8[Cross-Border RFC Corridor Transit]
+    end
+
+    classDef legacyStyle fill:#f9f9f9,stroke:#999,stroke-width:1px,stroke-dasharray: 5 5;
+    classDef zestStyle fill:#e8f4f8,stroke:#2b7bb9,stroke-width:2px;
+    class LEGACY legacyStyle;
+    class ZEST zestStyle;
+
+        </pre>
+    </div>
+</body>
+</html>
