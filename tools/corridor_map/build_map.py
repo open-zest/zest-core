@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Project ZeST - NSRM Corridor Map Visualizer
-Loads corridor network topology from JSON and renders an interactive Leaflet map.
+Loads corridor network topology from JSON and renders an interactive Leaflet map
+with tentative downstream ZeST destination zones.
 """
 
 import json
@@ -16,7 +17,6 @@ def generate_map(
     with open(data_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    # Initialize Leaflet map
     m = folium.Map(
         location=data.get("center", [51.2, 13.5]),
         zoom_start=data.get("zoom_start", 6),
@@ -24,7 +24,7 @@ def generate_map(
         control_scale=True
     )
 
-    # Render transit lines
+    # 1. Render transit lines
     for line in data.get("lines", []):
         meta = line.get("meta", {})
         popup_html = f"""
@@ -49,10 +49,34 @@ def generate_map(
             popup=folium.Popup(popup_html, max_width=320)
         ).add_to(m)
 
-    # Render nodes
+    # 2. Render Downstream Catchment Zones (Circles around Dry Ports)
     for node in data.get("nodes", []):
+        if "radius_km" in node:
+            folium.Circle(
+                location=[node["lat"], node["lon"]],
+                radius=node["radius_km"] * 1000,
+                color=node.get("zone_color", "#1976D2"),
+                fill=True,
+                fill_color=node.get("zone_color", "#1976D2"),
+                fill_opacity=0.15,
+                weight=1.5,
+                dash_array="4, 6",
+                tooltip=f"Hinterland Catchment: {node.get('zone_label', node['zone'])}"
+            ).add_to(m)
+
+    # 3. Render Nodes
+    for node in data.get("nodes", []):
+        zone_header = ""
+        if "zone" in node and node["zone"] not in ["ORIGIN_GATEWAY", "CORRIDOR_JUNCTION", "CORRIDOR_SIDING"]:
+            zone_header = f"""
+            <div style="background-color: {node.get('zone_color', '#333')}; color: #fff; padding: 3px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; margin-bottom: 6px; display: inline-block;">
+                ZeST Queue: {node['zone']}
+            </div>
+            """
+
         popup_content = f"""
         <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; min-width: 250px;">
+            {zone_header}
             <div style="border-bottom: 2px solid #00838F; padding-bottom: 4px; margin-bottom: 8px;">
                 <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #888;">{node['type'].replace('_', ' ')}</span>
                 <h3 style="margin: 2px 0 0 0; font-size: 14px; color: #111;">{node['name']}</h3>
@@ -75,14 +99,16 @@ def generate_map(
             icon_size = (22, 22)
             icon_anchor = (11, 11)
         elif node["type"] == "multi_line_oval":
-            icon_html = """
-            <div style="background-color: #1976D2; width: 30px; height: 16px; border-radius: 10px; border: 2px solid #FFF; box-shadow: 0 0 6px rgba(0,0,0,0.5);"></div>
+            badge_color = node.get("zone_color", "#1976D2")
+            icon_html = f"""
+            <div style="background-color: {badge_color}; width: 30px; height: 16px; border-radius: 10px; border: 2px solid #FFF; box-shadow: 0 0 6px rgba(0,0,0,0.5);"></div>
             """
             icon_size = (30, 16)
             icon_anchor = (15, 8)
         else:  # single_line_circle
-            icon_html = """
-            <div style="background-color: #2E7D32; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #FFF; box-shadow: 0 0 4px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;"></div>
+            badge_color = node.get("zone_color", "#2E7D32")
+            icon_html = f"""
+            <div style="background-color: {badge_color}; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #FFF; box-shadow: 0 0 4px rgba(0,0,0,0.5);"></div>
             """
             icon_size = (14, 14)
             icon_anchor = (7, 7)
@@ -91,7 +117,7 @@ def generate_map(
             location=[node["lat"], node["lon"]],
             icon=DivIcon(icon_size=icon_size, icon_anchor=icon_anchor, html=icon_html),
             popup=folium.Popup(popup_content, max_width=320),
-            tooltip=f"{node['name']} ({node['type'].replace('_', ' ')})"
+            tooltip=f"{node['name']} ({node.get('zone', node['type'])})"
         ).add_to(m)
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
