@@ -6,9 +6,13 @@
   <title>Project ZeST - Multi-Ship Port & Rail Interface</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .highlight-card { border-color: #38bdf8 !important; background: rgba(56, 189, 248, 0.1) !important; }
+  </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
 
+  <!-- Top Navigation & Status -->
   <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 py-4 flex items-center justify-between sticky top-0 z-50">
     <div class="flex items-center gap-4">
       <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-mono font-bold text-xl">Z</div>
@@ -21,15 +25,16 @@
     </div>
     <div class="flex items-center gap-6 text-sm">
       <div class="flex items-center gap-2">
-        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="text-slate-300 font-mono">eFTI Gateway: ACTIVE (Token Ver. 2020/1056)</span>
+        <span id="ws-indicator" class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span id="ws-status" class="text-slate-300 font-mono">eFTI Gateway: ACTIVE</span>
       </div>
-      <div class="text-slate-400 font-mono border-l border-slate-800 pl-4">2026-11-02 08:42:15 UTC</div>
+      <div id="live-clock" class="text-slate-400 font-mono border-l border-slate-800 pl-4">--:--:-- UTC</div>
     </div>
   </header>
 
   <main class="flex-1 p-6 space-y-6 max-w-[1800px] w-full mx-auto">
 
+    <!-- KPI Metric Strip -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm">
         <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Active ULCV Berths</div>
@@ -37,12 +42,12 @@
           <span>3 Vessels</span>
           <span class="text-xs text-emerald-400 font-mono">54,800 TEU Inbound</span>
         </div>
-        <div class="mt-2 text-xs text-slate-400">Quayside Net Cycle: <span class="text-slate-200 font-mono font-semibold">32.4 moves/hr/crane</span></div>
+        <div class="mt-2 text-xs text-slate-400">Quayside Net Cycle: <span id="kpi-moves" class="text-slate-200 font-mono font-semibold">32.4 moves/hr</span></div>
       </div>
       <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm">
         <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Yard Bypass Direct Loading</div>
         <div class="text-2xl font-bold text-emerald-400 mt-1 flex items-baseline justify-between">
-          <span>78.4%</span>
+          <span id="kpi-bypass">78.4%</span>
           <span class="text-xs text-slate-400 font-mono">Target: ≥75%</span>
         </div>
         <div class="mt-2 text-xs text-slate-400">Zero-rehandle direct quayside-to-train sequence</div>
@@ -50,7 +55,7 @@
       <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm">
         <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Mean Quayside Transfer Dwell</div>
         <div class="text-2xl font-bold text-sky-400 mt-1 flex items-baseline justify-between">
-          <span>0.31 hrs</span>
+          <span id="kpi-dwell">0.31 hrs</span>
           <span class="text-xs text-rose-400 line-through font-mono">Legacy: 54.8h</span>
         </div>
         <div class="mt-2 text-xs text-slate-400">Pre-crystallized eFTI customs clearing active</div>
@@ -65,8 +70,10 @@
       </div>
     </div>
 
+    <!-- Modal Transition Stages & Interactive Map -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
+      <!-- Column 1: Maritime Quayside (Ship-to-Shore) -->
       <section class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col">
         <div class="flex items-center justify-between pb-3 border-b border-slate-800">
           <div class="flex items-center gap-2">
@@ -96,7 +103,7 @@
             </div>
             <div class="text-[11px] text-slate-400 pt-1 flex justify-between font-mono">
               <span>Crane Assignment: QC-11, 12, 14, 15</span>
-              <span class="text-emerald-400">eFTI Token: Cleared 99.8%</span>
+              <span class="text-emerald-400">eFTI: 99.8% Cleared</span>
             </div>
           </div>
 
@@ -119,12 +126,13 @@
             </div>
             <div class="text-[11px] text-slate-400 pt-1 flex justify-between font-mono">
               <span>Crane Assignment: QC-21, 22, 23, 24</span>
-              <span class="text-emerald-400">eFTI Token: Cleared 100%</span>
+              <span class="text-emerald-400">eFTI: 100% Cleared</span>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- Column 2: On-Dock Rail Loading -->
       <section class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col">
         <div class="flex items-center justify-between pb-3 border-b border-slate-800">
           <div class="flex items-center gap-2">
@@ -145,17 +153,17 @@
               <span class="text-emerald-400 font-mono">88 / 96 TEU (91%)</span>
             </div>
             <div class="grid grid-cols-8 gap-1 py-1">
-              <span class="h-3 rounded bg-emerald-500" title="Wagon 1-4: Loaded"></span>
-              <span class="h-3 rounded bg-emerald-500" title="Wagon 5-8: Loaded"></span>
-              <span class="h-3 rounded bg-emerald-500" title="Wagon 9-12: Loaded"></span>
-              <span class="h-3 rounded bg-emerald-500" title="Wagon 13-16: Loaded"></span>
-              <span class="h-3 rounded bg-emerald-500" title="Wagon 17-20: Loaded"></span>
-              <span class="h-3 rounded bg-emerald-500" title="Wagon 21-24: Loaded"></span>
-              <span class="h-3 rounded bg-emerald-500/40 animate-pulse" title="Wagon 25-28: In Progress"></span>
-              <span class="h-3 rounded bg-slate-800" title="Wagon 29-32: Empty"></span>
+              <span class="h-3 rounded bg-emerald-500"></span>
+              <span class="h-3 rounded bg-emerald-500"></span>
+              <span class="h-3 rounded bg-emerald-500"></span>
+              <span class="h-3 rounded bg-emerald-500"></span>
+              <span class="h-3 rounded bg-emerald-500"></span>
+              <span class="h-3 rounded bg-emerald-500"></span>
+              <span class="h-3 rounded bg-emerald-500/40 animate-pulse"></span>
+              <span class="h-3 rounded bg-slate-800"></span>
             </div>
             <div class="mt-2 text-[11px] text-slate-400 flex justify-between font-mono">
-              <span>Trailing Mass: 1,840t</span>
+              <span>Mass: 1,840t</span>
               <span class="text-sky-400">Direct From STS: 100%</span>
             </div>
           </div>
@@ -180,70 +188,66 @@
               <span class="h-3 rounded bg-slate-800"></span>
             </div>
             <div class="mt-2 text-[11px] text-slate-400 flex justify-between font-mono">
-              <span>Trailing Mass: 920t</span>
-              <span class="text-emerald-400">eFTI Token: Validated</span>
+              <span>Mass: 920t</span>
+              <span class="text-emerald-400">eFTI: Validated</span>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- Column 3: Inland Catchment Sidings + Corridor Map Selector -->
       <section class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col">
         <div class="flex items-center justify-between pb-3 border-b border-slate-800">
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-map-location-dot text-amber-400"></i>
-            <h2 class="font-semibold text-sm uppercase tracking-wide">Inland Catchment Sidings</h2>
+            <h2 class="font-semibold text-sm uppercase tracking-wide">Inland Sidings & Map Link</h2>
           </div>
-          <span class="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-mono">4 Hubs Receiving</span>
+          <span id="selected-hub-badge" class="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-mono">DE-DUI-DIT</span>
         </div>
 
         <div class="mt-4 space-y-3 flex-1 overflow-y-auto">
-          <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-lg">
+          <div onclick="selectHub('DE-DUI-DIT', this)" class="hub-card p-3 bg-slate-950/60 border border-slate-800 rounded-lg cursor-pointer transition hover:border-slate-600 highlight-card">
             <div class="flex justify-between items-center mb-1">
               <span class="font-medium text-sm text-slate-200">Duisburg Intermodal (DIT)</span>
-              <span class="text-xs text-emerald-400 font-mono">ETA -0h 42m (Arrived)</span>
+              <span class="text-xs text-emerald-400 font-mono">Arrived (-0h 42m)</span>
             </div>
-            <p class="text-xs text-slate-400">Siding Track S-3 | 32 Wagons Discharging</p>
-            <div class="mt-2 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-              <span>Consist: NSRM-DUI-07</span>
-              <span class="text-emerald-400">Final Gate Cleared: 96 TEU</span>
-            </div>
+            <p class="text-xs text-slate-400">Track S-3 | 32 Wagons Discharging | Zone A</p>
           </div>
 
-          <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-lg">
+          <div onclick="selectHub('CZ-PRG-UHR', this)" class="hub-card p-3 bg-slate-950/60 border border-slate-800 rounded-lg cursor-pointer transition hover:border-slate-600">
             <div class="flex justify-between items-center mb-1">
               <span class="font-medium text-sm text-slate-200">Metrans Prague-Uhříněves</span>
-              <span class="text-xs text-sky-400 font-mono">ETA +5h 15m (En Route)</span>
+              <span class="text-xs text-sky-400 font-mono">En Route (+5h 15m)</span>
             </div>
-            <p class="text-xs text-slate-400">Mainline transit via RFC 8 corridor segment</p>
-            <div class="mt-2 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-              <span>Consist: RFC-PRG-01</span>
-              <span class="text-slate-300">84 TEU / 1,720t</span>
-            </div>
+            <p class="text-xs text-slate-400">RFC 8 Corridor Line | 84 TEU / 1,720t | Zone D</p>
           </div>
 
-          <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-lg">
+          <div onclick="selectHub('HU-BUD-BILK', this)" class="hub-card p-3 bg-slate-950/60 border border-slate-800 rounded-lg cursor-pointer transition hover:border-slate-600">
             <div class="flex justify-between items-center mb-1">
               <span class="font-medium text-sm text-slate-200">Budapest BILK Terminal</span>
-              <span class="text-xs text-sky-400 font-mono">ETA +11h 30m (En Route)</span>
+              <span class="text-xs text-sky-400 font-mono">En Route (+11h 30m)</span>
             </div>
-            <p class="text-xs text-slate-400">Three Seas Initiative (3SI) Intermodal Axis</p>
-            <div class="mt-2 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-              <span>Consist: 3SI-BUD-04</span>
-              <span class="text-slate-300">92 TEU / 1,890t</span>
-            </div>
+            <p class="text-xs text-slate-400">3SI Axis Branch | 92 TEU / 1,890t | Zone F</p>
           </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-t border-slate-800 text-center">
+          <a href="/map/corridor_nsrm_map.html" target="_blank" class="text-xs text-sky-400 hover:text-sky-300 font-mono inline-flex items-center gap-1">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Full NSRM Interactive Corridor Map
+          </a>
         </div>
       </section>
 
     </div>
 
+    <!-- Live Event Stream -->
     <section class="bg-slate-900 border border-slate-800 rounded-xl p-5">
       <div class="flex items-center justify-between pb-3 border-b border-slate-800">
         <div class="flex items-center gap-2">
           <i class="fa-solid fa-list-check text-purple-400"></i>
           <h2 class="font-semibold text-sm uppercase tracking-wide">Live Modal Boundary Event Stream (eFTI Validated)</h2>
         </div>
-        <span class="text-xs text-slate-400 font-mono">Telemetry ingestion: WebSocket wss://api.open-zest.org/events</span>
+        <span class="text-xs text-slate-400 font-mono">WebSocket telemetry stream: /events</span>
       </div>
 
       <div class="mt-4 overflow-x-auto">
@@ -255,43 +259,77 @@
               <th class="py-2 px-3">Boundary Stage</th>
               <th class="py-2 px-3">Source ➔ Target</th>
               <th class="py-2 px-3">Dwell Latency</th>
-              <th class="py-2 px-3">eFTI Token Status</th>
-              <th class="py-2 px-3">Final Inland Destination</th>
+              <th class="py-2 px-3">eFTI Token</th>
+              <th class="py-2 px-3">Destination Node</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-slate-800/50 text-slate-300">
-            <tr class="hover:bg-slate-800/30">
-              <td class="py-2 px-3 text-slate-400">08:42:04</td>
-              <td class="py-2 px-3 text-white font-semibold">MSCU7632910</td>
-              <td class="py-2 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">ON_DOCK_RAIL</span></td>
-              <td class="py-2 px-3">STS_CRANE_14 ➔ WAG_09812_P2</td>
-              <td class="py-2 px-3 text-emerald-400">14.2 min (Bypass)</td>
-              <td class="py-2 px-3 text-emerald-400"><i class="fa-solid fa-shield-check mr-1"></i>0x98f2...bc10 (OK)</td>
-              <td class="py-2 px-3">DE-DUI-DIT</td>
-            </tr>
-            <tr class="hover:bg-slate-800/30">
-              <td class="py-2 px-3 text-slate-400">08:41:52</td>
-              <td class="py-2 px-3 text-white font-semibold">CMAU5510294</td>
-              <td class="py-2 px-3"><span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-400">STS_DISCHARGE</span></td>
-              <td class="py-2 px-3">BAY_0420482 ➔ AGV_LANE_03</td>
-              <td class="py-2 px-3 text-slate-400">2.1 min</td>
-              <td class="py-2 px-3 text-emerald-400"><i class="fa-solid fa-shield-check mr-1"></i>0x33e1...fa88 (OK)</td>
-              <td class="py-2 px-3">PL-POZ-KOB</td>
-            </tr>
-            <tr class="hover:bg-slate-800/30">
-              <td class="py-2 px-3 text-slate-400">08:41:30</td>
-              <td class="py-2 px-3 text-white font-semibold">EGLV2094812</td>
-              <td class="py-2 px-3"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">DRY_PORT_SIDINGS</span></td>
-              <td class="py-2 px-3">CONSIST_DUI_07 ➔ SIDING_T3</td>
-              <td class="py-2 px-3 text-sky-400">Terminal Direct</td>
-              <td class="py-2 px-3 text-emerald-400"><i class="fa-solid fa-shield-check mr-1"></i>0xac09...11de (OK)</td>
-              <td class="py-2 px-3">DE-DUI-DIT</td>
-            </tr>
+          <tbody id="event-stream-body" class="divide-y divide-slate-800/50 text-slate-300">
+            <!-- Dynamically populated via WebSocket -->
           </tbody>
         </table>
       </div>
     </section>
 
   </main>
+
+  <script>
+    // Live Clock
+    setInterval(() => {
+      document.getElementById('live-clock').innerText = new Date().toISOString().substring(11, 19) + ' UTC';
+    }, 1000);
+
+    // Interactive Hub Selection
+    function selectHub(code, el) {
+      document.querySelectorAll('.hub-card').forEach(c => c.classList.remove('highlight-card'));
+      el.classList.add('highlight-card');
+      document.getElementById('selected-hub-badge').innerText = code;
+    }
+
+    // WebSocket Stream Integration
+    const eventBody = document.getElementById('event-stream-body');
+    const wsProto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const ws = new WebSocket(`${wsProto}//${window.location.host}/events`);
+
+    ws.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      const ev = data.event;
+      
+      // Update KPIs
+      if (data.kpis) {
+        document.getElementById('kpi-moves').innerText = `${data.kpis.moves_per_hour} moves/hr`;
+        document.getElementById('kpi-bypass').innerText = `${data.kpis.bypass_ratio}%`;
+        document.getElementById('kpi-dwell').innerText = `${data.kpis.mean_dwell_hrs} hrs`;
+      }
+
+      // Prepend event row
+      const tr = document.createElement('tr');
+      tr.className = "hover:bg-slate-800/30 transition-colors";
+      
+      let badgeClass = "bg-slate-800 text-slate-300";
+      if (ev.boundary === 'ON_DOCK_RAIL') badgeClass = "bg-emerald-500/20 text-emerald-400";
+      else if (ev.boundary === 'STS_DISCHARGE') badgeClass = "bg-sky-500/20 text-sky-400";
+      else if (ev.boundary === 'DRY_PORT_SIDINGS') badgeClass = "bg-amber-500/20 text-amber-400";
+
+      tr.innerHTML = `
+        <td class="py-2 px-3 text-slate-400">${ev.timestamp}</td>
+        <td class="py-2 px-3 text-white font-semibold">${ev.container_id}</td>
+        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded ${badgeClass}">${ev.boundary}</span></td>
+        <td class="py-2 px-3">${ev.source_target}</td>
+        <td class="py-2 px-3 text-emerald-400">${ev.dwell_latency}</td>
+        <td class="py-2 px-3 text-emerald-400"><i class="fa-solid fa-shield-check mr-1"></i>${ev.efti_token}</td>
+        <td class="py-2 px-3 text-slate-200">${ev.destination}</td>
+      `;
+
+      eventBody.insertBefore(tr, eventBody.firstChild);
+      if (eventBody.children.length > 20) {
+        eventBody.removeChild(eventBody.lastChild);
+      }
+    };
+
+    ws.onclose = () => {
+      document.getElementById('ws-indicator').className = "inline-block w-2.5 h-2.5 rounded-full bg-rose-500";
+      document.getElementById('ws-status').innerText = "eFTI Gateway: OFFLINE";
+    };
+  </script>
 </body>
 </html>
