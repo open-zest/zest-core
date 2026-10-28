@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project ZeST - Multi-Ship Port & Rail Interface</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-4">
+      <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-mono font-bold text-xl">Z</div>
+      <div>
+        <h1 class="text-lg font-semibold tracking-wide flex items-center gap-2">
+          Project ZeST <span class="text-xs px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 font-mono">CORE-TRANSFER-ENGINE</span>
+        </h1>
+        <p class="text-xs text-slate-400">Rotterdam Maasvlakte II ➔ RFC NSRM Hinterland Interface</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-6 text-sm">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-slate-300 font-mono">eFTI Gateway: ACTIVE (Token Ver. 2020/1056)</span>
+      </div>
+      <div class="text-slate-400 font-mono border-l border-slate-800 pl-4">2026-11-02 08:42:15 UTC</div>
+    </div>
+  </header>
+
+  <main class="flex-1 p-6 space-y-6 max-w-[1800px] w-full mx-auto">
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm">
+        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Active ULCV Berths</div>
+        <div class="text-2xl font-bold text-white mt-1 flex items-baseline justify-between">
+          <span>3 Vessels</span>
+          <span class="text-xs text-emerald-400 font-mono">54,800 TEU Inbound</span>
+        </div>
+        <div class="mt-2 text-xs text-slate-400">Quayside Net Cycle: <span class="text-slate-200 font-mono font-semibold">32.4 moves/hr/crane</span></div>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm">
+        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Yard Bypass Direct Loading</div>
+        <div class="text-2xl font-bold text-emerald-400 mt-1 flex items-baseline justify-between">
+          <span>78.4%</span>
+          <span class="text-xs text-slate-400 font-mono">Target: ≥75%</span>
+        </div>
+        <div class="mt-2 text-xs text-slate-400">Zero-rehandle direct quayside-to-train sequence</div>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm">
+        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Mean Quayside Transfer Dwell</div>
+        <div class="text-2xl font-bold text-sky-400 mt-1 flex items-baseline justify-between">
+          <span>0.31 hrs</span>
+          <span class="text-xs text-rose-400 line-through font-mono">Legacy: 54.8h</span>
+        </div>
+        <div class="mt-2 text-xs text-slate-400">Pre-crystallized eFTI customs clearing active</div>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm">
+        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Rail Shuttle Pipeline (Today)</div>
+        <div class="text-2xl font-bold text-amber-400 mt-1 flex items-baseline justify-between">
+          <span>14 Rakes</span>
+          <span class="text-xs text-slate-300 font-mono">1,344 TEU Dispatched</span>
+        </div>
+        <div class="mt-2 text-xs text-slate-400">Corridor slots: Duisburg, Poznań, Prague, Basel</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <section class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-ship text-sky-400"></i>
+            <h2 class="font-semibold text-sm uppercase tracking-wide">Ship-to-Shore Quayside</h2>
+          </div>
+          <span class="text-xs bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded font-mono">3 Berths Active</span>
+        </div>
+
+        <div class="mt-4 space-y-4 flex-1">
+          <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-lg space-y-2">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="font-medium text-sm text-slate-100">Madrid Maersk</span>
+                <p class="text-xs text-slate-400 font-mono">IMO 9778791 | Berth Q-03</p>
+              </div>
+              <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">DISCHARGING</span>
+            </div>
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs text-slate-400">
+                <span>Discharge Progress (20,568 TEU)</span>
+                <span class="font-mono text-slate-200">14,210 / 20,568</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                <div class="bg-sky-500 h-2 rounded-full" style="width: 69%"></div>
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-400 pt-1 flex justify-between font-mono">
+              <span>Crane Assignment: QC-11, 12, 14, 15</span>
+              <span class="text-emerald-400">eFTI Token: Cleared 99.8%</span>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-lg space-y-2">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="font-medium text-sm text-slate-100">Ever Alot</span>
+                <p class="text-xs text-slate-400 font-mono">IMO 9893955 | Berth Q-05</p>
+              </div>
+              <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">DISCHARGING</span>
+            </div>
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs text-slate-400">
+                <span>Discharge Progress (24,004 TEU)</span>
+                <span class="font-mono text-slate-200">6,400 / 24,004</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                <div class="bg-sky-500 h-2 rounded-full" style="width: 27%"></div>
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-400 pt-1 flex justify-between font-mono">
+              <span>Crane Assignment: QC-21, 22, 23, 24</span>
+              <span class="text-emerald-400">eFTI Token: Cleared 100%</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-train-subway text-emerald-400"></i>
+            <h2 class="font-semibold text-sm uppercase tracking-wide">On-Dock Rail Bypass Loading</h2>
+          </div>
+          <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono">6 Tracks Active</span>
+        </div>
+
+        <div class="mt-4 space-y-3 flex-1 overflow-y-auto">
+          <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-lg">
+            <div class="flex justify-between items-center mb-1.5">
+              <span class="font-medium text-sm text-slate-200">Shuttle NSRM-DUI-08</span>
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">TRACK 02</span>
+            </div>
+            <div class="flex justify-between text-xs text-slate-400 mb-1">
+              <span>Duisburg DIT | Dep: 09:15</span>
+              <span class="text-emerald-400 font-mono">88 / 96 TEU (91%)</span>
+            </div>
+            <div class="grid grid-cols-8 gap-1 py-1">
+              <span class="h-3 rounded bg-emerald-500" title="Wagon 1-4: Loaded"></span>
+              <span class="h-3 rounded bg-emerald-500" title="Wagon 5-8: Loaded"></span>
+              <span class="h-3 rounded bg-emerald-500" title="Wagon 9-12: Loaded"></span>
+              <span class="h-3 rounded bg-emerald-500" title="Wagon 13-16: Loaded"></span>
+              <span class="h-3 rounded bg-emerald-500" title="Wagon 17-20: Loaded"></span>
+              <span class="h-3 rounded bg-emerald-500" title="Wagon 21-24: Loaded"></span>
+              <span class="h-3 rounded bg-emerald-500/40 animate-pulse" title="Wagon 25-28: In Progress"></span>
+              <span class="h-3 rounded bg-slate-800" title="Wagon 29-32: Empty"></span>
+            </div>
+            <div class="mt-2 text-[11px] text-slate-400 flex justify-between font-mono">
+              <span>Trailing Mass: 1,840t</span>
+              <span class="text-sky-400">Direct From STS: 100%</span>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-lg">
+            <div class="flex justify-between items-center mb-1.5">
+              <span class="font-medium text-sm text-slate-200">Express CE-POZ-03</span>
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">TRACK 04</span>
+            </div>
+            <div class="flex justify-between text-xs text-slate-400 mb-1">
+              <span>Poznań Hub | Dep: 10:30</span>
+              <span class="text-amber-400 font-mono">42 / 96 TEU (44%)</span>
+            </div>
+            <div class="grid grid-cols-8 gap-1 py-1">
+              <span class="h-3 rounded bg-emerald-500"></span>
+              <span class="h-3 rounded bg-emerald-500"></span>
+              <span class="h-3 rounded bg-emerald-500"></span>
+              <span class="h-3 rounded bg-amber-500/40 animate-pulse"></span>
+              <span class="h-3 rounded bg-slate-800"></span>
+              <span class="h-3 rounded bg-slate-800"></span>
+              <span class="h-3 rounded bg-slate-800"></span>
+              <span class="h-3 rounded bg-slate-800"></span>
+            </div>
+            <div class="mt-2 text-[11px] text-slate-400 flex justify-between font-mono">
+              <span>Trailing Mass: 920t</span>
+              <span class="text-emerald-400">eFTI Token: Validated</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-map-location-dot text-amber-400"></i>
+            <h2 class="font-semibold text-sm uppercase tracking-wide">Inland Catchment Sidings</h2>
+          </div>
+          <span class="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-mono">4 Hubs Receiving</span>
+        </div>
+
+        <div class="mt-4 space-y-3 flex-1 overflow-y-auto">
+          <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-lg">
+            <div class="flex justify-between items-center mb-1">
+              <span class="font-medium text-sm text-slate-200">Duisburg Intermodal (DIT)</span>
+              <span class="text-xs text-emerald-400 font-mono">ETA -0h 42m (Arrived)</span>
+            </div>
+            <p class="text-xs text-slate-400">Siding Track S-3 | 32 Wagons Discharging</p>
+            <div class="mt-2 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+              <span>Consist: NSRM-DUI-07</span>
+              <span class="text-emerald-400">Final Gate Cleared: 96 TEU</span>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-lg">
+            <div class="flex justify-between items-center mb-1">
+              <span class="font-medium text-sm text-slate-200">Metrans Prague-Uhříněves</span>
+              <span class="text-xs text-sky-400 font-mono">ETA +5h 15m (En Route)</span>
+            </div>
+            <p class="text-xs text-slate-400">Mainline transit via RFC 8 corridor segment</p>
+            <div class="mt-2 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+              <span>Consist: RFC-PRG-01</span>
+              <span class="text-slate-300">84 TEU / 1,720t</span>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-lg">
+            <div class="flex justify-between items-center mb-1">
+              <span class="font-medium text-sm text-slate-200">Budapest BILK Terminal</span>
+              <span class="text-xs text-sky-400 font-mono">ETA +11h 30m (En Route)</span>
+            </div>
+            <p class="text-xs text-slate-400">Three Seas Initiative (3SI) Intermodal Axis</p>
+            <div class="mt-2 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+              <span>Consist: 3SI-BUD-04</span>
+              <span class="text-slate-300">92 TEU / 1,890t</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <section class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-purple-400"></i>
+          <h2 class="font-semibold text-sm uppercase tracking-wide">Live Modal Boundary Event Stream (eFTI Validated)</h2>
+        </div>
+        <span class="text-xs text-slate-400 font-mono">Telemetry ingestion: WebSocket wss://api.open-zest.org/events</span>
+      </div>
+
+      <div class="mt-4 overflow-x-auto">
+        <table class="w-full text-left text-xs font-mono">
+          <thead>
+            <tr class="text-slate-400 border-b border-slate-800/80">
+              <th class="py-2 px-3">Timestamp</th>
+              <th class="py-2 px-3">Container ID</th>
+              <th class="py-2 px-3">Boundary Stage</th>
+              <th class="py-2 px-3">Source ➔ Target</th>
+              <th class="py-2 px-3">Dwell Latency</th>
+              <th class="py-2 px-3">eFTI Token Status</th>
+              <th class="py-2 px-3">Final Inland Destination</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/50 text-slate-300">
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 text-slate-400">08:42:04</td>
+              <td class="py-2 px-3 text-white font-semibold">MSCU7632910</td>
+              <td class="py-2 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">ON_DOCK_RAIL</span></td>
+              <td class="py-2 px-3">STS_CRANE_14 ➔ WAG_09812_P2</td>
+              <td class="py-2 px-3 text-emerald-400">14.2 min (Bypass)</td>
+              <td class="py-2 px-3 text-emerald-400"><i class="fa-solid fa-shield-check mr-1"></i>0x98f2...bc10 (OK)</td>
+              <td class="py-2 px-3">DE-DUI-DIT</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 text-slate-400">08:41:52</td>
+              <td class="py-2 px-3 text-white font-semibold">CMAU5510294</td>
+              <td class="py-2 px-3"><span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-400">STS_DISCHARGE</span></td>
+              <td class="py-2 px-3">BAY_0420482 ➔ AGV_LANE_03</td>
+              <td class="py-2 px-3 text-slate-400">2.1 min</td>
+              <td class="py-2 px-3 text-emerald-400"><i class="fa-solid fa-shield-check mr-1"></i>0x33e1...fa88 (OK)</td>
+              <td class="py-2 px-3">PL-POZ-KOB</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 text-slate-400">08:41:30</td>
+              <td class="py-2 px-3 text-white font-semibold">EGLV2094812</td>
+              <td class="py-2 px-3"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">DRY_PORT_SIDINGS</span></td>
+              <td class="py-2 px-3">CONSIST_DUI_07 ➔ SIDING_T3</td>
+              <td class="py-2 px-3 text-sky-400">Terminal Direct</td>
+              <td class="py-2 px-3 text-emerald-400"><i class="fa-solid fa-shield-check mr-1"></i>0xac09...11de (OK)</td>
+              <td class="py-2 px-3">DE-DUI-DIT</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
