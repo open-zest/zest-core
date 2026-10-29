@@ -1,383 +1,483 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project ZeST - Multi-Ship Port & Rail Interface</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project ZeST — SDN Control Plane & Seaport Cut-Through Switch</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    .highlight-card { border-color: #38bdf8 !important; background: rgba(56, 189, 248, 0.12) !important; }
+    body {
+      background-color: #070b14;
+      color: #e2e8f0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+    .pulse-dot {
+      animation: pulse 1.6s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(1.18); }
+    }
+    .active-filter {
+      outline: 2px solid #38bdf8;
+      background-color: rgba(56, 189, 248, 0.15) !important;
+    }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+<body class="min-h-screen p-4 md:p-6 space-y-5">
 
-  <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 py-4 flex items-center justify-between sticky top-0 z-50">
-    <div class="flex items-center gap-4">
-      <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-mono font-bold text-xl">Z</div>
+  <!-- TOP EXECUTIVE HEADER: THE ABSTRACTION AXIOM -->
+  <header class="bg-slate-900/95 border border-slate-700/80 rounded-xl p-4 shadow-xl">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
       <div>
-        <h1 class="text-lg font-semibold tracking-wide flex items-center gap-2">
-          Project ZeST <span class="text-xs px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 font-mono">CORE-TRANSFER-ENGINE</span>
+        <div class="flex items-center gap-2.5">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-dot"></span>
+          <span class="text-xs font-bold uppercase tracking-widest text-sky-400 mono">
+            OPEN-ZEST / ZEST-CORE v0.4.1 • SOFTWARE-DEFINED INTERMODAL NETWORK (SDN)
+          </span>
+        </div>
+        <h1 class="text-xl md:text-2xl font-extrabold text-white mt-1">
+          The Seaport "IP Packet Fix": Decoupling the T-5 Control Plane from the T=0 Quayside Data Plane
         </h1>
-        <p class="text-xs text-slate-400">Rotterdam Maasvlakte II ➔ RFC NSRM Hinterland Interface</p>
+        <p class="text-xs md:text-sm text-slate-300 mt-0.5">
+          <strong class="text-amber-300">Core Axiom:</strong> Intermodal is two concurrent flows (Manifest Data + Physical Units). When the <span class="text-emerald-300 font-semibold">eFTI Packet Header</span> precedes the ship by 5 days (<span class="mono">T-120h</span>), the 5-high concrete yard stack ("Router Bufferbloat") vanishes into a <span class="text-emerald-300 font-semibold">0.31h Cut-Through Switch</span>.
+        </p>
       </div>
-    </div>
-    <div class="flex items-center gap-6 text-sm">
-      <div class="flex items-center gap-2">
-        <span id="ws-indicator" class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span id="ws-status" class="text-slate-300 font-mono">eFTI Gateway: ACTIVE</span>
+
+      <!-- VIEW MODE SWITCHER (Stacked / Legacy Bufferbloat Only / ZeST Only + Open Map Button) -->
+      <div class="flex flex-wrap items-center gap-2 shrink-0">
+        <a href="/map" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400 shadow flex items-center gap-1.5">
+          <span>🗺️ Open Map</span>
+        </a>
+        <button id="btn-view-stacked" onclick="setViewMode('stacked')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-600 text-white border border-sky-400 shadow">
+          Stacked View (Legacy Over ZeST)
+        </button>
+        <button id="btn-view-legacy" onclick="setViewMode('legacy')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-rose-300 border border-rose-700/60 hover:bg-slate-700">
+          Legacy Bufferbloat Only
+        </button>
+        <button id="btn-view-zest" onclick="setViewMode('zest')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-emerald-300 border border-emerald-700/60 hover:bg-slate-700">
+          ZeST SDN Switch Only
+        </button>
+        <button onclick="clearFilters()" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-600 hover:bg-slate-700">
+          Reset Filter
+        </button>
       </div>
-      <div id="live-clock" class="text-slate-400 font-mono border-l border-slate-800 pl-4">--:--:-- UTC</div>
     </div>
   </header>
 
-  <main class="flex-1 p-6 space-y-6 max-w-[1800px] w-full mx-auto">
+  <!-- SECTION 1: THE T-5 DAYS CONTROL PLANE PRE-SOLVER STRIP -->
+  <section class="bg-slate-900/90 border border-sky-500/40 rounded-xl p-4 shadow-lg">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 pb-3 border-b border-slate-800">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-wider text-sky-400 mono">
+          LAYER 1: THE CONTROL PLANE (T-5 DAYS MID-OCEAN HEADER CRYSTALLIZATION)
+        </span>
+        <h2 class="text-sm md:text-base font-bold text-white">
+          Advance eFTI Token Resolution (<span class="mono">EU Reg 2020/1056</span>) + MINLP Rail Consist Binding Before Pilot Boarding
+        </h2>
+      </div>
+      <div class="flex items-center gap-4 text-xs mono">
+        <span class="px-2.5 py-1 rounded bg-rose-950/90 border border-rose-700 text-rose-300">
+          Legacy Headers Resolved at Berth: <strong id="hdr-legacy-pct">21.4%</strong> (78.6% Unresolved -> Sent to 3D Stack)
+        </span>
+        <span class="px-2.5 py-1 rounded bg-emerald-950/90 border border-emerald-600 text-emerald-300">
+          ZeST Headers Locked at T-5d: <strong id="hdr-zest-pct">100.0%</strong> (Cut-Through Forwarding Ready)
+        </span>
+      </div>
+    </div>
 
-    <!-- KPI Strip -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm">
-        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Active ULCV Berths</div>
-        <div class="text-2xl font-bold text-white mt-1 flex items-baseline justify-between">
-          <span>3 Vessels</span>
-          <span class="text-xs text-emerald-400 font-mono">54,800 TEU Inbound</span>
-        </div>
-        <div class="mt-2 text-xs text-slate-400">Quayside Net Cycle: <span id="kpi-moves" class="text-slate-200 font-mono font-semibold">32.4 moves/hr</span></div>
+    <!-- 4 ULCV Vessels Pipeline (Mid-Ocean T-120h -> Berth T=0) -->
+    <div id="vessel-control-strip" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
+      <!-- Populated dynamically via WebSocket -->
+    </div>
+  </section>
+
+  <!-- SECTION 2: THE 4 EXECUTIVE VALUE PILLARS (MARITIME QUEUE COMPOUNDING & AIR FREIGHT ARBITRAGE) -->
+  <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Pillar 1: Router Bufferbloat Elimination -->
+    <div class="bg-slate-900/90 border border-slate-700 rounded-xl p-4">
+      <div class="text-xs font-bold uppercase text-amber-400 mono">1. Seaport Router Telemetry</div>
+      <div class="text-lg font-extrabold text-white mt-1">
+        57.39h <span class="text-slate-500">➔</span> <span class="text-emerald-400" id="kpi-zest-dwell">4.43h Turn</span>
       </div>
-      <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm">
-        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Yard Bypass Direct Loading</div>
-        <div class="text-2xl font-bold text-emerald-400 mt-1 flex items-baseline justify-between">
-          <span id="kpi-bypass">78.4%</span>
-          <span class="text-xs text-slate-400 font-mono">Target: ≥75%</span>
-        </div>
-        <div class="mt-2 text-xs text-slate-400">Zero-rehandle quayside-to-train sequence</div>
+      <div class="text-xs text-slate-300 mt-1">
+        Quayside Transfer: <strong class="text-emerald-300">0.31h</strong> | Re-handles: <strong class="text-rose-400 line-through">1.65</strong> ➔ <strong class="text-emerald-400">0.00 Digs</strong>
       </div>
-      <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm">
-        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Mean Quayside Transfer Dwell</div>
-        <div class="text-2xl font-bold text-sky-400 mt-1 flex items-baseline justify-between">
-          <span id="kpi-dwell">0.31 hrs</span>
-          <span class="text-xs text-rose-400 line-through font-mono">Legacy: 54.8h</span>
-        </div>
-        <div class="mt-2 text-xs text-slate-400">Pre-crystallized eFTI customs clearing active</div>
+      <div class="mt-2 pt-2 border-t border-slate-800 text-xs text-slate-400 flex justify-between mono">
+        <span>Lifts: 5.2 ➔ 2.0 (-62%)</span>
+        <span class="text-emerald-300 font-bold">€785k Saved/Call</span>
       </div>
-      <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm">
-        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Active Filter Selection</div>
-        <div class="text-lg font-bold text-amber-400 mt-1 truncate" id="active-filter-label">All Events (Unfiltered)</div>
-        <div class="mt-2 text-xs text-slate-400 flex justify-between items-center">
-          <span id="filtered-count" class="font-mono text-slate-300">Showing all</span>
-          <button onclick="resetFilters()" class="text-sky-400 hover:text-sky-300 underline font-mono text-[11px]">Clear Filter</button>
+    </div>
+
+    <!-- Pillar 2: Gross Vessel Berth Time (-20% to -30%) -->
+    <div class="bg-slate-900/90 border border-slate-700 rounded-xl p-4">
+      <div class="text-xs font-bold uppercase text-sky-400 mono">2. Gross Ship Berth Time</div>
+      <div class="text-lg font-extrabold text-white mt-1">
+        54.0h <span class="text-slate-500">➔</span> <span class="text-sky-400">38.5h (-28.7%)</span>
+      </div>
+      <div class="text-xs text-slate-300 mt-1">
+        AGV Starvation: <strong class="text-rose-400">15.4%</strong> ➔ <strong class="text-emerald-400">1.1%</strong> | Crane Rate: <strong id="kpi-crane-rate" class="text-sky-300">34.2 mph</strong>
+      </div>
+      <div class="mt-2 pt-2 border-t border-slate-800 text-xs text-slate-400 flex justify-between mono">
+        <span>15.5h Shaved at Wall</span>
+        <span class="text-sky-300 font-bold">+28% Virtual Quay Cap</span>
+      </div>
+    </div>
+
+    <!-- Pillar 3: Hyperbolic Anchorage Queue Compounding -->
+    <div class="bg-slate-900/90 border border-emerald-600/50 rounded-xl p-4">
+      <div class="text-xs font-bold uppercase text-emerald-400 mono">3. Offshore Queue Compounding (M/Ek/c)</div>
+      <div class="text-lg font-extrabold text-white mt-1">
+        <span id="kpi-queue-collapse">-71.0%</span> <span class="text-sm font-semibold text-emerald-300">Queue Wait Collapse</span>
+      </div>
+      <div class="text-xs text-slate-300 mt-1">
+        6 Ships at Maascenter Anchorage pulled forward by <strong id="kpi-fleet-hours" class="text-emerald-300">93.0 Fleet Hours</strong>
+      </div>
+      <div class="mt-2 pt-2 border-t border-slate-800 text-xs text-slate-400 flex justify-between mono">
+        <span>Util (ρ): 0.86 ➔ 0.64</span>
+        <span id="kpi-fleet-cash" class="text-emerald-400 font-bold">€340,938 Fleet Saved</span>
+      </div>
+    </div>
+
+    <!-- Pillar 4: Air Freight Modal Pullback & EU Parity -->
+    <div class="bg-slate-900/90 border border-purple-500/50 rounded-xl p-4">
+      <div class="text-xs font-bold uppercase text-purple-400 mono">4. Air Freight Modal Arbitrage</div>
+      <div class="text-lg font-extrabold text-white mt-1">
+        $4.50/kg <span class="text-slate-500">➔</span> <span class="text-purple-300">$0.25/kg Rail</span>
+      </div>
+      <div class="text-xs text-slate-300 mt-1">
+        Transit Variance (σ): <strong class="text-rose-400">±6.8d</strong> ➔ <strong class="text-emerald-400">±0.35d (&lt;24h SLA)</strong>
+      </div>
+      <div class="mt-2 pt-2 border-t border-slate-800 text-xs text-slate-400 flex justify-between mono">
+        <span>Breakeven: 540➔195km</span>
+        <span class="text-purple-300 font-bold">-97% CO₂ vs Air</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: STACKED DATA PLANE COMPARISON (LEGACY BUFFERBLOAT OVER ZeST CUT-THROUGH SWITCH) -->
+  <section class="space-y-4">
+
+    <!-- TOP STACK PANEL: LEGACY STATE OF THE ART (BUFFERBLOAT TO CONCRETE RAM) -->
+    <div id="panel-legacy" class="bg-rose-950/20 border-2 border-rose-700/70 rounded-xl p-4 shadow-lg">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 pb-3 border-b border-rose-900/60">
+        <div class="flex items-center gap-2.5">
+          <span class="px-2.5 py-0.5 rounded bg-rose-700 text-white text-xs font-bold uppercase mono">
+            LEGACY STATE OF THE ART (COUPLED CONTROL &amp; DATA PLANE)
+          </span>
+          <h3 class="text-sm md:text-base font-bold text-rose-200">
+            Asynchronous Paper/EDI at Berth ➔ 3D Concrete Stack "Bufferbloat" (LIFO Digging &amp; Quayside Starvation)
+          </h3>
+        </div>
+        <div class="text-xs mono text-rose-300">
+          Stack Density: <strong>84.5% (Gridlock Threshold)</strong> • Unproductive Moves: <strong>1.65 Digs/Box</strong>
+        </div>
+      </div>
+
+      <!-- Legacy Flow Diagram Bar -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mt-3 text-xs">
+        <div class="bg-slate-900/90 border border-rose-800/60 rounded-lg p-3">
+          <div class="font-bold text-rose-300 mono">1. QUAYSIDE (T=0)</div>
+          <p class="text-slate-300 mt-1">
+            78.6% of containers lack cleared NCTS T1 customs or wagon pins at spreader release. AGVs back up waiting for yard cranes (<strong>15.4% crane starvation idle</strong>).
+          </p>
+        </div>
+        <div class="bg-slate-900/90 border border-rose-800/60 rounded-lg p-3">
+          <div class="font-bold text-rose-300 mono">2. 3D YARD STACK (5-HIGH LIFO)</div>
+          <p class="text-slate-300 mt-1">
+            TOS dumps boxes into 5-tier concrete blocks. Retrieving buried boxes triggers <strong>1.4–2.2 house-keeping shuffles</strong> (€50–€90 wasted crane energy per unit).
+          </p>
+        </div>
+        <div class="bg-slate-900/90 border border-rose-800/60 rounded-lg p-3">
+          <div class="font-bold text-rose-300 mono">3. AD-HOC RAIL LOADING (T+57.4h)</div>
+          <p class="text-slate-300 mt-1">
+            Trains built reactively at <strong>70–75% weight capacity</strong> due to late VGM weights. Missed mainline paths foul European passenger rail timetables.
+          </p>
+        </div>
+        <div class="bg-slate-900/90 border border-rose-800/60 rounded-lg p-3">
+          <div class="font-bold text-rose-300 mono">4. HINTERLAND &amp; AIR PENALTY</div>
+          <p class="text-slate-300 mt-1">
+            24h hump-yard re-sorting in Central/East EU. High variance (<strong>σ = ±6.8 days</strong>) forces BCOs into <strong>$4.50/kg Air Freight</strong> to prevent factory stops.
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- 3 Core Transition Columns -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-      <!-- Column 1: Quayside Vessels -->
-      <section class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-ship text-sky-400"></i>
-            <h2 class="font-semibold text-sm uppercase tracking-wide">Ship-to-Shore Quayside</h2>
-          </div>
-          <span class="text-xs bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded font-mono">Click to Filter</span>
+    <!-- BOTTOM STACK PANEL: PROJECT ZeST SDN CUT-THROUGH SWITCH -->
+    <div id="panel-zest" class="bg-emerald-950/20 border-2 border-emerald-500/80 rounded-xl p-4 shadow-lg">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 pb-3 border-b border-emerald-900/60">
+        <div class="flex items-center gap-2.5">
+          <span class="px-2.5 py-0.5 rounded bg-emerald-600 text-white text-xs font-bold uppercase mono">
+            PROJECT ZeST PARADIGM (GOOGLE SDN + MANUFACTURING PROCESS CONTROL)
+          </span>
+          <h3 class="text-sm md:text-base font-bold text-emerald-200">
+            T-5 Days eFTI Header Crystallization ➔ Zero-Stack Cut-Through Switch (0.31h Quayside / 0.00 Re-Handles)
+          </h3>
         </div>
-
-        <div class="mt-4 space-y-4 flex-1">
-          <div onclick="selectEntity('vessel', 'MAEU', 'Madrid Maersk (Maersk Line)', this)" class="entity-card p-3 bg-slate-950/60 border border-slate-800 rounded-lg space-y-2 cursor-pointer transition hover:border-slate-600">
-            <div class="flex justify-between items-start">
-              <div>
-                <span class="font-medium text-sm text-slate-100">Madrid Maersk</span>
-                <p class="text-xs text-slate-400 font-mono">Prefix: MAEU/MSCU | Berth Q-03</p>
-              </div>
-              <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">DISCHARGING</span>
-            </div>
-            <div class="space-y-1">
-              <div class="flex justify-between text-xs text-slate-400">
-                <span>Discharge Progress (20,568 TEU)</span>
-                <span class="font-mono text-slate-200">14,210 / 20,568 (69%)</span>
-              </div>
-              <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-                <div class="bg-sky-500 h-2 rounded-full" style="width: 69%"></div>
-              </div>
-            </div>
-            <div class="text-[11px] text-slate-400 pt-1 flex justify-between font-mono">
-              <span>Cranes: QC-11, 12, 14, 15</span>
-              <span class="text-emerald-400">eFTI: 99.8% Cleared</span>
-            </div>
-          </div>
-
-          <div onclick="selectEntity('vessel', 'EGLV', 'Ever Alot (Evergreen)', this)" class="entity-card p-3 bg-slate-950/60 border border-slate-800 rounded-lg space-y-2 cursor-pointer transition hover:border-slate-600">
-            <div class="flex justify-between items-start">
-              <div>
-                <span class="font-medium text-sm text-slate-100">Ever Alot</span>
-                <p class="text-xs text-slate-400 font-mono">Prefix: EGLV/COSU | Berth Q-05</p>
-              </div>
-              <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">DISCHARGING</span>
-            </div>
-            <div class="space-y-1">
-              <div class="flex justify-between text-xs text-slate-400">
-                <span>Discharge Progress (24,004 TEU)</span>
-                <span class="font-mono text-slate-200">6,400 / 24,004 (27%)</span>
-              </div>
-              <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-                <div class="bg-sky-500 h-2 rounded-full" style="width: 27%"></div>
-              </div>
-            </div>
-            <div class="text-[11px] text-slate-400 pt-1 flex justify-between font-mono">
-              <span>Cranes: QC-21, 22, 23, 24</span>
-              <span class="text-emerald-400">eFTI: 100% Cleared</span>
-            </div>
-          </div>
+        <div class="text-xs mono text-emerald-300">
+          Direct Yard Bypass: <strong>96.4%</strong> • Re-handles: <strong>0.00 Digs</strong> • Train Rake Load: <strong>96.8% MINLP Solved</strong>
         </div>
-      </section>
+      </div>
 
-      <!-- Column 2: On-Dock Rail Consists -->
-      <section class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-train-subway text-emerald-400"></i>
-            <h2 class="font-semibold text-sm uppercase tracking-wide">On-Dock Rail Bypass</h2>
-          </div>
-          <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono">Click to Filter</span>
+      <!-- ZeST Flow Diagram Bar -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mt-3 text-xs">
+        <div class="bg-slate-900/90 border border-emerald-700/60 rounded-lg p-3">
+          <div class="font-bold text-emerald-300 mono">1. CONTROL PLANE (T-5 DAYS)</div>
+          <p class="text-slate-300 mt-1">
+            <span class="mono">openmanifest.v1</span> + eFTI token locks VGM, NCTS T1 bond, and exact UIC wagon pocket while ship is 120h out at sea. Forwarding table 100% solved.
+          </p>
         </div>
-
-        <div class="mt-4 space-y-3 flex-1 overflow-y-auto">
-          <div onclick="selectEntity('train', 'DE-DUI-DIT', 'Shuttle NSRM-DUI-08 (Duisburg)', this)" class="entity-card p-3 bg-slate-950/60 border border-slate-800 rounded-lg cursor-pointer transition hover:border-slate-600">
-            <div class="flex justify-between items-center mb-1.5">
-              <span class="font-medium text-sm text-slate-200">Shuttle NSRM-DUI-08</span>
-              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">TRACK 02</span>
-            </div>
-            <div class="flex justify-between text-xs text-slate-400 mb-1">
-              <span>Duisburg DIT | Dep: 09:15</span>
-              <span class="text-emerald-400 font-mono">88 / 96 TEU (91%)</span>
-            </div>
-            <div class="grid grid-cols-8 gap-1 py-1">
-              <span class="h-3 rounded bg-emerald-500"></span>
-              <span class="h-3 rounded bg-emerald-500"></span>
-              <span class="h-3 rounded bg-emerald-500"></span>
-              <span class="h-3 rounded bg-emerald-500"></span>
-              <span class="h-3 rounded bg-emerald-500"></span>
-              <span class="h-3 rounded bg-emerald-500"></span>
-              <span class="h-3 rounded bg-emerald-500/40 animate-pulse"></span>
-              <span class="h-3 rounded bg-slate-800"></span>
-            </div>
-            <div class="mt-2 text-[11px] text-slate-400 flex justify-between font-mono">
-              <span>Mass: 1,840t</span>
-              <span class="text-sky-400">Direct From STS: 100%</span>
-            </div>
-          </div>
-
-          <div onclick="selectEntity('train', 'PL-POZ-KOB', 'Express CE-POZ-03 (Poznań)', this)" class="entity-card p-3 bg-slate-950/60 border border-slate-800 rounded-lg cursor-pointer transition hover:border-slate-600">
-            <div class="flex justify-between items-center mb-1.5">
-              <span class="font-medium text-sm text-slate-200">Express CE-POZ-03</span>
-              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">TRACK 04</span>
-            </div>
-            <div class="flex justify-between text-xs text-slate-400 mb-1">
-              <span>Poznań Hub | Dep: 10:30</span>
-              <span class="text-amber-400 font-mono">42 / 96 TEU (44%)</span>
-            </div>
-            <div class="grid grid-cols-8 gap-1 py-1">
-              <span class="h-3 rounded bg-emerald-500"></span>
-              <span class="h-3 rounded bg-emerald-500"></span>
-              <span class="h-3 rounded bg-emerald-500"></span>
-              <span class="h-3 rounded bg-amber-500/40 animate-pulse"></span>
-              <span class="h-3 rounded bg-slate-800"></span>
-              <span class="h-3 rounded bg-slate-800"></span>
-              <span class="h-3 rounded bg-slate-800"></span>
-              <span class="h-3 rounded bg-slate-800"></span>
-            </div>
-            <div class="mt-2 text-[11px] text-slate-400 flex justify-between font-mono">
-              <span>Mass: 920t</span>
-              <span class="text-emerald-400">eFTI: Validated</span>
-            </div>
-          </div>
+        <div class="bg-slate-900/90 border border-emerald-700/60 rounded-lg p-3">
+          <div class="font-bold text-emerald-300 mono">2. QUAYSIDE CUT-THROUGH (T=0)</div>
+          <p class="text-slate-300 mt-1">
+            Zero customs pauses; zero AGV starvation. STS crane drops onto dedicated AGV loop routing straight to on-dock rail siding in <strong>0.31 hours</strong>.
+          </p>
         </div>
-      </section>
-
-      <!-- Column 3: Inland Catchment Sidings -->
-      <section class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-map-location-dot text-amber-400"></i>
-            <h2 class="font-semibold text-sm uppercase tracking-wide">Inland Sidings & Map Link</h2>
-          </div>
-          <span class="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-mono">Click to Filter</span>
+        <div class="bg-slate-900/90 border border-emerald-700/60 rounded-lg p-3">
+          <div class="font-bold text-emerald-300 mono">3. TAKT-TIME RAIL DISPATCH (4.43h)</div>
+          <p class="text-slate-300 mt-1">
+            740m rakes solved via MINLP to <strong>96.8% axle-load capacity (22.5t Cat D)</strong>. Depart on exact Takt slot, preserving passenger rail timetable integrity.
+          </p>
         </div>
-
-        <div class="mt-4 space-y-3 flex-1 overflow-y-auto">
-          <div onclick="selectEntity('hub', 'DE-DUI-DIT', 'Duisburg DIT (Zone A)', this)" class="entity-card p-3 bg-slate-950/60 border border-slate-800 rounded-lg cursor-pointer transition hover:border-slate-600">
-            <div class="flex justify-between items-center mb-1">
-              <span class="font-medium text-sm text-slate-200">Duisburg Intermodal (DIT)</span>
-              <span class="text-xs text-emerald-400 font-mono">Arrived (-0h 42m)</span>
-            </div>
-            <p class="text-xs text-slate-400">Track S-3 | 32 Wagons Discharging | Zone A</p>
-          </div>
-
-          <div onclick="selectEntity('hub', 'CZ-PRG-UHR', 'Prague Uhříněves (Zone D)', this)" class="entity-card p-3 bg-slate-950/60 border border-slate-800 rounded-lg cursor-pointer transition hover:border-slate-600">
-            <div class="flex justify-between items-center mb-1">
-              <span class="font-medium text-sm text-slate-200">Metrans Prague-Uhříněves</span>
-              <span class="text-xs text-sky-400 font-mono">En Route (+5h 15m)</span>
-            </div>
-            <p class="text-xs text-slate-400">RFC 8 Corridor Line | 84 TEU / 1,720t | Zone D</p>
-          </div>
-
-          <div onclick="selectEntity('hub', 'HU-BUD-BILK', 'Budapest BILK (Zone F)', this)" class="entity-card p-3 bg-slate-950/60 border border-slate-800 rounded-lg cursor-pointer transition hover:border-slate-600">
-            <div class="flex justify-between items-center mb-1">
-              <span class="font-medium text-sm text-slate-200">Budapest BILK Terminal</span>
-              <span class="text-xs text-sky-400 font-mono">En Route (+11h 30m)</span>
-            </div>
-            <p class="text-xs text-slate-400">3SI Axis Branch | 92 TEU / 1,890t | Zone F</p>
-          </div>
+        <div class="bg-slate-900/90 border border-emerald-700/60 rounded-lg p-3">
+          <div class="font-bold text-emerald-300 mono">4. EU PARITY &amp; AIR PULLBACK</div>
+          <p class="text-slate-300 mt-1">
+            <strong>15-min block set-outs</strong> on 740m sidings from Duisburg to Poznań, Prague &amp; Curtici. <strong>σ &lt; 24h</strong> pulls $4.50/kg Air Cargo back to $0.25/kg Rail.
+          </p>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="mt-3 pt-3 border-t border-slate-800 text-center">
-          <a href="/map/corridor_nsrm_map.html" target="_blank" class="text-xs text-sky-400 hover:text-sky-300 font-mono inline-flex items-center gap-1">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Full NSRM Interactive Corridor Map
-          </a>
+  <!-- SECTION 4: INTERACTIVE ON-DOCK RAIL TRACKS & 6 EUROPEAN PARITY ZONES (CLICK TO FILTER) -->
+  <section class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+    <!-- Left 5 Cols: On-Dock Rail Tracks (Maasvlakte II) -->
+    <div class="lg:col-span-5 bg-slate-900/90 border border-slate-700 rounded-xl p-4">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+        <div>
+          <span class="text-xs font-bold uppercase text-sky-400 mono">ON-DOCK RAIL SIDINGS (740m TAKT RAKES)</span>
+          <h3 class="text-sm font-bold text-white">MINLP Pre-Solved Consists (Click Track to Filter Stream)</h3>
         </div>
-      </section>
-
+      </div>
+      <div id="rail-tracks-grid" class="space-y-2.5 mt-3">
+        <!-- Populated via WebSocket -->
+      </div>
     </div>
 
-    <!-- Live Filterable Event Stream -->
-    <section class="bg-slate-900 border border-slate-800 rounded-xl p-5">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-        <div class="flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-purple-400"></i>
-          <h2 class="font-semibold text-sm uppercase tracking-wide">Live Modal Boundary Event Stream</h2>
+    <!-- Right 7 Cols: 6 Downstream EU Catchment Zones (West to East Parity) -->
+    <div class="lg:col-span-7 bg-slate-900/90 border border-slate-700 rounded-xl p-4">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+        <div>
+          <span class="text-xs font-bold uppercase text-emerald-400 mono">TEN-T &amp; THREE SEAS (3SI) CATCHMENT ZONES</span>
+          <h3 class="text-sm font-bold text-white">15-Min Dry-Port Siding Set-Outs &amp; Air-Freight Conversion (Click Zone to Filter)</h3>
         </div>
-        <span id="stream-status-pill" class="text-xs text-slate-400 font-mono">Streaming all transitions</span>
+        <span class="text-xs text-slate-400 mono">Breakeven: 195 km</span>
       </div>
-
-      <div class="mt-4 overflow-x-auto">
-        <table class="w-full text-left text-xs font-mono">
-          <thead>
-            <tr class="text-slate-400 border-b border-slate-800/80">
-              <th class="py-2 px-3">Timestamp</th>
-              <th class="py-2 px-3">Container ID</th>
-              <th class="py-2 px-3">Boundary Stage</th>
-              <th class="py-2 px-3">Source ➔ Target</th>
-              <th class="py-2 px-3">Dwell Latency</th>
-              <th class="py-2 px-3">eFTI Token</th>
-              <th class="py-2 px-3">Destination Node</th>
-            </tr>
-          </thead>
-          <tbody id="event-stream-body" class="divide-y divide-slate-800/50 text-slate-300">
-          </tbody>
-        </table>
+      <div id="zones-grid" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 mt-3">
+        <!-- Populated via WebSocket -->
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
+  <!-- SECTION 5: LIVE CONTAINER "IP PACKET" FORWARDING TABLE -->
+  <section class="bg-slate-900/90 border border-slate-700 rounded-xl p-4 shadow-xl">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 pb-3 border-b border-slate-800">
+      <div>
+        <span class="text-xs font-bold uppercase text-sky-400 mono">LIVE SDN FORWARDING TABLE (PACKET HEADER vs. PHYSICAL EXECUTION)</span>
+        <h3 class="text-sm md:text-base font-bold text-white">
+          Real-Time Container Stream: T-5 Cryptographic Header ➔ Legacy 3D Stack vs. ZeST Cut-Through Wagon Slot
+        </h3>
+      </div>
+      <div id="active-filter-badge" class="text-xs mono text-sky-300 bg-sky-950/80 border border-sky-700 px-3 py-1 rounded">
+        Filter: ALL BERTHS / ALL TRACKS / ALL EU ZONES
+      </div>
+    </div>
+
+    <div class="overflow-x-auto mt-3">
+      <table class="w-full text-left border-collapse text-xs">
+        <thead>
+          <tr class="border-b border-slate-700 text-slate-400 mono uppercase">
+            <th class="py-2 px-2.5">Container (Packet ID)</th>
+            <th class="py-2 px-2.5">Vessel / Berth</th>
+            <th class="py-2 px-2.5">T-5 eFTI Header &amp; VGM</th>
+            <th class="py-2 px-2.5">Target EU Zone</th>
+            <th class="py-2 px-2.5 text-rose-400">Legacy Path (Bufferbloat)</th>
+            <th class="py-2 px-2.5 text-emerald-400">ZeST SDN Path (Cut-Through Switch)</th>
+          </tr>
+        </thead>
+        <tbody id="packet-table-body" class="divide-y divide-slate-800/80 mono">
+          <!-- Populated dynamically via WebSocket -->
+        </tbody>
+      </table>
+    </div>
+  </section>
 
   <script>
-    // Live Clock
-    setInterval(() => {
-      document.getElementById('live-clock').innerText = new Date().toISOString().substring(11, 19) + ' UTC';
-    }, 1000);
+    let currentFilter = { type: null, value: null };
+    let currentViewMode = 'stacked';
+    let latestData = null;
 
-    // Filter State
-    let activeFilter = null; // { type: 'vessel'|'train'|'hub', key: '...', label: '...' }
+    function setViewMode(mode) {
+      currentViewMode = mode;
+      const pLegacy = document.getElementById('panel-legacy');
+      const pZest = document.getElementById('panel-zest');
+      const bStacked = document.getElementById('btn-view-stacked');
+      const bLegacy = document.getElementById('btn-view-legacy');
+      const bZest = document.getElementById('btn-view-zest');
 
-    function selectEntity(type, key, label, el) {
-      document.querySelectorAll('.entity-card').forEach(c => c.classList.remove('highlight-card'));
-      el.classList.add('highlight-card');
-      activeFilter = { type, key, label };
-      
-      document.getElementById('active-filter-label').innerText = label;
-      document.getElementById('stream-status-pill').innerText = `Filtering by ${type.toUpperCase()}: ${key}`;
-      applyFilterToTable();
-    }
-
-    function resetFilters() {
-      document.querySelectorAll('.entity-card').forEach(c => c.classList.remove('highlight-card'));
-      activeFilter = null;
-      document.getElementById('active-filter-label').innerText = 'All Events (Unfiltered)';
-      document.getElementById('filtered-count').innerText = 'Showing all';
-      document.getElementById('stream-status-pill').innerText = 'Streaming all transitions';
-      applyFilterToTable();
-    }
-
-    function rowMatchesFilter(row) {
-      if (!activeFilter) return true;
-      const cid = row.dataset.cid || "";
-      const dest = row.dataset.dest || "";
-
-      if (activeFilter.type === 'vessel') {
-        return cid.startsWith(activeFilter.key);
-      } else if (activeFilter.type === 'train' || activeFilter.type === 'hub') {
-        return dest === activeFilter.key;
+      [bStacked, bLegacy, bZest].forEach(b => b.classList.remove('bg-sky-600', 'text-white'));
+      if (mode === 'stacked') {
+        pLegacy.classList.remove('hidden');
+        pZest.classList.remove('hidden');
+        bStacked.classList.add('bg-sky-600', 'text-white');
+      } else if (mode === 'legacy') {
+        pLegacy.classList.remove('hidden');
+        pZest.classList.add('hidden');
+        bLegacy.classList.add('bg-sky-600', 'text-white');
+      } else if (mode === 'zest') {
+        pLegacy.classList.add('hidden');
+        pZest.classList.remove('hidden');
+        bZest.classList.add('bg-sky-600', 'text-white');
       }
-      return true;
     }
 
-    function applyFilterToTable() {
-      const rows = document.querySelectorAll('#event-stream-body tr');
-      let visible = 0;
-      rows.forEach(r => {
-        if (rowMatchesFilter(r)) {
-          r.style.display = '';
-          visible++;
-        } else {
-          r.style.display = 'none';
-        }
+    function toggleFilter(type, value) {
+      if (currentFilter.type === type && currentFilter.value === value) {
+        currentFilter = { type: null, value: null };
+      } else {
+        currentFilter = { type, value };
+      }
+      if (latestData) renderDashboard(latestData);
+    }
+
+    function clearFilters() {
+      currentFilter = { type: null, value: null };
+      if (latestData) renderDashboard(latestData);
+    }
+
+    function renderDashboard(data) {
+      latestData = data;
+      const sdn = data.sdn_architecture;
+      const q = sdn.maritime_queue_compounding;
+
+      document.getElementById('kpi-crane-rate').textContent = `${sdn.data_plane_comparison.zest.gross_crane_rate_mph} mph`;
+      document.getElementById('kpi-queue-collapse').textContent = `-${q.queue_collapse_pct}%`;
+      document.getElementById('kpi-fleet-hours').textContent = `${q.total_fleet_hours_eliminated} Fleet Hours`;
+      document.getElementById('kpi-fleet-cash').textContent = `€${q.fleet_cash_saved_eur.toLocaleString()} Fleet Saved`;
+
+      const badge = document.getElementById('active-filter-badge');
+      badge.textContent = currentFilter.value
+        ? `Active Filter: ${currentFilter.type.toUpperCase()} = ${currentFilter.value} (Click again to clear)`
+        : 'Filter: ALL BERTHS / ALL TRACKS / ALL EU ZONES';
+
+      const vStrip = document.getElementById('vessel-control-strip');
+      vStrip.innerHTML = data.vessels.map(v => {
+        const isActive = currentFilter.type === 'berth_id' && currentFilter.value === v.berth_id;
+        const atSea = v.eta_hours < 0;
+        return `
+          <div onclick="toggleFilter('berth_id', '${v.berth_id}')"
+               class="cursor-pointer bg-slate-950/90 border ${atSea ? 'border-sky-700/70' : 'border-emerald-600/70'} rounded-lg p-3 hover:border-sky-400 transition ${isActive ? 'active-filter' : ''}">
+            <div class="flex items-center justify-between text-xs mono">
+              <span class="font-bold ${atSea ? 'text-sky-300' : 'text-emerald-300'}">${v.berth_id} • ${v.eta_hours === 0 ? 'T=0 AT QUAY' : 'T' + v.eta_hours + 'h AT SEA'}</span>
+              <span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">${v.call_teu} TEU</span>
+            </div>
+            <div class="font-bold text-white text-sm mt-1 truncate">${v.name}</div>
+            <div class="mt-2 space-y-1 text-xs mono">
+              <div class="flex justify-between">
+                <span class="text-slate-400">eFTI Headers (ZeST vs Leg):</span>
+                <span><strong class="text-emerald-400">${v.efti_resolved_pct_zest}%</strong> / <span class="text-rose-400">${v.efti_resolved_pct_legacy}%</span></span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Gross Berth Time:</span>
+                <span><span class="text-rose-400 line-through">${v.legacy_berth_hrs}h</span> ➔ <strong class="text-emerald-300">${v.zest_berth_hrs}h (-28.7%)</strong></span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const tGrid = document.getElementById('rail-tracks-grid');
+      tGrid.innerHTML = data.rail_tracks.map(t => {
+        const isActive = currentFilter.type === 'track_id' && currentFilter.value === t.track_id;
+        return `
+          <div onclick="toggleFilter('track_id', '${t.track_id}')"
+               class="cursor-pointer bg-slate-950/80 border border-slate-800 rounded-lg p-2.5 hover:border-sky-400 transition ${isActive ? 'active-filter' : ''}">
+            <div class="flex items-center justify-between text-xs mono">
+              <span class="font-bold text-sky-300">${t.track_id} (${t.rake_length_m}m / ${t.wagons} UIC Wagons)</span>
+              <span class="text-emerald-300 font-bold">Target: ${t.zone_id}</span>
+            </div>
+            <div class="flex items-center justify-between text-xs mt-1.5 mono">
+              <span class="text-slate-400">MINLP Rake Fill: <strong class="text-emerald-400">${t.utilization_zest_pct}%</strong> <span class="text-slate-500">(Legacy: ${t.utilization_legacy_pct}%)</span></span>
+              <span class="text-amber-300">0.00 Re-handles</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const zGrid = document.getElementById('zones-grid');
+      zGrid.innerHTML = data.zones.map(z => {
+        const isActive = currentFilter.type === 'zone_id' && currentFilter.value === z.zone_id;
+        return `
+          <div onclick="toggleFilter('zone_id', '${z.zone_id}')"
+               class="cursor-pointer bg-slate-950/80 border border-slate-800 rounded-lg p-2.5 hover:border-emerald-400 transition ${isActive ? 'active-filter' : ''}">
+            <div class="flex items-center justify-between text-xs mono">
+              <span class="font-bold text-emerald-400">${z.zone_id} (${z.country})</span>
+              <span class="text-slate-400">${z.distance_km} km • ${z.siding_m}m Siding</span>
+            </div>
+            <div class="font-bold text-white text-xs mt-0.5 truncate">${z.name}</div>
+            <div class="flex items-center justify-between text-xs mt-1.5 mono text-slate-300">
+              <span>Set-Out: <strong class="text-sky-300">${z.setout_min} min</strong></span>
+              <span class="text-purple-300">Air Diverted: <strong>${z.air_diverted_tonnes}t</strong></span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const packets = data.live_packets.filter(p => {
+        if (!currentFilter.value) return true;
+        return p[currentFilter.type] === currentFilter.value;
       });
-      if (activeFilter) {
-        document.getElementById('filtered-count').innerText = `${visible} matching`;
-      }
+
+      const tbody = document.getElementById('packet-table-body');
+      tbody.innerHTML = packets.map(p => `
+        <tr class="hover:bg-slate-800/60 transition">
+          <td class="py-2 px-2.5 font-bold text-white">${p.bic_id}</td>
+          <td class="py-2 px-2.5 text-slate-300">${p.berth_id} <span class="text-slate-500">(${p.vessel_id})</span></td>
+          <td class="py-2 px-2.5">
+            <span class="px-1.5 py-0.5 rounded bg-emerald-950 border border-emerald-700 text-emerald-300">${p.t5_header_hash}</span>
+            <span class="text-slate-400 ml-1">${p.vgm_tonnes}t • T1 OK</span>
+          </td>
+          <td class="py-2 px-2.5 font-semibold text-sky-300">${p.zone_id}</td>
+          <td class="py-2 px-2.5 text-rose-300">
+            ${p.legacy_routing} <span class="text-rose-400 font-bold">(${p.legacy_digs} digs / ${p.legacy_dwell_h}h)</span>
+          </td>
+          <td class="py-2 px-2.5 text-emerald-300 font-semibold">
+            ${p.zest_routing} <span class="text-emerald-400 font-bold">(0.0 digs / ${p.zest_dwell_h}h)</span>
+          </td>
+        </tr>
+      `).join('');
     }
 
-    // WebSocket Stream
-    const eventBody = document.getElementById('event-stream-body');
-    const wsProto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const ws = new WebSocket(`${wsProto}//${window.location.host}/events`);
+    function connectWebSocket() {
+      const proto = window.location.protocol === 'https:' ? 'wss' : 'ws';
+      const ws = new WebSocket(`${proto}://${window.location.host}/ws/telemetry`);
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        renderDashboard(data);
+      };
+      ws.onclose = () => {
+        setTimeout(connectWebSocket, 2000);
+      };
+    }
 
-    ws.onmessage = (e) => {
-      const data = JSON.parse(e.data);
-      const ev = data.event;
-      
-      if (data.kpis) {
-        document.getElementById('kpi-moves').innerText = `${data.kpis.moves_per_hour} moves/hr`;
-        document.getElementById('kpi-bypass').innerText = `${data.kpis.bypass_ratio}%`;
-        document.getElementById('kpi-dwell').innerText = `${data.kpis.mean_dwell_hrs} hrs`;
-      }
-
-      const tr = document.createElement('tr');
-      tr.className = "hover:bg-slate-800/30 transition-colors";
-      tr.dataset.cid = ev.container_id;
-      tr.dataset.dest = ev.destination;
-      
-      let badgeClass = "bg-slate-800 text-slate-300";
-      if (ev.boundary === 'ON_DOCK_RAIL') badgeClass = "bg-emerald-500/20 text-emerald-400";
-      else if (ev.boundary === 'STS_DISCHARGE') badgeClass = "bg-sky-500/20 text-sky-400";
-      else if (ev.boundary === 'DRY_PORT_SIDINGS') badgeClass = "bg-amber-500/20 text-amber-400";
-
-      tr.innerHTML = `
-        <td class="py-2 px-3 text-slate-400">${ev.timestamp}</td>
-        <td class="py-2 px-3 text-white font-semibold">${ev.container_id}</td>
-        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded ${badgeClass}">${ev.boundary}</span></td>
-        <td class="py-2 px-3">${ev.source_target}</td>
-        <td class="py-2 px-3 text-emerald-400">${ev.dwell_latency}</td>
-        <td class="py-2 px-3 text-emerald-400"><i class="fa-solid fa-shield-check mr-1"></i>${ev.efti_token}</td>
-        <td class="py-2 px-3 text-slate-200">${ev.destination}</td>
-      `;
-
-      if (!rowMatchesFilter(tr)) {
-        tr.style.display = 'none';
-      }
-
-      eventBody.insertBefore(tr, eventBody.firstChild);
-      if (eventBody.children.length > 35) {
-        eventBody.removeChild(eventBody.lastChild);
-      }
-      applyFilterToTable();
-    };
-
-    ws.onclose = () => {
-      document.getElementById('ws-indicator').className = "inline-block w-2.5 h-2.5 rounded-full bg-rose-500";
-      document.getElementById('ws-status').innerText = "eFTI Gateway: OFFLINE";
-    };
+    fetch('/api/telemetry')
+      .then(r => r.json())
+      .then(d => renderDashboard(d))
+      .catch(() => {});
+    connectWebSocket();
   </script>
 </body>
 </html>

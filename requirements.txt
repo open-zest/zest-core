@@ -5,3 +5,6 @@ scipy>=1.10
 simpy>=4.0
 pytest>=7.0
 requests>=2.28
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+websockets>=12.0
