@@ -1,0 +1,39 @@
+flowchart TB
+    subgraph LEGACY_DRY["3A. LEGACY INLAND DRY PORT: Secondary Grounding & Drayage Queueing"]
+        direction LR
+        LD_ARR["Mixed Train Arrives<br/>at Inland Siding"] --> LD_SHUNT["Locomotive Shunting &<br/>Wagon Spotting"]
+        LD_SHUNT --> LD_GROUND["RMG Grounds Boxes to<br/>Inland Terminal Stack<br/>⏳ 18–36h Secondary Dwell"]
+        LD_GROUND --> LD_DOC["Manual Local Customs /<br/>Forwarder Release & Dispatch"]
+        LD_DOC --> LD_QUEUE["Uncoordinated Truck<br/>Gate-In & Yard Re-Handle"]
+        LD_QUEUE --> LD_EXIT["Diesel Drayage Exit"]
+    end
+
+    subgraph ZEST_DRY["3B. ZeST DRY PORT EGRESS ACCESS SWITCH: Synchronized 195 km Subnet Cross-Dock"]
+        direction TB
+
+        subgraph DRY_CTRL["DRY PORT CONTROL PLANE: Geofence-Triggered Egress Orchestration"]
+            direction LR
+            DC_GEO["Train Crosses T-2h<br/>Corridor Geofence Beacon"] -.-> DC_EFTI["Automated eFTI / NCTS<br/>Local Destination Release"]
+            DC_EFTI -.-> DC_SLOT["Dynamic Chassis &<br/>Cranage Sequence Locked"]
+            DC_SLOT -.-> DC_TRUCK["Timed Arrival Beacon Sent to<br/>Regional Electric Drayage Fleet"]
+        end
+
+        subgraph DRY_PHYS["DRY PORT PHYSICAL PLANE: Zero-Stack Wagon-to-Chassis Cross-Dock"]
+            direction LR
+            DP_ARR["Single-Zone Block Train<br/>Pulls onto Main Transfer Track"] ==> DP_RMG["Gantry RMG Direct Transfer:<br/>Rail Wagon ➡️ Truck Chassis<br/>(or Rapid Drop Cassette)"]
+            DP_RMG ==> DP_GATE["Automated Optical Gate-Out<br/>⚡ <30 Min Terminal Turnaround<br/>🔄 0 Inland Yard Grounding"]
+            DP_GATE ==> DP_HALO["195 km Catchment Subnet Delivery<br/>(Displaces Long-Haul Road & Short-Haul Air)"]
+        end
+
+        DC_SLOT == "Pre-Stages Crane & Lane" ==> DP_RMG
+        DC_TRUCK == "Just-in-Time Chassis Arrival" ==> DP_RMG
+        DC_EFTI -. "Pre-Clears Gate Barrier" .-> DP_GATE
+    end
+
+    style LEGACY_DRY fill:#fff5f5,stroke:#e53935,stroke-width:2px,color:#111
+    style LD_GROUND fill:#ffcdd2,stroke:#b71c1c,stroke-width:2px,color:#000
+    style ZEST_DRY fill:#f0f9ff,stroke:#0288d1,stroke-width:2px,color:#111
+    style DRY_CTRL fill:#f3e5f5,stroke:#7b1fa2,stroke-width:1.5px,stroke-dasharray: 5 5,color:#111
+    style DRY_PHYS fill:#e0f2f1,stroke:#00796b,stroke-width:2px,color:#111
+    style DP_RMG fill:#b2dfdb,stroke:#004d40,stroke-width:2px,color:#000
+    style DP_GATE fill:#b2dfdb,stroke:#004d40,stroke-width:2px,color:#000

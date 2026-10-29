@@ -1,0 +1,42 @@
+flowchart TB
+    subgraph LEGACY_PORT["2A. LEGACY SEAPORT FLOW: Coupled Quayside-to-Stack Bottleneck"]
+        direction LR
+        LP_STS["STS Quay Crane<br/>Discharge (T+0)"] --> LP_OCR["Quayside OCR Scan<br/>(Missing T1 / PCS / Wagon ID)"]
+        LP_OCR --> LP_AGV["AGV / Straddle Transfer<br/>to Deep-Sea Stacking Yard"]
+        LP_AGV --> LP_ASC["ASC Yard Grounding<br/>⏳ 57.39h Mean Dwell<br/>🔄 2.4 Yard Re-Handles"]
+        LP_ASC --> LP_LATE["Reactive Customs &<br/>Ad-Hoc Rail Booking"]
+        LP_LATE --> LP_ITV["Terminal Tractor Shunt<br/>to Rail Head"]
+        LP_ITV --> LP_RMG["Rail RMG Loads<br/>Mixed Consist"]
+    end
+
+    subgraph ZEST_PORT["2B. ZeST SEAPORT INGRESS BGP ROUTER: Dual-Stream Demultiplexer (20–30% Gross Berth Reduction)"]
+        direction TB
+
+        subgraph PORT_CTRL["SEAPORT CONTROL PLANE: T-5 Pre-Cleared Routing Table"]
+            direction LR
+            PC_MANIFEST["T-120h eFTI & B/L<br/>Ingestion"] -.-> PC_CUSTOMS["Automated Customs NCTS T1<br/>& Portbase Secure Release"]
+            PC_CUSTOMS -.-> PC_WAGON["Consist Wagon-Slot Binding<br/>(Zone A–F Block Trains)"]
+            PC_WAGON -.-> PC_GATE["Quayside Optical/RFID<br/>Token Verifier (0.28h Buffer)"]
+        end
+
+        subgraph PORT_PHYS["SEAPORT PHYSICAL PLANE: Cut-Through Quay-to-Rail Spine + Exception Tail Isolation"]
+            direction LR
+            PP_STS["STS Quay Crane<br/>Discharges Pre-Blocked Hatch"] ==> PP_DECISION{"Token Verified<br/>at Quayside?"}
+            PP_DECISION == "✅ YES: Pre-Cleared Fast Path" ==> PP_DIRECT["Direct AGV / Straddle Spine<br/>(Bypasses Yard Stack Completely)"]
+            PP_DIRECT ==> PP_RMG["Automated Rail RMG<br/>Direct Wagon Loading<br/>⚡ 4.43h Total Dwell | 0 Re-Handles"]
+            PP_RMG ==> PP_DEP["Fixed-Schedule Block Train<br/>Departs on Green-Wave Slot"]
+
+            PP_DECISION -. "⚠️ NO: Uncrystallized / Customs Flag" .-> PP_TAIL["Isolated Exception Yard Buffer<br/>(Zero Head-of-Line Blocking<br/>on Main Rail Spine)"]
+        end
+
+        PC_GATE == "Sub-Second Lookup" ==> PP_DECISION
+        PC_WAGON -. "Assigns Exact Wagon Pin" .-> PP_RMG
+    end
+
+    style LEGACY_PORT fill:#fff5f5,stroke:#e53935,stroke-width:2px,color:#111
+    style LP_ASC fill:#ffcdd2,stroke:#b71c1c,stroke-width:2px,color:#000
+    style ZEST_PORT fill:#f0f9ff,stroke:#0288d1,stroke-width:2px,color:#111
+    style PORT_CTRL fill:#f3e5f5,stroke:#7b1fa2,stroke-width:1.5px,stroke-dasharray: 5 5,color:#111
+    style PORT_PHYS fill:#e0f2f1,stroke:#00796b,stroke-width:2px,color:#111
+    style PP_RMG fill:#b2dfdb,stroke:#004d40,stroke-width:2px,color:#000
+    style PP_TAIL fill:#fff9c4,stroke:#f57f17,stroke-width:2px,color:#000

@@ -1,0 +1,44 @@
+flowchart TB
+    subgraph LEGACY["1A. LEGACY END-TO-END FLOW: Coupled Store-and-Forward (57.39h Mean Seaport Dwell)"]
+        direction LR
+        L_ORIG["Origin Port Stowage<br/>(Weight & Stability Only)"] --> L_SEA["Deep-Sea Transit<br/>(Unstructured Manifests)"]
+        L_SEA --> L_BERTH["Vessel Arrival (T+0)<br/>Quayside Discharge"]
+        L_BERTH --> L_STACK["Seaport Stacking Yard Buffer<br/>⏳ 57.39h Mean Dwell | 🔄 2–3 Re-Handles<br/>(Awaiting Customs, Release & Rail Slot)"]
+        L_STACK --> L_SHUNT["Marshalling Yard Shunting<br/>(Mixed Destination Consists)"]
+        L_SHUNT --> L_DRY["Inland Dry Port Stack<br/>(Secondary Grounding & Customs)"]
+        L_DRY --> L_TRUCK["Uncoordinated Truck Gate<br/>(>300 km Road Breakeven)"]
+    end
+
+    subgraph ZEST["1B. ZeST END-TO-END DUAL-STREAM: Cut-Through Packet Switching (4.43h Dwell | 195 km Breakeven)"]
+        direction TB
+        
+        subgraph CTRL_1["CONTROL PLANE: Asynchronous Data Stream (EU eFTI 2020/1056 + UCC NCTS T1)"]
+            direction LR
+            D_ORIG["T-15d: Origin Booking<br/>& Zone Intent"] -.-> D_CRYS["⚡ T-5 Days (120h at Sea)<br/>Data Crystallization Window"]
+            D_CRYS -.-> D_TOK["Cryptographic ZeST Token<br/>(eFTI + T1 + PCS Release + Wagon Slot)"]
+            D_TOK -.-> D_SDN["SDN Path Allocation<br/>(BGP Ingress -> MPLS Core -> Egress)"]
+            D_SDN -.-> D_BEAC["T-2h Corridor Geofence<br/>Triggers Zero-Emission Truck Slot"]
+        end
+
+        subgraph PHYS_1["PHYSICAL PLANE: Synchronous Container Stream (Zero-Stack Cut-Through)"]
+            direction LR
+            P_ORIG["Origin Port Stowage<br/>(4th-Tensor Weight-Zone Class)"] ==> P_SEA["Deep-Sea Transit<br/>(Pre-Blocked Bay Hatch Groups)"]
+            P_SEA ==> P_ING["Ingress BGP Seaport<br/>Quay-to-Rail Direct Transfer<br/>⚡ 4.43h Dwell | 0 Re-Handles"]
+            P_ING ==> P_CORE["Core MPLS Rail Trunk<br/>Single-Zone Block Train<br/>(ZONE_A_DUI to ZONE_F_BUD)"]
+            P_CORE ==> P_EGR["Egress Dry Port Switch<br/>Direct Wagon-to-Chassis<br/>(<30 Min Turn | 195 km Halo)"]
+        end
+
+        D_ORIG -. "Constrains Stowage" .-> P_ORIG
+        D_TOK == "0.28h Buffer Gate Unlock" ==> P_ING
+        D_SDN -. "Zero-Shunt Track Slot" .-> P_CORE
+        D_BEAC == "Synchronized Dispatch" ==> P_EGR
+    end
+
+    style LEGACY fill:#fff5f5,stroke:#e53935,stroke-width:2px,color:#111
+    style L_STACK fill:#ffcdd2,stroke:#b71c1c,stroke-width:2px,color:#000
+    style ZEST fill:#f0f9ff,stroke:#0288d1,stroke-width:2px,color:#111
+    style CTRL_1 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:1.5px,stroke-dasharray: 5 5,color:#111
+    style PHYS_1 fill:#e0f2f1,stroke:#00796b,stroke-width:2px,color:#111
+    style D_TOK fill:#e1bee7,stroke:#4a148c,stroke-width:2px,color:#000
+    style P_ING fill:#b2dfdb,stroke:#004d40,stroke-width:2px,color:#000
+    style P_EGR fill:#b2dfdb,stroke:#004d40,stroke-width:2px,color:#000

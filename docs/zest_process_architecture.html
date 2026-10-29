@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project ZeST — Dual-Stream Process Block Diagrams</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            margin: 0;
+            padding: 28px 36px;
+        }
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 3px solid #0288d1;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .header-bar h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #0f172a;
+        }
+        .header-bar .sub {
+            font-size: 13px;
+            color: #475569;
+            margin-top: 4px;
+        }
+        .kpi-strip {
+            display: flex;
+            gap: 12px;
+        }
+        .kpi-pill {
+            background: #0f172a;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .kpi-pill span {
+            color: #38bdf8;
+        }
+        .diagram-card {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+            page-break-inside: avoid;
+        }
+        .diagram-card h2 {
+            margin: 0 0 6px 0;
+            font-size: 18px;
+            color: #0369a1;
+        }
+        .diagram-card p {
+            margin: 0 0 16px 0;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.45;
+        }
+        .legend-bar {
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            background: #f1f5f9;
+            padding: 10px 16px;
+            border-radius: 6px;
+            margin-bottom: 22px;
+            border: 1px solid #e2e8f0;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        .swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        @media print {
+            body { background: #fff; padding: 10px; }
+            .diagram-card { box-shadow: none; border: 1px solid #94a3b8; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <div>
+            <h1>Project ZeST: Dual-Stream Packet-Switched Freight Architecture</h1>
+            <div class="sub">
+                Decoupling the Asynchronous Control Plane (EU eFTI 2020/1056 + NCTS T1 Data Stream) from the Synchronous Physical Container Stream
+            </div>
+        </div>
+        <div class="kpi-strip">
+            <div class="kpi-pill">Seaport Dwell: <span>57.39h → 4.43h</span></div>
+            <div class="kpi-pill">Yard Re-Handles: <span>2.4 → 0</span></div>
+            <div class="kpi-pill">Berth Reduction: <span>20–30%</span></div>
+            <div class="kpi-pill">Rail Breakeven: <span>195 km</span></div>
+        </div>
+    </div>
+
+    <div class="legend-bar">
+        <div class="legend-item">
+            <span class="swatch" style="background:#ffcdd2; border:1.5px solid #b71c1c;"></span>
+            Legacy Store-and-Forward Bottleneck (Coupled Data &amp; Containers)
+        </div>
+        <div class="legend-item">
+            <span class="swatch" style="background:#f3e5f5; border:1.5px dashed #7b1fa2;"></span>
+            ZeST Control Plane (T-5 Days Asynchronous Data Stream)
+        </div>
+        <div class="legend-item">
+            <span class="swatch" style="background:#b2dfdb; border:1.5px solid #004d40;"></span>
+            ZeST Physical Plane (Zero-Stack Cut-Through Container Stream)
+        </div>
+        <div class="legend-item">
+            <span class="swatch" style="background:#fff9c4; border:1.5px solid #f57f17;"></span>
+            Exception / Uncrystallized Tail Isolation (Graceful Degradation)
+        </div>
+    </div>
+
+    <div class="diagram-card">
+        <h2>Diagram 1: End-to-End System Process Flow (Origin Port → Sea Transit → Seaport → Rail Spine → Dry Port)</h2>
+        <p>
+            <b>Architectural Shift:</b> Legacy intermodal operations wait until physical vessel arrival (<code>T+0</code>) to resolve customs, commercial release, and rail slot allocation—forcing containers into a 57.39-hour stacking buffer. ZeST crystallizes the <b>eFTI + NCTS T1 + Wagon Slot token at T-5 days (120 hours out at sea)</b>, turning the deep-sea port into an optical packet demultiplexer.
+        </p>
+        <pre class="mermaid">
+flowchart TB
+    subgraph LEGACY["1A. LEGACY END-TO-END FLOW: Coupled Store-and-Forward (57.39h Mean Seaport Dwell)"]
+        direction LR
+        L_ORIG["Origin Port Stowage<br/>(Weight & Stability Only)"] --> L_SEA["Deep-Sea Transit<br/>(Unstructured Manifests)"]
+        L_SEA --> L_BERTH["Vessel Arrival (T+0)<br/>Quayside Discharge"]
+        L_BERTH --> L_STACK["Seaport Stacking Yard Buffer<br/>⏳ 57.39h Mean Dwell | 🔄 2–3 Re-Handles<br/>(Awaiting Customs, Release & Rail Slot)"]
+        L_STACK --> L_SHUNT["Marshalling Yard Shunting<br/>(Mixed Destination Consists)"]
+        L_SHUNT --> L_DRY["Inland Dry Port Stack<br/>(Secondary Grounding & Customs)"]
+        L_DRY --> L_TRUCK["Uncoordinated Truck Gate<br/>(>300 km Road Breakeven)"]
+    end
+
+    subgraph ZEST["1B. ZeST END-TO-END DUAL-STREAM: Cut-Through Packet Switching (4.43h Dwell | 195 km Breakeven)"]
+        direction TB
+        
+        subgraph CTRL_1["CONTROL PLANE: Asynchronous Data Stream (EU eFTI 2020/1056 + UCC NCTS T1)"]
+            direction LR
+            D_ORIG["T-15d: Origin Booking<br/>& Zone Intent"] -.-> D_CRYS["⚡ T-5 Days (120h at Sea)<br/>Data Crystallization Window"]
+            D_CRYS -.-> D_TOK["Cryptographic ZeST Token<br/>(eFTI + T1 + PCS Release + Wagon Slot)"]
+            D_TOK -.-> D_SDN["SDN Path Allocation<br/>(BGP Ingress -> MPLS Core -> Egress)"]
+            D_SDN -.-> D_BEAC["T-2h Corridor Geofence<br/>Triggers Zero-Emission Truck Slot"]
+        end
+
+        subgraph PHYS_1["PHYSICAL PLANE: Synchronous Container Stream (Zero-Stack Cut-Through)"]
+            direction LR
+            P_ORIG["Origin Port Stowage<br/>(4th-Tensor Weight-Zone Class)"] ==> P_SEA["Deep-Sea Transit<br/>(Pre-Blocked Bay Hatch Groups)"]
+            P_SEA ==> P_ING["Ingress BGP Seaport<br/>Quay-to-Rail Direct Transfer<br/>⚡ 4.43h Dwell | 0 Re-Handles"]
+            P_ING ==> P_CORE["Core MPLS Rail Trunk<br/>Single-Zone Block Train<br/>(ZONE_A_DUI to ZONE_F_BUD)"]
+            P_CORE ==> P_EGR["Egress Dry Port Switch<br/>Direct Wagon-to-Chassis<br/>(<30 Min Turn | 195 km Halo)"]
+        end
+
+        D_ORIG -. "Constrains Stowage" .-> P_ORIG
+        D_TOK == "0.28h Buffer Gate Unlock" ==> P_ING
+        D_SDN -. "Zero-Shunt Track Slot" .-> P_CORE
+        D_BEAC == "Synchronized Dispatch" ==> P_EGR
+    end
+
+    style LEGACY fill:#fff5f5,stroke:#e53935,stroke-width:2px,color:#111
+    style L_STACK fill:#ffcdd2,stroke:#b71c1c,stroke-width:2px,color:#000
+    style ZEST fill:#f0f9ff,stroke:#0288d1,stroke-width:2px,color:#111
+    style CTRL_1 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:1.5px,stroke-dasharray: 5 5,color:#111
+    style PHYS_1 fill:#e0f2f1,stroke:#00796b,stroke-width:2px,color:#111
+    style D_TOK fill:#e1bee7,stroke:#4a148c,stroke-width:2px,color:#000
+    style P_ING fill:#b2dfdb,stroke:#004d40,stroke-width:2px,color:#000
+    style P_EGR fill:#b2dfdb,stroke:#004d40,stroke-width:2px,color:#000
+
+        </pre>
+    </div>
+
+    <div class="diagram-card">
+        <h2>Diagram 2: Seaport Ingress BGP Router Flow (Quayside STS Crane → Optical Gate → Direct Rail Consist)</h2>
+        <p>
+            <b>Graceful Degradation &amp; Exception Isolation:</b> Pre-cleared containers follow the bold green cut-through spine directly from the Ship-to-Shore (STS) crane onto single-zone block trains (<code>ZONE_A_DUI</code> through <code>ZONE_F_BUD</code>) with a 0.28h data verification buffer and zero yard re-handles. Any container missing a T-5 token is cleanly shunted to the isolated exception buffer without blocking the main rail transfer spine.
+        </p>
+        <pre class="mermaid">
+flowchart TB
+    subgraph LEGACY_PORT["2A. LEGACY SEAPORT FLOW: Coupled Quayside-to-Stack Bottleneck"]
+        direction LR
+        LP_STS["STS Quay Crane<br/>Discharge (T+0)"] --> LP_OCR["Quayside OCR Scan<br/>(Missing T1 / PCS / Wagon ID)"]
+        LP_OCR --> LP_AGV["AGV / Straddle Transfer<br/>to Deep-Sea Stacking Yard"]
+        LP_AGV --> LP_ASC["ASC Yard Grounding<br/>⏳ 57.39h Mean Dwell<br/>🔄 2.4 Yard Re-Handles"]
+        LP_ASC --> LP_LATE["Reactive Customs &<br/>Ad-Hoc Rail Booking"]
+        LP_LATE --> LP_ITV["Terminal Tractor Shunt<br/>to Rail Head"]
+        LP_ITV --> LP_RMG["Rail RMG Loads<br/>Mixed Consist"]
+    end
+
+    subgraph ZEST_PORT["2B. ZeST SEAPORT INGRESS BGP ROUTER: Dual-Stream Demultiplexer (20–30% Gross Berth Reduction)"]
+        direction TB
+
+        subgraph PORT_CTRL["SEAPORT CONTROL PLANE: T-5 Pre-Cleared Routing Table"]
+            direction LR
+            PC_MANIFEST["T-120h eFTI & B/L<br/>Ingestion"] -.-> PC_CUSTOMS["Automated Customs NCTS T1<br/>& Portbase Secure Release"]
+            PC_CUSTOMS -.-> PC_WAGON["Consist Wagon-Slot Binding<br/>(Zone A–F Block Trains)"]
+            PC_WAGON -.-> PC_GATE["Quayside Optical/RFID<br/>Token Verifier (0.28h Buffer)"]
+        end
+
+        subgraph PORT_PHYS["SEAPORT PHYSICAL PLANE: Cut-Through Quay-to-Rail Spine + Exception Tail Isolation"]
+            direction LR
+            PP_STS["STS Quay Crane<br/>Discharges Pre-Blocked Hatch"] ==> PP_DECISION{"Token Verified<br/>at Quayside?"}
+            PP_DECISION == "✅ YES: Pre-Cleared Fast Path" ==> PP_DIRECT["Direct AGV / Straddle Spine<br/>(Bypasses Yard Stack Completely)"]
+            PP_DIRECT ==> PP_RMG["Automated Rail RMG<br/>Direct Wagon Loading<br/>⚡ 4.43h Total Dwell | 0 Re-Handles"]
+            PP_RMG ==> PP_DEP["Fixed-Schedule Block Train<br/>Departs on Green-Wave Slot"]
+
+            PP_DECISION -. "⚠️ NO: Uncrystallized / Customs Flag" .-> PP_TAIL["Isolated Exception Yard Buffer<br/>(Zero Head-of-Line Blocking<br/>on Main Rail Spine)"]
+        end
+
+        PC_GATE == "Sub-Second Lookup" ==> PP_DECISION
+        PC_WAGON -. "Assigns Exact Wagon Pin" .-> PP_RMG
+    end
+
+    style LEGACY_PORT fill:#fff5f5,stroke:#e53935,stroke-width:2px,color:#111
+    style LP_ASC fill:#ffcdd2,stroke:#b71c1c,stroke-width:2px,color:#000
+    style ZEST_PORT fill:#f0f9ff,stroke:#0288d1,stroke-width:2px,color:#111
+    style PORT_CTRL fill:#f3e5f5,stroke:#7b1fa2,stroke-width:1.5px,stroke-dasharray: 5 5,color:#111
+    style PORT_PHYS fill:#e0f2f1,stroke:#00796b,stroke-width:2px,color:#111
+    style PP_RMG fill:#b2dfdb,stroke:#004d40,stroke-width:2px,color:#000
+    style PP_TAIL fill:#fff9c4,stroke:#f57f17,stroke-width:2px,color:#000
+
+        </pre>
+    </div>
+
+    <div class="diagram-card">
+        <h2>Diagram 3: Inland Dry Port Egress Access Switch Flow (Corridor Geofence → Direct Wagon-to-Chassis → 195 km Halo)</h2>
+        <p>
+            <b>Eliminating Secondary Inland Dwell:</b> When the single-zone block train crosses the <code>T-2h</code> corridor geofence, the ZeST token triggers automated local customs release and dispatches timed slot beacons to regional electric/short-haul trucks. Containers transfer directly from rail wagon to truck chassis (under 30-minute terminal turnaround), collapsing the rail-over-road breakeven distance to <b>195 km</b>.
+        </p>
+        <pre class="mermaid">
+flowchart TB
+    subgraph LEGACY_DRY["3A. LEGACY INLAND DRY PORT: Secondary Grounding & Drayage Queueing"]
+        direction LR
+        LD_ARR["Mixed Train Arrives<br/>at Inland Siding"] --> LD_SHUNT["Locomotive Shunting &<br/>Wagon Spotting"]
+        LD_SHUNT --> LD_GROUND["RMG Grounds Boxes to<br/>Inland Terminal Stack<br/>⏳ 18–36h Secondary Dwell"]
+        LD_GROUND --> LD_DOC["Manual Local Customs /<br/>Forwarder Release & Dispatch"]
+        LD_DOC --> LD_QUEUE["Uncoordinated Truck<br/>Gate-In & Yard Re-Handle"]
+        LD_QUEUE --> LD_EXIT["Diesel Drayage Exit"]
+    end
+
+    subgraph ZEST_DRY["3B. ZeST DRY PORT EGRESS ACCESS SWITCH: Synchronized 195 km Subnet Cross-Dock"]
+        direction TB
+
+        subgraph DRY_CTRL["DRY PORT CONTROL PLANE: Geofence-Triggered Egress Orchestration"]
+            direction LR
+            DC_GEO["Train Crosses T-2h<br/>Corridor Geofence Beacon"] -.-> DC_EFTI["Automated eFTI / NCTS<br/>Local Destination Release"]
+            DC_EFTI -.-> DC_SLOT["Dynamic Chassis &<br/>Cranage Sequence Locked"]
+            DC_SLOT -.-> DC_TRUCK["Timed Arrival Beacon Sent to<br/>Regional Electric Drayage Fleet"]
+        end
+
+        subgraph DRY_PHYS["DRY PORT PHYSICAL PLANE: Zero-Stack Wagon-to-Chassis Cross-Dock"]
+            direction LR
+            DP_ARR["Single-Zone Block Train<br/>Pulls onto Main Transfer Track"] ==> DP_RMG["Gantry RMG Direct Transfer:<br/>Rail Wagon ➡️ Truck Chassis<br/>(or Rapid Drop Cassette)"]
+            DP_RMG ==> DP_GATE["Automated Optical Gate-Out<br/>⚡ <30 Min Terminal Turnaround<br/>🔄 0 Inland Yard Grounding"]
+            DP_GATE ==> DP_HALO["195 km Catchment Subnet Delivery<br/>(Displaces Long-Haul Road & Short-Haul Air)"]
+        end
+
+        DC_SLOT == "Pre-Stages Crane & Lane" ==> DP_RMG
+        DC_TRUCK == "Just-in-Time Chassis Arrival" ==> DP_RMG
+        DC_EFTI -. "Pre-Clears Gate Barrier" .-> DP_GATE
+    end
+
+    style LEGACY_DRY fill:#fff5f5,stroke:#e53935,stroke-width:2px,color:#111
+    style LD_GROUND fill:#ffcdd2,stroke:#b71c1c,stroke-width:2px,color:#000
+    style ZEST_DRY fill:#f0f9ff,stroke:#0288d1,stroke-width:2px,color:#111
+    style DRY_CTRL fill:#f3e5f5,stroke:#7b1fa2,stroke-width:1.5px,stroke-dasharray: 5 5,color:#111
+    style DRY_PHYS fill:#e0f2f1,stroke:#00796b,stroke-width:2px,color:#111
+    style DP_RMG fill:#b2dfdb,stroke:#004d40,stroke-width:2px,color:#000
+    style DP_GATE fill:#b2dfdb,stroke:#004d40,stroke-width:2px,color:#000
+
+        </pre>
+    </div>
+</body>
+</html>
