@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project ZeST - Pan-European Packet-Switched Corridor Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .leaflet-div-icon {
+            background: transparent !important;
+            border: none !important;
+        }
+        .zest-legend {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 370px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            color: #111;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+        }
+        .zest-legend h4 {
+            margin: 0 0 6px 0;
+            font-size: 14px;
+            color: #00838F;
+            border-bottom: 2px solid #00838F;
+            padding-bottom: 4px;
+        }
+        .legend-row {
+            display: flex;
+            align-items: center;
+            margin: 6px 0;
+            font-size: 11.5px;
+            color: #333;
+        }
+        .legend-icon-box {
+            width: 36px;
+            display: flex;
+             justify-content: center;
+            align-items: center;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <div class="zest-legend">
+        <h4>Project ZeST: EU Rail-to-Packet Topology</h4>
+        <div class="legend-row">
+            <div class="legend-icon-box">
+                <div style="background-color: #D50000; width: 18px; height: 18px; border-radius: 4px; border: 2px solid #FFF; box-shadow: 0 0 4px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 5px; height: 5px; background-color: #FFF; border-radius: 50%;"></div>
+                </div>
+            </div>
+            <div><b>Deep-Sea Port (Ingress BGP Router):</b> T-5 eFTI Demux</div>
+        </div>
+        <div class="legend-row">
+            <div class="legend-icon-box">
+                <div style="background-color: #0288D1; width: 26px; height: 13px; border-radius: 8px; border: 2px solid #FFF; box-shadow: 0 0 4px rgba(0,0,0,0.5);"></div>
+            </div>
+            <div><b>Core Megahub (MPLS Label Switch):</b> Zero-Shunt Switching</div>
+        </div>
+        <div class="legend-row">
+            <div class="legend-icon-box">
+                <div style="background-color: #2E7D32; width: 13px; height: 13px; border-radius: 50%; border: 2px solid #FFF; box-shadow: 0 0 4px rgba(0,0,0,0.5);"></div>
+            </div>
+            <div><b>Inland Dry Port (Egress Switch):</b> 195 km Breakeven Halo</div>
+        </div>
+        <div class="legend-row">
+            <div class="legend-icon-box">
+                <div style="background-color: #FFAB00; width: 18px; height: 18px; border-radius: 50%; border: 2px solid #D50000; box-shadow: 0 0 5px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #000;">!</div>
+            </div>
+            <div><b>TEN-T Choke Point:</b> 2035+ Civil Gap vs. ZeST SDN Fix</div>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+  "center": [
+    48.0,
+    9.5
+  ],
+  "zoom_start": 5,
+  "lines": [
+    {
+      "name": "NSRM Core Spine: Rotterdam \u2013 Duisburg \u2013 Mannheim \u2013 Basel \u2013 Milan \u2013 Genoa",
+      "color": "#0288D1",
+      "weight": 5,
+      "opacity": 0.88,
+      "coords": [
+        [
+          51.958,
+          4.022
+        ],
+        [
+          51.88,
+          4.45
+        ],
+        [
+          51.84,
+          5.85
+        ],
+        [
+          51.785,
+          6.321
+        ],
+        [
+          51.442,
+          6.726
+        ],
+        [
+          50.94,
+          6.96
+        ],
+        [
+          50.36,
+          7.6
+        ],
+        [
+          50.0,
+          8.27
+        ],
+        [
+          49.479,
+          8.472
+        ],
+        [
+          49.006,
+          8.403
+        ],
+        [
+          48.22,
+          7.76
+        ],
+        [
+          47.589,
+          7.602
+        ],
+        [
+          47.05,
+          8.3
+        ],
+        [
+          46.19,
+          9.02
+        ],
+        [
+          45.464,
+          9.19
+        ],
+        [
+          44.89,
+          8.86
+        ],
+        [
+          44.405,
+          8.905
+        ]
+      ],
+      "meta": {
+        "rfc": "NSRM Core (EU 2024/1679) / Former RFC 1",
+        "sdn_role": "100G Primary Optical Packet Backbone",
+        "capacity": "220\u2013260 paths/day (Betuweroute / NEAT)",
+        "signaling": "ERTMS Level 2 / LZB",
+        "traction": "25kV AC (NL) -> 15kV AC (DE/CH) -> 3kV DC (IT)",
+        "max_length": "740m Standard",
+        "p400": "100% P400 Ready via Gotthard Base Tunnel"
+      }
+    },
+    {
+      "name": "NSRM Western Trunk & Failover: Antwerp/Zeebrugge \u2013 Brussels \u2013 Bettembourg \u2013 Metz \u2013 Strasbourg \u2013 Basel",
+      "color": "#00897B",
+      "weight": 4,
+      "opacity": 0.85,
+      "coords": [
+        [
+          51.281,
+          4.262
+        ],
+        [
+          50.85,
+          4.35
+        ],
+        [
+          50.45,
+          4.86
+        ],
+        [
+          49.7,
+          5.8
+        ],
+        [
+          49.505,
+          6.102
+        ],
+        [
+          49.145,
+          6.165
+        ],
+        [
+          48.74,
+          7.36
+        ],
+        [
+          48.573,
+          7.795
+        ],
+        [
+          47.75,
+          7.33
+        ],
+        [
+          47.589,
+          7.602
+        ]
+      ],
+      "meta": {
+        "rfc": "NSRM Western Branch / Left-Bank Rhine Failover",
+        "sdn_role": "SDN Dynamic Failover Path (Bypasses Karlsruhe\u2013Basel Lot 7/8 Choke)",
+        "capacity": "110\u2013140 paths/day",
+        "signaling": "ERTMS Level 1/2 & KVB",
+        "traction": "3kV DC (BE) -> 25kV AC (LU/FR)",
+        "max_length": "740m",
+        "p400": "P400 Upgraded (EuroCap-Rail / Alsace)"
+      }
+    },
+    {
+      "name": "Channel Tunnel & UK Core Spine: Antwerp/Lille \u2013 Calais \u2013 Dover \u2013 London \u2013 Birmingham \u2013 Manchester \u2013 Glasgow \u2013 Edinburgh",
+      "color": "#0D47A1",
+      "weight": 4.5,
+      "opacity": 0.88,
+      "coords": [
+        [
+          51.281,
+          4.262
+        ],
+        [
+          51.05,
+          3.71
+        ],
+        [
+          50.629,
+          3.057
+        ],
+        [
+          50.951,
+          1.858
+        ],
+        [
+          51.127,
+          1.313
+        ],
+        [
+          51.38,
+          0.52
+        ],
+        [
+          51.515,
+          0.15
+        ],
+        [
+          51.75,
+          -0.45
+        ],
+        [
+          52.35,
+          -1.18
+        ],
+        [
+          52.486,
+          -1.89
+        ],
+        [
+          53.08,
+          -2.44
+        ],
+        [
+          53.48,
+          -2.242
+        ],
+        [
+          54.05,
+          -2.8
+        ],
+        [
+          54.89,
+          -2.93
+        ],
+        [
+          55.82,
+          -4.01
+        ],
+        [
+          55.864,
+          -4.251
+        ],
+        [
+          55.953,
+          -3.188
+        ]
+      ],
+      "meta": {
+        "rfc": "UK\u2013Continent Eurotunnel Link + West Coast Main Line (WCML)",
+        "sdn_role": "Cross-Channel Submarine Optical Trunk & UK National Backbone",
+        "capacity": "100 paths/day (Eurotunnel) / 140 paths/day (WCML)",
+        "signaling": "TVM-430 (HS1/Chunnel) -> UK AWS/TPWS & ETCS",
+        "traction": "25kV AC Overhead + Diesel/Bi-Mode Terminal Spurs",
+        "max_length": "775m (HS1/Dollands Moor) / 740m (WCML DIRFT\u2013Mossend)",
+        "p400": "UIC GC on HS1 to Barking; UK W10/W12 Container Gauge Northbound"
+      }
+    },
+    {
+      "name": "UK Solent-to-Midlands Spine & Continental Spur: Southampton \u2013 Birmingham & Calais \u2013 Bettembourg",
+      "color": "#1565C0",
+      "weight": 3.8,
+      "opacity": 0.84,
+      "coords": [
+        [
+          50.909,
+          -1.404
+        ],
+        [
+          51.26,
+          -1.08
+        ],
+        [
+          51.45,
+          -0.97
+        ],
+        [
+          51.752,
+          -1.257
+        ],
+        [
+          52.28,
+          -1.58
+        ],
+        [
+          52.486,
+          -1.89
+        ]
+      ],
+      "meta": {
+        "rfc": "UK Solent\u2013Midlands Intermodal Spine",
+        "sdn_role": "Southern UK Deep-Sea Ingress Trunk (Southampton -> Midlands/North)",
+        "capacity": "85 paths/day",
+        "signaling": "UK Signalling (W10/W12 Cleared)",
+        "traction": "Bi-Mode / Electrified Core",
+        "max_length": "700m\u2013775m",
+        "p400": "W10 High-Cube (9'6\" Container Cleared)"
+      }
+    },
+    {
+      "name": "Calais\u2013Lille\u2013Bettembourg Continental Interconnect",
+      "color": "#1565C0",
+      "weight": 3.5,
+      "opacity": 0.82,
+      "coords": [
+        [
+          50.951,
+          1.858
+        ],
+        [
+          50.629,
+          3.057
+        ],
+        [
+          50.35,
+          3.52
+        ],
+        [
+          49.75,
+          4.95
+        ],
+        [
+          49.505,
+          6.102
+        ]
+      ],
+      "meta": {
+        "rfc": "North Sea\u2013Med UK Feeder Branch",
+        "sdn_role": "Direct Channel Tunnel to Lorraine/Rhine/Lyon Packet Link",
+        "capacity": "90 paths/day",
+        "signaling": "ERTMS / KVB",
+        "traction": "25kV AC",
+        "max_length": "740m\u2013775m",
+        "p400": "P400 Ready"
+      }
+    },
+    {
+      "name": "French Med & Iberian Spine: Bettembourg \u2013 Lyon \u2013 Marseille \u2013 Barcelona \u2013 Valencia \u2013 Madrid \u2013 Algeciras",
+      "color": "#5E35B1",
+      "weight": 4.5,
+      "opacity": 0.86,
+      "coords": [
+        [
+          49.505,
+          6.102
+        ],
+        [
+          49.145,
+          6.165
+        ],
+        [
+          48.69,
+          6.18
+        ],
+        [
+          47.32,
+          5.04
+        ],
+        [
+          45.725,
+          5.081
+        ],
+        [
+          44.93,
+          4.89
+        ],
+        [
+          43.94,
+          4.8
+        ],
+        [
+          43.404,
+          4.881
+        ],
+        [
+          43.61,
+          3.87
+        ],
+        [
+          43.185,
+          3.015
+        ],
+        [
+          42.45,
+          2.86
+        ],
+        [
+          41.342,
+          2.148
+        ],
+        [
+          41.118,
+          1.245
+        ],
+        [
+          39.469,
+          -0.376
+        ],
+        [
+          39.95,
+          -1.85
+        ],
+        [
+          40.416,
+          -3.703
+        ],
+        [
+          38.986,
+          -3.927
+        ],
+        [
+          37.888,
+          -4.779
+        ],
+        [
+          36.72,
+          -5.45
+        ],
+        [
+          36.131,
+          -5.447
+        ]
+      ],
+      "meta": {
+        "rfc": "NSRM Med Branch + Mediterranean Corridor (RFC 6)",
+        "sdn_role": "Southwestern Wavelength Trunk (North Sea to Strait of Gibraltar)",
+        "capacity": "120\u2013140 paths/day",
+        "signaling": "ERTMS Level 1/2 / ASFA",
+        "traction": "25kV AC / 3kV DC (UIC Standard + Dual-Gauge Iberian Spine)",
+        "max_length": "740m (Corridor Target)",
+        "p400": "P400 to Barcelona; Algeciras\u2013Madrid Rolling Highway Upgrade"
+      }
+    },
+    {
+      "name": "Atlantic\u2013Iberian Spine: Lyon/Bordeaux \u2013 Hendaye \u2013 Valladolid \u2013 Porto (Leix\u00f5es) \u2013 Lisbon (Sines) \u2013 Madrid",
+      "color": "#00695C",
+      "weight": 4,
+      "opacity": 0.85,
+      "coords": [
+        [
+          45.725,
+          5.081
+        ],
+        [
+          45.44,
+          4.38
+        ],
+        [
+          45.77,
+          3.08
+        ],
+        [
+          44.837,
+          -0.579
+        ],
+        [
+          43.358,
+          -1.788
+        ],
+        [
+          42.846,
+          -2.671
+        ],
+        [
+          42.34,
+          -3.699
+        ],
+        [
+          41.652,
+          -4.724
+        ],
+        [
+          40.97,
+          -5.663
+        ],
+        [
+          41.15,
+          -7.75
+        ],
+        [
+          41.185,
+          -8.702
+        ],
+        [
+          40.2,
+          -8.41
+        ],
+        [
+          38.722,
+          -9.139
+        ],
+        [
+          37.956,
+          -8.869
+        ],
+        [
+          38.57,
+          -7.9
+        ],
+        [
+          38.879,
+          -6.97
+        ],
+        [
+          39.96,
+          -4.83
+        ],
+        [
+          40.416,
+          -3.703
+        ]
+      ],
+      "meta": {
+        "rfc": "Atlantic Corridor (RFC 4 / EU 2024/1679)",
+        "sdn_role": "Atlantic Edge Ingress & Iberian Ring Wavelength",
+        "capacity": "95\u2013120 paths/day",
+        "signaling": "ERTMS / TVM / CONVEL",
+        "traction": "1.5kV/25kV (FR) -> 3kV DC / 25kV AC (ES/PT)",
+        "max_length": "740m (Sines\u2013Madrid\u2013Hendaye Priority Axis)",
+        "p400": "Gauge Transition at Hendaye/Irun (1435mm <-> 1668mm)"
+      }
+    },
+    {
+      "name": "North Sea\u2013Baltic & Rail Baltica Spine: Antwerp \u2013 Duisburg \u2013 Hanover \u2013 Berlin \u2013 Warsaw \u2013 Kaunas \u2013 Riga \u2013 Tallinn",
+      "color": "#1976D2",
+      "weight": 5,
+      "opacity": 0.88,
+      "coords": [
+        [
+          51.281,
+          4.262
+        ],
+        [
+          51.37,
+          5.45
+        ],
+        [
+          51.442,
+          6.726
+        ],
+        [
+          51.51,
+          7.46
+        ],
+        [
+          52.02,
+          8.53
+        ],
+        [
+          52.378,
+          9.982
+        ],
+        [
+          52.42,
+          11.8
+        ],
+        [
+          52.48,
+          13.4
+        ],
+        [
+          52.33,
+          14.55
+        ],
+        [
+          52.4,
+          16.92
+        ],
+        [
+          52.165,
+          20.885
+        ],
+        [
+          53.132,
+          23.168
+        ],
+        [
+          54.1,
+          23.35
+        ],
+        [
+          54.898,
+          23.903
+        ],
+        [
+          55.73,
+          24.35
+        ],
+        [
+          56.949,
+          24.105
+        ],
+        [
+          58.385,
+          24.497
+        ],
+        [
+          59.437,
+          24.753
+        ]
+      ],
+      "meta": {
+        "rfc": "North Sea\u2013Baltic Corridor (RFC 8 / Rail Baltica)",
+        "sdn_role": "Northern & Baltic 100G Optical Packet Trunk (Rotterdam/Antwerp to Tallinn)",
+        "capacity": "180 paths/day (DE/PL) / 90 paths/day (Rail Baltica 1435mm Spine)",
+        "signaling": "ERTMS Level 2 Baseline 3",
+        "traction": "15kV AC (DE) -> 3kV DC (PL) -> 25kV AC (Rail Baltica)",
+        "max_length": "740m\u20131050m (Rail Baltica Design Standard)",
+        "p400": "Full P400 Intermodal Clearance"
+      }
+    },
+    {
+      "name": "German Bight & Elbe Valley Axis: Hamburg/Bremerhaven \u2013 Hanover \u2013 Leipzig/Dresden \u2013 Prague \u2013 Vienna",
+      "color": "#E65100",
+      "weight": 4,
+      "opacity": 0.88,
+      "coords": [
+        [
+          53.541,
+          9.987
+        ],
+        [
+          53.015,
+          10.052
+        ],
+        [
+          52.378,
+          9.982
+        ],
+        [
+          52.12,
+          11.62
+        ],
+        [
+          51.4,
+          12.25
+        ],
+        [
+          51.151,
+          13.125
+        ],
+        [
+          51.05,
+          13.73
+        ],
+        [
+          50.785,
+          14.055
+        ],
+        [
+          50.034,
+          14.606
+        ],
+        [
+          49.19,
+          16.61
+        ],
+        [
+          48.75,
+          16.88
+        ],
+        [
+          48.136,
+          16.335
+        ]
+      ],
+      "meta": {
+        "rfc": "Orient/East-Med & Scan-Med Feeder (RFC 7)",
+        "sdn_role": "Northern Ingress to Central EU Wavelength",
+        "capacity": "140 paths/day (Throttled at Hamburg\u2013Hanover & Elbe Valley)",
+        "signaling": "LZB / ETCS Level 2",
+        "traction": "15kV AC (DE) -> 3kV DC / 25kV AC (CZ/AT)",
+        "max_length": "650m\u2013740m",
+        "p400": "P400 Compliant"
+      }
+    },
+    {
+      "name": "Mid-German Ruhr\u2013Saxony Cut-Off: Duisburg \u2013 Kassel \u2013 Leipzig/Dresden",
+      "color": "#F57C00",
+      "weight": 3.5,
+      "opacity": 0.82,
+      "coords": [
+        [
+          51.442,
+          6.726
+        ],
+        [
+          51.48,
+          7.95
+        ],
+        [
+          51.31,
+          9.49
+        ],
+        [
+          51.48,
+          11.96
+        ],
+        [
+          51.151,
+          13.125
+        ]
+      ],
+      "meta": {
+        "rfc": "Mid-German Freight Link (Mitte-Deutschland-Verbindung)",
+        "sdn_role": "Direct Ruhr-to-Prague Cut-Through Link",
+        "capacity": "95 paths/day",
+        "signaling": "PZB / ETCS",
+        "traction": "15kV AC",
+        "max_length": "680m\u2013740m",
+        "p400": "P400 Ready"
+      }
+    },
+    {
+      "name": "Rhine\u2013Danube\u2013Black Sea Spine: Mannheim \u2013 Munich \u2013 Vienna \u2013 Budapest \u2013 Bucharest \u2013 Constan\u021ba",
+      "color": "#C62828",
+      "weight": 5,
+      "opacity": 0.88,
+      "coords": [
+        [
+          49.479,
+          8.472
+        ],
+        [
+          48.78,
+          9.18
+        ],
+        [
+          48.37,
+          10.89
+        ],
+        [
+          48.137,
+          11.685
+        ],
+        [
+          47.8,
+          13.04
+        ],
+        [
+          48.29,
+          14.29
+        ],
+        [
+          48.136,
+          16.335
+        ],
+        [
+          47.9,
+          17.15
+        ],
+        [
+          47.391,
+          19.122
+        ],
+        [
+          46.35,
+          21.3
+        ],
+        [
+          45.95,
+          22.9
+        ],
+        [
+          45.502,
+          25.575
+        ],
+        [
+          44.485,
+          26.025
+        ],
+        [
+          44.25,
+          28.0
+        ],
+        [
+          44.159,
+          28.652
+        ]
+      ],
+      "meta": {
+        "rfc": "Rhine\u2013Danube Corridor (RFC 9 / EU 2024/1679)",
+        "sdn_role": "Southeast Express Wavelength (ZONE_B -> ZONE_D -> ZONE_F -> Black Sea)",
+        "capacity": "160 paths/day (Westbahn 4-Track) / 85 paths/day (Carpathians)",
+        "signaling": "ETCS Level 2 / LZB / INDUSI",
+        "traction": "15kV AC (DE/AT) -> 25kV AC (HU/RO)",
+        "max_length": "740m (DE/AT/HU) / 650m (RO)",
+        "p400": "P400 Compliant"
+      }
+    },
+    {
+      "name": "Balkan\u2013Aegean Axis: Budapest \u2013 Timi\u0219oara \u2013 Sofia \u2013 Thessaloniki \u2013 Athens (Piraeus)",
+      "color": "#AD1457",
+      "weight": 4.5,
+      "opacity": 0.86,
+      "coords": [
+        [
+          47.391,
+          19.122
+        ],
+        [
+          46.253,
+          20.141
+        ],
+        [
+          45.748,
+          21.208
+        ],
+        [
+          44.0,
+          22.88
+        ],
+        [
+          42.697,
+          23.321
+        ],
+        [
+          41.55,
+          23.28
+        ],
+        [
+          40.64,
+          22.944
+        ],
+        [
+          39.63,
+          22.41
+        ],
+        [
+          38.45,
+          23.59
+        ],
+        [
+          37.942,
+          23.646
+        ]
+      ],
+      "meta": {
+        "rfc": "Orient / East-Med Corridor (RFC 7 / Western Balkans\u2013East Med)",
+        "sdn_role": "Aegean\u2013Danube Packet Trunk (Piraeus/Athens <-> Sofia <-> Budapest)",
+        "capacity": "90\u2013115 paths/day",
+        "signaling": "ETCS Level 1/2",
+        "traction": "25kV AC 50Hz Standard",
+        "max_length": "600m\u2013740m",
+        "p400": "Upgraded Suez-to-Central Europe Fast Trunk"
+      }
+    },
+    {
+      "name": "Bulgarian\u2013Romanian Black Sea Ring: Bucharest \u2013 Ruse \u2013 Sofia \u2013 Plovdiv \u2013 Burgas \u2013 Varna",
+      "color": "#880E4F",
+      "weight": 4,
+      "opacity": 0.85,
+      "coords": [
+        [
+          44.485,
+          26.025
+        ],
+        [
+          43.856,
+          25.97
+        ],
+        [
+          43.41,
+          24.61
+        ],
+        [
+          42.697,
+          23.321
+        ],
+        [
+          42.135,
+          24.745
+        ],
+        [
+          42.6,
+          26.5
+        ],
+        [
+          42.492,
+          27.472
+        ],
+        [
+          43.204,
+          27.914
+        ]
+      ],
+      "meta": {
+        "rfc": "Black Sea\u2013Aegean Transport Corridor (TEN-T Sea-to-Sea)",
+        "sdn_role": "Black Sea Tri-Port Ingress Loop (Constan\u021ba / Varna / Burgas)",
+        "capacity": "80\u2013100 paths/day",
+        "signaling": "ETCS Level 1 / EBICAB",
+        "traction": "25kV AC 50Hz",
+        "max_length": "650m",
+        "p400": "P400 Modernized on Plovdiv\u2013Burgas Axis"
+      }
+    },
+    {
+      "name": "Baltic\u2013Adriatic Spine: Gda\u0144sk \u2013 Warsaw \u2013 Katowice/Ostrava \u2013 Vienna \u2013 Trieste/Koper",
+      "color": "#2E7D32",
+      "weight": 4.5,
+      "opacity": 0.86,
+      "coords": [
+        [
+          54.385,
+          18.695
+        ],
+        [
+          53.12,
+          18.0
+        ],
+        [
+          52.165,
+          20.885
+        ],
+        [
+          50.8,
+          19.65
+        ],
+        [
+          50.258,
+          19.025
+        ],
+        [
+          49.82,
+          18.26
+        ],
+        [
+          48.75,
+          16.88
+        ],
+        [
+          48.136,
+          16.335
+        ],
+        [
+          47.07,
+          15.43
+        ],
+        [
+          46.62,
+          14.3
+        ],
+        [
+          46.05,
+          14.5
+        ],
+        [
+          45.636,
+          13.758
+        ]
+      ],
+      "meta": {
+        "rfc": "Baltic\u2013Adriatic Corridor (RFC 5)",
+        "sdn_role": "North\u2013South Central EU Optical Spine",
+        "capacity": "150 paths/day (Upgraded via Semmering & Koralm Base Tunnels)",
+        "signaling": "ETCS Level 1/2",
+        "traction": "3kV DC (PL/SI/IT) / 25kV AC (CZ) / 15kV AC (AT)",
+        "max_length": "650m\u2013740m",
+        "p400": "P400 Upgraded"
+      }
+    },
+    {
+      "name": "Brenner & Western Alpine Connectors: Munich \u2013 Brenner \u2013 Verona \u2013 Milan \u2013 Lyon",
+      "color": "#6A1B9A",
+      "weight": 4.5,
+      "opacity": 0.86,
+      "coords": [
+        [
+          48.137,
+          11.685
+        ],
+        [
+          47.85,
+          12.12
+        ],
+        [
+          47.255,
+          11.455
+        ],
+        [
+          46.49,
+          11.35
+        ],
+        [
+          45.438,
+          10.991
+        ],
+        [
+          45.464,
+          9.19
+        ],
+        [
+          45.07,
+          7.68
+        ],
+        [
+          45.215,
+          6.685
+        ],
+        [
+          45.725,
+          5.081
+        ]
+      ],
+      "meta": {
+        "rfc": "Scan\u2013Med (Brenner Axis) & Med Corridor (Lyon\u2013Turin)",
+        "sdn_role": "Cross-Alpine Mesh Interconnect",
+        "capacity": "110 paths/day (Pre-Base Tunnel Completion)",
+        "signaling": "ETCS Level 2 / SCMT",
+        "traction": "15kV AC -> 3kV DC -> 25kV AC",
+        "max_length": "650m\u2013740m",
+        "p400": "P400 via RoLa/Upgraded Tunnels"
+      }
+    },
+    {
+      "name": "Italian Peninsula Spine (Scan\u2013Med South): Verona \u2013 Bologna \u2013 Florence \u2013 Rome \u2013 Naples \u2013 Palermo",
+      "color": "#7B1FA2",
+      "weight": 4.5,
+      "opacity": 0.88,
+      "coords": [
+        [
+          45.438,
+          10.991
+        ],
+        [
+          44.494,
+          11.342
+        ],
+        [
+          43.769,
+          11.255
+        ],
+        [
+          42.75,
+          12.1
+        ],
+        [
+          41.902,
+          12.496
+        ],
+        [
+          41.1,
+          13.88
+        ],
+        [
+          40.851,
+          14.268
+        ],
+        [
+          40.67,
+          14.76
+        ],
+        [
+          39.3,
+          16.25
+        ],
+        [
+          38.22,
+          15.63
+        ],
+        [
+          38.193,
+          15.554
+        ],
+        [
+          38.15,
+          14.7
+        ],
+        [
+          38.115,
+          13.361
+        ]
+      ],
+      "meta": {
+        "rfc": "Scandinavian\u2013Mediterranean Corridor Southern Spine (RFC 3 / EU 2024/1679)",
+        "sdn_role": "Italian North\u2013South Optical Backbone (Brenner/Po Valley to Sicily)",
+        "capacity": "130\u2013160 paths/day (Bologna\u2013Naples Direttissima) / 60 paths/day (Calabria/Sicily)",
+        "signaling": "ERTMS Level 2 / SCMT",
+        "traction": "3kV DC / 25kV AC High-Capacity Lines",
+        "max_length": "740m (Verona\u2013Bologna\u2013Naples) / 550m (Sicily Ferry Link)",
+        "p400": "P400 Upgraded via Apennine Tunnel Overhaul"
+      }
+    },
+    {
+      "name": "Tyrrhenian Seaport Feeder: Genoa \u2013 La Spezia \u2013 Livorno \u2013 Bologna & Rome Coastal Link",
+      "color": "#00ACC1",
+      "weight": 4,
+      "opacity": 0.85,
+      "coords": [
+        [
+          44.405,
+          8.905
+        ],
+        [
+          44.102,
+          9.824
+        ],
+        [
+          43.551,
+          10.308
+        ],
+        [
+          43.769,
+          11.255
+        ],
+        [
+          44.494,
+          11.342
+        ],
+        [
+          43.551,
+          10.308
+        ],
+        [
+          42.76,
+          11.11
+        ],
+        [
+          42.09,
+          11.79
+        ],
+        [
+          41.902,
+          12.496
+        ]
+      ],
+      "meta": {
+        "rfc": "Tyrrhenian\u2013Brenner & Scan\u2013Med Coastal Feeder",
+        "sdn_role": "Ligurian/Tuscan Deep-Sea Ingress to Bologna Core Switch & Rome",
+        "capacity": "95 paths/day",
+        "signaling": "SCMT / ERTMS",
+        "traction": "3kV DC",
+        "max_length": "600m\u2013740m",
+        "p400": "Livorno/La Spezia Overpass Cleared to Bologna Interporto"
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "name": "Port of Rotterdam (Maasvlakte II)",
+      "lat": 51.958,
+      "lon": 4.022,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_RTM",
+      "throughput": "14.5M TEU / yr",
+      "intermodal": "Ingress BGP Edge Router (T-5 eFTI Optical Demux)",
+      "dwell": "57.39h Legacy -> 4.43h ZeST (0 Re-handles)",
+      "role": "Deep-Sea Megaport & Automated Rail Terminal"
+    },
+    {
+      "name": "Port of Antwerp-Bruges (Deurganckdok / Zeebrugge)",
+      "lat": 51.281,
+      "lon": 4.262,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_ANR",
+      "throughput": "13.5M TEU / yr",
+      "intermodal": "Ingress BGP Edge Router (Western, UK & Ruhr Trunks)",
+      "dwell": "20\u201330% Gross Berth Time Reduction via ZeST",
+      "role": "Deep-Sea Gateway & Western NSRM Origin"
+    },
+    {
+      "name": "Port of Southampton (Solent Deep-Sea Gateway)",
+      "lat": 50.909,
+      "lon": -1.404,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_SOU",
+      "throughput": "1.9M TEU / yr (30%+ Rail Modal Share)",
+      "intermodal": "UK Southern Ingress BGP Router (Feeds Birmingham, Manchester & Glasgow)",
+      "dwell": "T-5 Pre-Cleared Block Consists straight to Midlands DIRFT",
+      "role": "UK Deep-Sea Container & Automotive Megaport"
+    },
+    {
+      "name": "Calais / Dover Channel Eurotunnel Gate (Fr\u00e9thun / Dollands Moor)",
+      "lat": 51.03,
+      "lon": 1.58,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_CAL_DOV",
+      "throughput": "1.5M Trucks + 3,000+ Rail Freight Consists / yr",
+      "intermodal": "Submarine Border Gateway & UK/EU Customs Firewall Router",
+      "dwell": "T-5 eFTI + UK GVMS/Safety Token Eliminates Dollands Moor/Fr\u00e9thun Holds",
+      "role": "Channel Tunnel Rail Freight & Ro-Ro Ferry Megagate"
+    },
+    {
+      "name": "Edinburgh / Forth Ports (Grangemouth / Rosyth)",
+      "lat": 55.953,
+      "lon": -3.188,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_EDI",
+      "throughput": "300K TEU / yr (Scotland #1 Container Port)",
+      "intermodal": "Scottish North Sea Ingress Router & Northern UK Egress Subnet",
+      "dwell": "Direct Intermodal Shuttle to Mossend & WCML South",
+      "role": "Firth of Forth Deep-Sea & Short-Sea Rail Port"
+    },
+    {
+      "name": "Port of Hamburg / Bremerhaven",
+      "lat": 53.541,
+      "lon": 9.987,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_HAM",
+      "throughput": "12.5M TEU / yr (Combined)",
+      "intermodal": "Northern Ingress BGP Router (50%+ Rail Modal Split)",
+      "dwell": "T-5 Pre-Cleared Block Consists through Maschen/Altenwerder",
+      "role": "German Bight Deep-Sea Rail Megaport"
+    },
+    {
+      "name": "Port of Gda\u0144sk / Gdynia (Baltic Hub)",
+      "lat": 54.385,
+      "lon": 18.695,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_GDN",
+      "throughput": "4.1M TEU / yr",
+      "intermodal": "Baltic Ingress BGP Router (Feeds Warsaw & Katowice)",
+      "dwell": "Direct Ship-to-Rail Baltic\u2013Adriatic Consists",
+      "role": "Baltic Deep-Water Container Gateway"
+    },
+    {
+      "name": "Port of Tallinn (Muuga Harbor Rail Baltica Terminus)",
+      "lat": 59.437,
+      "lon": 24.753,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_TLL",
+      "throughput": "300K TEU + Ro-Ro Finland Bridge",
+      "intermodal": "Northernmost Baltic Ingress BGP Router (1435mm Rail Baltica)",
+      "dwell": "Seamless Finnish/Baltic Intermodal Demux South to Warsaw",
+      "role": "Gulf of Finland Deep-Sea & Multimodal Terminal"
+    },
+    {
+      "name": "Port of Marseille-Fos",
+      "lat": 43.404,
+      "lon": 4.881,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_MRS",
+      "throughput": "1.6M TEU / yr",
+      "intermodal": "Southern Med Ingress Edge Router (Rh\u00f4ne Trunk)",
+      "dwell": "Zero-Stack Direct Transfer to Lyon/Bettembourg",
+      "role": "Southern Mediterranean Deep-Sea Gateway"
+    },
+    {
+      "name": "Port of Barcelona / Valencia",
+      "lat": 41.342,
+      "lon": 2.148,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_BCN",
+      "throughput": "8.5M TEU / yr (Combined)",
+      "intermodal": "Western Med Ingress BGP Router (UIC Standard Gauge)",
+      "dwell": "T-5 Cross-Border eFTI Token via Perpignan & Madrid",
+      "role": "Iberian Mediterranean Deep-Sea Gateway"
+    },
+    {
+      "name": "Port of Algeciras (Strait of Gibraltar Megaport)",
+      "lat": 36.131,
+      "lon": -5.447,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_ALG",
+      "throughput": "4.8M TEU / yr",
+      "intermodal": "Southernmost Iberian Ingress BGP Router (Asia\u2013Med\u2013Atlantic)",
+      "dwell": "Fast-Packet Rail Highway North to Madrid, Zaragoza & Paris",
+      "role": "Strait of Gibraltar Transshipment & Rail-Port Gateway"
+    },
+    {
+      "name": "Port of Lisbon / Sines (Atlantic Deep-Water Gateway)",
+      "lat": 38.722,
+      "lon": -9.139,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_LIS",
+      "throughput": "2.3M TEU / yr (Sines + Lisbon)",
+      "intermodal": "Westernmost Atlantic Ingress BGP Router",
+      "dwell": "Direct Block Consists East to Madrid & North to Porto",
+      "role": "Portuguese Deep-Water Transatlantic Rail Port"
+    },
+    {
+      "name": "Port of Porto / Leix\u00f5es",
+      "lat": 41.185,
+      "lon": -8.702,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_OPO",
+      "throughput": "800K TEU / yr",
+      "intermodal": "Northern Portuguese Atlantic Ingress Router",
+      "dwell": "Feeds Northern Iberian Industrial Belt & Salamanca Spine",
+      "role": "Northern Portugal Deep-Sea & Short-Sea Hub"
+    },
+    {
+      "name": "Port of Genoa / Vado Ligure",
+      "lat": 44.405,
+      "lon": 8.905,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_GOA",
+      "throughput": "2.8M TEU / yr",
+      "intermodal": "Ligurian Ingress Edge Router (Terzo Valico Spine)",
+      "dwell": "Direct Shuttle Demux to Milan/Novara & Basel",
+      "role": "Southern NSRM Ligurian Sea Terminus"
+    },
+    {
+      "name": "Ports of La Spezia & Livorno (Tuscan/Ligurian Rail Gateways)",
+      "lat": 43.82,
+      "lon": 10.06,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_SPE_LIV",
+      "throughput": "2.2M TEU / yr (35%+ Rail Share at La Spezia)",
+      "intermodal": "Tyrrhenian Ingress BGP Router (Feeds Bologna Interporto & Verona)",
+      "dwell": "Zero-Stack Direct Dock-to-Rail Consists into Emilia-Romagna & Brenner",
+      "role": "Northern Tyrrhenian Deep-Sea Container Ports"
+    },
+    {
+      "name": "Port of Naples / Salerno (Campania Deep-Sea Gateway)",
+      "lat": 40.851,
+      "lon": 14.268,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_NAP",
+      "throughput": "1.2M TEU / yr (Naples + Salerno)",
+      "intermodal": "Southern Italian Ingress BGP Router & Nola/Marcianise Dry Port Feeder",
+      "dwell": "Direct Ship-to-Rail Block Consists to Rome, Bologna & Milan",
+      "role": "Southern Tyrrhenian Deep-Sea & Ro-Ro Megaport"
+    },
+    {
+      "name": "Port of Palermo / Termini Imerese (Sicilian Gateway)",
+      "lat": 38.115,
+      "lon": 13.361,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_PMO",
+      "throughput": "400K TEU + High-Volume Ro-Ro",
+      "intermodal": "Southernmost Scan\u2013Med Ingress Edge Router",
+      "dwell": "Synchronized Messina Strait Rail-Ferry & Sicilian Corridor Consists",
+      "role": "Sicilian Multimodal & Mediterranean Hub"
+    },
+    {
+      "name": "Port of Trieste / Koper (North Adriatic)",
+      "lat": 45.636,
+      "lon": 13.758,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_TRS",
+      "throughput": "2.0M TEU / yr (High Rail Share)",
+      "intermodal": "Adriatic Ingress BGP Router (Feeds Vienna/Budapest/Munich)",
+      "dwell": "Fast Suez Ingress bypassing Northern Range Congestion",
+      "role": "North Adriatic Deep-Sea Rail Gateway"
+    },
+    {
+      "name": "Port of Piraeus / Athens (Aegean Megaport)",
+      "lat": 37.942,
+      "lon": 23.646,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_PIR",
+      "throughput": "5.1M TEU / yr",
+      "intermodal": "Southeastern Suez Ingress BGP Router (Land-Sea Express)",
+      "dwell": "T-5 Pre-Cleared Block Trains via Thessaloniki & Sofia to Budapest",
+      "role": "Eastern Mediterranean Deep-Sea Megaport"
+    },
+    {
+      "name": "Port of Constan\u021ba (Black Sea #1 Gateway)",
+      "lat": 44.159,
+      "lon": 28.652,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_CND",
+      "throughput": "1.0M TEU / yr",
+      "intermodal": "Black Sea Northern Ingress BGP Router (Rhine\u2013Danube Terminus)",
+      "dwell": "Schengen/eFTI Pre-Cleared Bucharest\u2013Budapest Consists",
+      "role": "Romanian Black Sea Deep-Water & Danube Hub"
+    },
+    {
+      "name": "Port of Varna (Black Sea Gateway #2)",
+      "lat": 43.204,
+      "lon": 27.914,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_VAR",
+      "throughput": "250K TEU + Bulk/Ro-Ro Ferry",
+      "intermodal": "Black Sea Central Ingress BGP Router (Caucasus/Black Sea Link)",
+      "dwell": "Direct Rail Ferry & Container Demux to Ruse/Bucharest & Sofia",
+      "role": "Northern Bulgarian Black Sea Intermodal Port"
+    },
+    {
+      "name": "Port of Burgas (Black Sea Gateway #3)",
+      "lat": 42.492,
+      "lon": 27.472,
+      "type": "seaport",
+      "zone": "INGRESS_BGP_BOJ",
+      "throughput": "300K TEU / yr",
+      "intermodal": "Black Sea Southern Ingress BGP Router (Plovdiv\u2013Sofia Spine)",
+      "dwell": "Fast-Track Intermodal Transfer onto Orient/East-Med Corridor",
+      "role": "Southern Bulgarian Black Sea Deep-Water Terminal"
+    },
+    {
+      "name": "Duisburg Intermodal Hub (duisport / DIT)",
+      "lat": 51.442,
+      "lon": 6.726,
+      "type": "multi_line_oval",
+      "zone": "ZONE_A_DUI",
+      "zone_label": "ZONE_A_DUI (195 km Rhine-Ruhr Breakeven Subnet)",
+      "zone_color": "#0288D1",
+      "radius_km": 195,
+      "throughput": "4.2M TEU / yr (20,000+ trains/yr)",
+      "intermodal": "Core MPLS Label-Switched Router (LSR-A) + Egress Subnet",
+      "dwell": "Zero-Shunt Cut-Through Switching (Locomotive/Block Swap Only)",
+      "role": "World's Largest Inland Trimodal Megahub"
+    },
+    {
+      "name": "Mannheim / Ludwigshafen / Frankfurt Hub",
+      "lat": 49.479,
+      "lon": 8.472,
+      "type": "multi_line_oval",
+      "zone": "ZONE_B_MHG",
+      "zone_label": "ZONE_B_MHG (195 km Middle Rhine Subnet)",
+      "zone_color": "#00897B",
+      "radius_km": 195,
+      "throughput": "1.8M TEU / yr",
+      "intermodal": "Core MPLS Switch (LSR-B): Bifurcates Rhine vs. Danube",
+      "dwell": "Eliminates 18\u201324h Marshalling Yard Re-Classification",
+      "role": "Middle Rhine Trimodal & Corridor Bifurcation Hub"
+    },
+    {
+      "name": "Basel / Weil am Rhein Alpine Gateway",
+      "lat": 47.589,
+      "lon": 7.602,
+      "type": "multi_line_oval",
+      "zone": "ZONE_C_BSL",
+      "zone_label": "ZONE_C_BSL (195 km Upper Rhine / Swiss Subnet)",
+      "zone_color": "#7B1FA2",
+      "radius_km": 195,
+      "throughput": "1.2M TEU / yr",
+      "intermodal": "Cryptographic Customs Firewall & Core Border Router (LSR-C)",
+      "dwell": "T-5 eFTI + NCTS T1 Token Eliminates EU/CH Border Hold",
+      "role": "Swiss NEAT Base Tunnel Gateway & Trimodal Port"
+    },
+    {
+      "name": "Vienna South (Wien S\u00fcd) / Bratislava Hub",
+      "lat": 48.136,
+      "lon": 16.335,
+      "type": "multi_line_oval",
+      "zone": "ZONE_D_VIE",
+      "zone_label": "ZONE_D_VIE (195 km Danube / Twin-City Subnet)",
+      "zone_color": "#C62828",
+      "radius_km": 195,
+      "throughput": "1.1M TEU / yr",
+      "intermodal": "Core Central-Eastern MPLS Switch (LSR-D) + Egress Subnet",
+      "dwell": "Direct Wagon-to-Chassis Cross-Dock (< 30 min Truck Turn)",
+      "role": "Tri-Corridor Crossroads (Danube / Baltic-Adriatic / East-Med)"
+    },
+    {
+      "name": "Lyon / Saint-Exup\u00e9ry Intermodal Hub",
+      "lat": 45.725,
+      "lon": 5.081,
+      "type": "multi_line_oval",
+      "zone": "ZONE_E_LYS",
+      "zone_label": "ZONE_E_LYS (195 km Rh\u00f4ne-Alpes Subnet)",
+      "zone_color": "#5E35B1",
+      "radius_km": 195,
+      "throughput": "650K TEU / yr",
+      "intermodal": "Core Western Med Switch (LSR-E) & Egress Subnet",
+      "dwell": "Pre-Matched Regional Electric Drayage Slot Beacons",
+      "role": "Rh\u00f4ne-Alpes Dry Port & Franco-Italian/Iberian Junction"
+    },
+    {
+      "name": "Budapest BILK Intermodal Terminal",
+      "lat": 47.391,
+      "lon": 19.122,
+      "type": "multi_line_oval",
+      "zone": "ZONE_F_BUD",
+      "zone_label": "ZONE_F_BUD (195 km Central-Eastern EU Subnet)",
+      "zone_color": "#D84315",
+      "radius_km": 195,
+      "throughput": "950K TEU / yr",
+      "intermodal": "Core Eastern MPLS Switch (LSR-F): Bifurcates Bucharest vs Sofia/Athens",
+      "dwell": "High-Priority Automotive/Electronics Fast-Packet Termination",
+      "role": "Primary Hungarian & SE European Intermodal Megahub"
+    },
+    {
+      "name": "London Gateway / Barking Eurohub",
+      "lat": 51.515,
+      "lon": 0.15,
+      "type": "multi_line_oval",
+      "zone": "CORE_LSR_LON",
+      "zone_label": "London 150 km Southeast UK Subnet",
+      "zone_color": "#0D47A1",
+      "radius_km": 150,
+      "throughput": "2.5M TEU / yr (Port + Rail Hub)",
+      "intermodal": "Core UK MPLS Switch & Deep-Sea Ingress (HS1 Continental Terminus)",
+      "dwell": "Switches UIC Gauge Channel Tunnel Trains to WCML Midlands Spine",
+      "role": "Thames Estuary Megaport & High-Speed Rail Freight Terminus"
+    },
+    {
+      "name": "Birmingham / Midlands Megahub (DIRFT Daventry / Hams Hall)",
+      "lat": 52.486,
+      "lon": -1.89,
+      "type": "multi_line_oval",
+      "zone": "CORE_LSR_BHM",
+      "zone_label": "Birmingham / Golden Triangle 165 km UK Subnet",
+      "zone_color": "#1565C0",
+      "radius_km": 165,
+      "throughput": "1.4M TEU / yr",
+      "intermodal": "Core UK Golden Triangle MPLS Switch (Merges London & Southampton Spines)",
+      "dwell": "Zero-Shunt National Distribution Cross-Dock (<30 min to 85% of UK)",
+      "role": "UK National Rail Freight Distribution Center"
+    },
+    {
+      "name": "Milan / Novara / Busto Arsizio Hub",
+      "lat": 45.464,
+      "lon": 9.19,
+      "type": "multi_line_oval",
+      "zone": "CORE_LSR_MIL",
+      "zone_label": "Milan 160 km Western Lombardy Subnet",
+      "zone_color": "#6A1B9A",
+      "radius_km": 160,
+      "throughput": "1.6M TEU / yr",
+      "intermodal": "Gotthard/Simplon Southern Core Switch & Genoa Terzo Valico Junction",
+      "dwell": "Direct Swiss Base Tunnel Block Train Termination",
+      "role": "Lombardy Western Intermodal Megahub"
+    },
+    {
+      "name": "Verona Quadrante Europa Intermodal Hub",
+      "lat": 45.438,
+      "lon": 10.991,
+      "type": "multi_line_oval",
+      "zone": "CORE_LSR_VRN",
+      "zone_label": "Verona 160 km Brenner\u2013Veneto Subnet",
+      "zone_color": "#7B1FA2",
+      "radius_km": 160,
+      "throughput": "1.1M TEU / yr (#1 Italian Rail Freight Village)",
+      "intermodal": "Brenner Southern Core MPLS Switch (Cross-Connects Milan\u2013Venice x Munich\u2013Bologna)",
+      "dwell": "Zero-Shunt Alpine Block Consist Relay South to Bologna & Rome",
+      "role": "Northeast Italian Trimodal Megahub"
+    },
+    {
+      "name": "Bologna Interporto Central Switch",
+      "lat": 44.494,
+      "lon": 11.342,
+      "type": "multi_line_oval",
+      "zone": "CORE_LSR_BLQ",
+      "zone_label": "Bologna 175 km Emilia-Romagna / Tuscany Subnet",
+      "zone_color": "#8E24AA",
+      "radius_km": 175,
+      "throughput": "850K TEU / yr",
+      "intermodal": "Core Peninsular MPLS Switch (Merges Verona, Milan, La Spezia & Livorno to Rome/Naples)",
+      "dwell": "Fast-Packet Consolidation before Apennine Base Tunnel Axis",
+      "role": "Northern\u2013Central Italian Rail Spine Funnel"
+    },
+    {
+      "name": "Madrid Vic\u00e1lvaro / Coslada Dry Port Megahub",
+      "lat": 40.416,
+      "lon": -3.703,
+      "type": "multi_line_oval",
+      "zone": "CORE_LSR_MAD",
+      "zone_label": "Madrid 195 km Central Iberian Subnet",
+      "zone_color": "#6A1B9A",
+      "radius_km": 195,
+      "throughput": "1.1M TEU / yr",
+      "intermodal": "Core Iberian MPLS Switch (Cross-Connects Algeciras, Lisbon, Valencia & Barcelona)",
+      "dwell": "Zero-Shunt Dual-Gauge Switching & Central Spain Egress",
+      "role": "Central Iberian Trimodal Dry Port Hub"
+    },
+    {
+      "name": "Hanover / Lehrte Automated Megahub",
+      "lat": 52.378,
+      "lon": 9.982,
+      "type": "multi_line_oval",
+      "zone": "CORE_LSR_HAN",
+      "zone_label": "Hanover 160 km North-Central Subnet",
+      "zone_color": "#1565C0",
+      "radius_km": 160,
+      "throughput": "850K TEU / yr",
+      "intermodal": "Optical Cross-Connect Switch (North-South x East-West)",
+      "dwell": "Automated Fast-Transfer Crane Spine between Block Consists",
+      "role": "North Sea\u2013Baltic & Scan\u2013Med Crossroads"
+    },
+    {
+      "name": "Warsaw / \u0141\u00f3d\u017a Central Intermodal Hub",
+      "lat": 52.165,
+      "lon": 20.885,
+      "type": "multi_line_oval",
+      "zone": "CORE_LSR_WAW",
+      "zone_label": "Warsaw 195 km Central Poland Subnet",
+      "zone_color": "#2E7D32",
+      "radius_km": 195,
+      "throughput": "1.3M TEU / yr",
+      "intermodal": "Core Eastern MPLS Switch (Feeds Rail Baltica to Tallinn & CMK South)",
+      "dwell": "Zero-Shunt Corridor Cross-Dock & Regional Egress",
+      "role": "Polish National Intermodal Crossroads"
+    },
+    {
+      "name": "Bettembourg-Dudelange / Metz Eurohub",
+      "lat": 49.505,
+      "lon": 6.102,
+      "type": "multi_line_oval",
+      "zone": "CORE_LSR_BET",
+      "zone_label": "Luxembourg / Lorraine 150 km Subnet",
+      "zone_color": "#00695C",
+      "radius_km": 150,
+      "throughput": "600K TEU / yr",
+      "intermodal": "Western NSRM Core Switch (Feeds Alsace Failover, Calais & Lyon)",
+      "dwell": "Dynamic SDN Route Selector (Right-Bank vs Left-Bank Rhine)",
+      "role": "Rail Motorway & Cross-Border Intermodal Hub"
+    },
+    {
+      "name": "Sofia / Bozhurishte Intermodal Hub",
+      "lat": 42.697,
+      "lon": 23.321,
+      "type": "multi_line_oval",
+      "zone": "CORE_LSR_SOF",
+      "zone_label": "Sofia 195 km Balkan Crossroads Subnet",
+      "zone_color": "#AD1457",
+      "radius_km": 195,
+      "throughput": "420K TEU / yr",
+      "intermodal": "Core Balkan MPLS Switch (Switches Athens/Piraeus, Budapest, Bucharest & Burgas/Varna)",
+      "dwell": "Schengen/eFTI Digital Consist Relay across Southern Balkans",
+      "role": "Bulgarian National Trimodal Hub"
+    },
+    {
+      "name": "Bucharest / Ploie\u0219ti Intermodal Hub",
+      "lat": 44.485,
+      "lon": 26.025,
+      "type": "multi_line_oval",
+      "zone": "EGRESS_BUH",
+      "zone_label": "Bucharest 195 km Wallachian Subnet",
+      "zone_color": "#B71C1C",
+      "radius_km": 195,
+      "throughput": "450K TEU / yr",
+      "intermodal": "Southeastern EU Core Switch (Connects Budapest, Constan\u021ba & Sofia)",
+      "dwell": "eFTI Pre-Cleared Consists Bypassing Danube/Carpathian Delays",
+      "role": "Romanian National Dry Port Hub"
+    },
+    {
+      "name": "Manchester Trafford Park Euroterminal",
+      "lat": 53.48,
+      "lon": -2.242,
+      "type": "single_line_circle",
+      "zone": "EGRESS_MAN",
+      "zone_label": "Manchester / NW England 150 km Subnet",
+      "zone_color": "#1976D2",
+      "radius_km": 150,
+      "throughput": "550K TEU / yr",
+      "intermodal": "Northwest England Egress Switch (Serves Liverpool/Manchester Belt)",
+      "dwell": "Direct WCML Block Train Egress from Southampton, Felixstowe & Chunnel",
+      "role": "Northern Powerhouse Intermodal Dry Port"
+    },
+    {
+      "name": "Glasgow Mossend EuroTerminal",
+      "lat": 55.864,
+      "lon": -4.251,
+      "type": "single_line_circle",
+      "zone": "EGRESS_GLA",
+      "zone_label": "Glasgow / Central Belt Scotland 165 km Subnet",
+      "zone_color": "#0288D1",
+      "radius_km": 165,
+      "throughput": "420K TEU / yr",
+      "intermodal": "Scottish Central Belt Egress Switch (WCML Northern Terminus)",
+      "dwell": "775m Electric Block Consist Egress for Scottish Industrial Belt",
+      "role": "Scotland Primary Intermodal Rail Freight Hub"
+    },
+    {
+      "name": "Rome / Pomezia Santa Palomba Intermodal Hub",
+      "lat": 41.902,
+      "lon": 12.496,
+      "type": "single_line_circle",
+      "zone": "EGRESS_ROM",
+      "zone_label": "Rome / Lazio 175 km Central Italian Subnet",
+      "zone_color": "#7B1FA2",
+      "radius_km": 175,
+      "throughput": "480K TEU / yr",
+      "intermodal": "Central Italian Egress Switch (Bologna\u2013Naples Direttissima Spine)",
+      "dwell": "Zero-Stack Regional Distribution for Greater Rome",
+      "role": "Capital Region Dry Port & Logistics Hub"
+    },
+    {
+      "name": "Riga / Salaspils Rail Baltica Intermodal Hub",
+      "lat": 56.949,
+      "lon": 24.105,
+      "type": "single_line_circle",
+      "zone": "EGRESS_RIX",
+      "zone_label": "Riga 195 km Central Baltic Subnet",
+      "zone_color": "#1976D2",
+      "radius_km": 195,
+      "throughput": "380K TEU / yr",
+      "intermodal": "Baltic Egress Access Switch (Midpoint between Warsaw & Tallinn)",
+      "dwell": "1435mm Standard-Gauge Block Egress to Latvian Distribution Halo",
+      "role": "Central Baltic Dry Port & Port Feeder"
+    },
+    {
+      "name": "Kaunas Intermodal Terminal (Rail Baltica Gauge Switch)",
+      "lat": 54.898,
+      "lon": 23.903,
+      "type": "single_line_circle",
+      "zone": "EGRESS_KUN",
+      "zone_label": "Kaunas 175 km Lithuanian Subnet",
+      "zone_color": "#0D47A1",
+      "radius_km": 175,
+      "throughput": "320K TEU / yr",
+      "intermodal": "Dual-Gauge Egress Switch (1435mm EU <-> 1520mm Baltic)",
+      "dwell": "Automated Crane Cross-Dock to Vilnius/Klaip\u0117da",
+      "role": "Lithuanian Rail Baltica Gateway Hub"
+    },
+    {
+      "name": "Thessaloniki Intermodal Dry Port & Gateway",
+      "lat": 40.64,
+      "lon": 22.944,
+      "type": "single_line_circle",
+      "zone": "EGRESS_SKG",
+      "zone_label": "Thessaloniki 180 km Northern Greece / Macedonian Subnet",
+      "zone_color": "#880E4F",
+      "radius_km": 180,
+      "throughput": "520K TEU / yr",
+      "intermodal": "Aegean\u2013Balkan Egress Switch & Port Relay",
+      "dwell": "Fast-Track Suez/Aegean Relay North to Sofia",
+      "role": "Northern Greek Trimodal Hub"
+    },
+    {
+      "name": "Munich Riem / Nuremberg Bavarian Hub",
+      "lat": 48.137,
+      "lon": 11.685,
+      "type": "single_line_circle",
+      "zone": "EGRESS_MUC",
+      "zone_label": "Munich 180 km Bavarian Subnet",
+      "zone_color": "#4527A0",
+      "radius_km": 180,
+      "throughput": "750K TEU / yr",
+      "intermodal": "Brenner Northern Feeder Switch & Bavarian Egress",
+      "dwell": "Weight-Balanced Block Consists for Alpine Grade",
+      "role": "Southern German Trimodal Dry Port"
+    },
+    {
+      "name": "Leipzig / Dresden Saxony Hub",
+      "lat": 51.151,
+      "lon": 13.125,
+      "type": "single_line_circle",
+      "zone": "EGRESS_DRS",
+      "zone_label": "Saxony 160 km Industrial Subnet",
+      "zone_color": "#EF6C00",
+      "radius_km": 160,
+      "throughput": "550K TEU / yr",
+      "intermodal": "Elbe Valley Feeder Switch (Aggregates Ruhr & Hamburg Flows)",
+      "dwell": "Pre-Sequenced Axle-Load Consists for Elbe Pass",
+      "role": "Central German Dry Port & Airport Rail Hub"
+    },
+    {
+      "name": "Prague Uh\u0159\u00edn\u011bves (METRANS Mega-Hub)",
+      "lat": 50.034,
+      "lon": 14.606,
+      "type": "single_line_circle",
+      "zone": "EGRESS_PRG",
+      "zone_label": "Prague 195 km Bohemian Breakeven Subnet",
+      "zone_color": "#E65100",
+      "radius_km": 195,
+      "throughput": "1.2M TEU / yr",
+      "intermodal": "Bohemian Egress Switch & Central EU Relay",
+      "dwell": "4.4h ZeST Fast-Track Egress (CEF III Priority Node)",
+      "role": "Largest Central European Private Rail Dry Port"
+    },
+    {
+      "name": "Katowice / S\u0142awk\u00f3w / Ostrava Industrial Hub",
+      "lat": 50.258,
+      "lon": 19.025,
+      "type": "single_line_circle",
+      "zone": "EGRESS_KTW",
+      "zone_label": "Silesia\u2013Moravia 195 km Heavy Industrial Subnet",
+      "zone_color": "#388E3C",
+      "radius_km": 195,
+      "throughput": "800K TEU / yr",
+      "intermodal": "Egress Access Switch (Automotive & Manufacturing Cluster)",
+      "dwell": "Direct Block Train Egress from Gda\u0144sk, Hamburg & Rotterdam",
+      "role": "Upper Silesian / Moravian Dry Port & Broad-Gauge Terminus"
+    },
+    {
+      "name": "\u26a0\ufe0f Bottleneck: Channel Tunnel Security Hold & UK Loading Gauge Transition",
+      "lat": 51.127,
+      "lon": 1.313,
+      "type": "bottleneck",
+      "zone": "CHOKE_CHUNNEL_UK",
+      "throughput": "Fr\u00e9thun / Dollands Moor Inspection + P400 to UK W10/W12 Gauge Step-Down",
+      "intermodal": "SDN Issue: Deep-Packet Firewall Latency & MTU Frame Fragmentation",
+      "dwell": "ZeST Fix: T-5 Pre-Cleared eFTI + UK GVMS Token & W10-Filtered Origin Stowage",
+      "role": "Cross-Channel Strategic Rail Bottleneck (FR/UK)"
+    },
+    {
+      "name": "\u26a0\ufe0f Bottleneck: Emmerich\u2013Oberhausen 3rd Track & Voltage Transition",
+      "lat": 51.785,
+      "lon": 6.321,
+      "type": "bottleneck",
+      "zone": "CHOKE_EMM_OBH",
+      "throughput": "73 km 2-Track Bottleneck (25kV NL / 15kV DE)",
+      "intermodal": "SDN Issue: Ingress Serialization Delay & Protocol Jitter",
+      "dwell": "ZeST Fix: +24% Effective Slot Capacity via T-5 Flighting",
+      "role": "TEN-T Critical Choke Point (Civil Works Delayed to 2030+)"
+    },
+    {
+      "name": "\u26a0\ufe0f Bottleneck: Karlsruhe\u2013Basel Quad-Track Delay (Lots 7 & 8 > 2035)",
+      "lat": 48.22,
+      "lon": 7.76,
+      "type": "bottleneck",
+      "zone": "CHOKE_KAR_BSL",
+      "throughput": "2-Track Throat Feeding 4-Track Swiss Base Tunnels",
+      "intermodal": "SDN Issue: Core Trunk Bandwidth Throttle / Buffer Overflow",
+      "dwell": "ZeST Fix: Dynamic T-48h Failover via Left-Bank Alsace (Strasbourg)",
+      "role": "TEN-T Critical Choke Point (Delayed Beyond 2035)"
+    },
+    {
+      "name": "\u26a0\ufe0f Bottleneck: Elbe Valley / Dresden\u2013Prague Missing Base Tunnel",
+      "lat": 50.785,
+      "lon": 14.055,
+      "type": "bottleneck",
+      "zone": "CHOKE_ELBE_PRG",
+      "throughput": "Constrained 2-Track River Gorge (Ore Mtns Tunnel > 2035)",
+      "intermodal": "SDN Issue: High-Latency WAN Link with Strict MTU Limits",
+      "dwell": "ZeST Fix: Origin Weight-Discretized Stowage Maximizes Trailing Load",
+      "role": "TEN-T Cross-Border Mountain Choke Point (DE/CZ)"
+    },
+    {
+      "name": "\u26a0\ufe0f Bottleneck: Brenner Northern Access & Alpine Gradient",
+      "lat": 47.255,
+      "lon": 11.455,
+      "type": "bottleneck",
+      "zone": "CHOKE_BRENNER",
+      "throughput": "26\u2030 Steep Gradient (Awaiting 2032+ Tunnel & German Access)",
+      "intermodal": "SDN Issue: Asymmetric Upstream Bandwidth Bottleneck",
+      "dwell": "ZeST Fix: Zero-Stop Banking Consists Pre-Balanced at Sea Port",
+      "role": "TEN-T Alpine Pass Bottleneck (DE/AT/IT)"
+    },
+    {
+      "name": "\u26a0\ufe0f Bottleneck: Strait of Messina Rail-Ferry & Calabria Single-Track",
+      "lat": 38.22,
+      "lon": 15.63,
+      "type": "bottleneck",
+      "zone": "CHOKE_MESSINA_SICILY",
+      "throughput": "Villa San Giovanni\u2013Messina Rail Ferry Shunting (Bridge Unbuilt)",
+      "intermodal": "SDN Issue: High-Latency Store-and-Forward Ferry Media Converter",
+      "dwell": "ZeST Fix: Pre-Sequenced Ferry Consist Blocks Cut Shunting Time by 50%",
+      "role": "TEN-T Scan\u2013Med Southern Terminus Choke Point (IT)"
+    },
+    {
+      "name": "\u26a0\ufe0f Bottleneck: Predeal\u2013Bra\u0219ov Carpathian Pass & Curtici Border",
+      "lat": 45.502,
+      "lon": 25.575,
+      "type": "bottleneck",
+      "zone": "CHOKE_CARPATHIAN",
+      "throughput": "Steep Mountain Pass & Track Modernization Works",
+      "intermodal": "SDN Issue: High-Jitter Edge Link with Legacy Handshakes",
+      "dwell": "ZeST Fix: eFTI Digital Consist Token Eliminates Border Inspection Stops",
+      "role": "TEN-T Eastern Rhine\u2013Danube Choke Point (HU/RO)"
+    },
+    {
+      "name": "\u26a0\ufe0f Bottleneck: Hendaye/Irun & Perpignan Iberian Gauge/Border Throat",
+      "lat": 43.358,
+      "lon": -1.788,
+      "type": "bottleneck",
+      "zone": "CHOKE_PYRENEES",
+      "throughput": "1435mm UIC <-> 1668mm Iberian Gauge Break & Mixed Coastal Track",
+      "intermodal": "SDN Issue: Layer-1 Physical Framing Translation & Queueing",
+      "dwell": "ZeST Fix: Pre-Sequenced Unit Consists Synchronized with Gauge-Changeover Slots",
+      "role": "TEN-T Atlantic & Mediterranean Pyrenean Choke Point (FR/ES)"
+    },
+    {
+      "name": "\u26a0\ufe0f Bottleneck: Suwa\u0142ki Gap / Kaunas\u2013Tallinn Rail Baltica Cutover",
+      "lat": 54.1,
+      "lon": 23.35,
+      "type": "bottleneck",
+      "zone": "CHOKE_RAIL_BALTICA",
+      "throughput": "Single-Track Legacy Link Until 2030+ 1435mm High-Speed Completion",
+      "intermodal": "SDN Issue: Physical Layer Gauge Multiplexing Bottleneck",
+      "dwell": "ZeST Fix: T-5 Pre-Cleared Intermodal Pocket-Wagon Consists Eliminate Border Yard Dwell",
+      "role": "TEN-T North Sea\u2013Baltic Strategic Choke Point (PL/LT)"
+    },
+    {
+      "name": "\u26a0\ufe0f Bottleneck: Vidin\u2013Calafat / Ruse\u2013Giurgiu Danube Bridge & Kulata Pass",
+      "lat": 44.0,
+      "lon": 22.88,
+      "type": "bottleneck",
+      "zone": "CHOKE_DANUBE_BALKAN",
+      "throughput": "Single-Track Danube Bridges & Mountain Gradients to Sofia/Greece",
+      "intermodal": "SDN Issue: Half-Duplex Serial Link Contention",
+      "dwell": "ZeST Fix: Bidirectional Flighted Block Windows + eFTI Zero-Stop Border Crossing",
+      "role": "TEN-T Orient / East-Med Balkan Choke Point (RO/BG/GR)"
+    }
+  ]
+};
+
+        // Exact OpenStreetMap default from tools/corridor_map/build_map.py + Terrain option
+        const osmTiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        });
+
+        const terrainTiles = L.tileLayer(
+            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+            { attribution: 'Tiles &copy; Esri', maxZoom: 18 }
+        );
+
+        const map = L.map('map', {
+            center: data.center || [50.0, 11.5],
+            zoom: data.zoom_start || 5,
+            layers: [osmTiles],
+            zoomControl: true
+        });
+        L.control.scale().addTo(map);
+
+        const layerLines = L.layerGroup().addTo(map);
+        const layerHalos = L.layerGroup().addTo(map);
+        const layerNodes = L.layerGroup().addTo(map);
+        const layerChokes = L.layerGroup().addTo(map);
+
+        // 1. Render Curved Multi-Waypoint Transit Lines (Exact build_map.py style)
+        (data.lines || []).forEach(line => {
+            const meta = line.meta || {};
+            const popupHtml = `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; min-width: 265px;">
+                <h4 style="margin: 0 0 6px 0; color: ${line.color};">${line.name}</h4>
+                <table style="width: 100%; font-size: 12px; border-collapse: collapse; line-height: 1.45;">
+                    <tr><td style="color: #666;">Corridor:</td><td><b>${meta.rfc || 'N/A'}</b></td></tr>
+                    <tr><td style="color: #666;">SDN Role:</td><td><b style="color:#00838F;">${meta.sdn_role || 'Optical Trunk'}</b></td></tr>
+                    <tr><td style="color: #666;">Capacity:</td><td><b>${meta.capacity || 'N/A'}</b></td></tr>
+                    <tr><td style="color: #666;">Signaling:</td><td>${meta.signaling || 'N/A'}</td></tr>
+                    <tr><td style="color: #666;">Traction:</td><td>${meta.traction || 'N/A'}</td></tr>
+                    <tr><td style="color: #666;">Max Length:</td><td>${meta.max_length || 'N/A'}</td></tr>
+                    <tr><td style="color: #666;">P400 Gauge:</td><td>${meta.p400 || 'N/A'}</td></tr>
+                </table>
+            </div>
+            `;
+
+            L.polyline(line.coords, {
+                color: line.color,
+                weight: line.weight || 4,
+                opacity: line.opacity || 0.85
+            })
+            .bindTooltip(line.name)
+            .bindPopup(popupHtml, { maxWidth: 330 })
+            .addTo(layerLines);
+        });
+
+        // 2. Render Downstream Catchment Zones (Exact build_map.py Circle style)
+        (data.nodes || []).forEach(node => {
+            if (node.radius_km) {
+                const zColor = node.zone_color || "#1976D2";
+                L.circle([node.lat, node.lon], {
+                    radius: node.radius_km * 1000,
+                    color: zColor,
+                    fill: true,
+                    fillColor: zColor,
+                    fillOpacity: 0.15,
+                    weight: 1.5,
+                    dashArray: "4, 6"
+                })
+                .bindTooltip(`Hinterland Catchment: ${node.zone_label || node.zone}`)
+                .addTo(layerHalos);
+            }
+        });
+
+        // 3. Render Nodes with Exact DivIcon HTML from build_map.py
+        (data.nodes || []).forEach(node => {
+            let zoneHeader = "";
+            if (node.zone && !["ORIGIN_GATEWAY", "CORRIDOR_JUNCTION", "CORRIDOR_SIDING"].includes(node.zone)) {
+                const bg = node.zone_color || (node.type === "seaport" ? "#D50000" : node.type === "bottleneck" ? "#D50000" : "#333");
+                zoneHeader = `
+                <div style="background-color: ${bg}; color: #fff; padding: 3px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; margin-bottom: 6px; display: inline-block;">
+                    ZeST Node: ${node.zone}
+                </div>
+                `;
+            }
+
+            const popupContent = `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; min-width: 260px;">
+                ${zoneHeader}
+                <div style="border-bottom: 2px solid #00838F; padding-bottom: 4px; margin-bottom: 8px;">
+                    <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #888;">${node.type.replace('_', ' ')}</span>
+                    <h3 style="margin: 2px 0 0 0; font-size: 14px; color: #111;">${node.name}</h3>
+                </div>
+                <table style="width: 100%; font-size: 12px; color: #333; line-height: 1.5;">
+                    <tr><td style="color: #666;">Capacity/Vol:</td><td><b>${node.throughput}</b></td></tr>
+                    <tr><td style="color: #666;">SDN / Role:</td><td><b>${node.intermodal}</b></td></tr>
+                    <tr><td style="color: #666;">Dwell / Fix:</td><td><span style="color: #D32F2F; font-weight: bold;">${node.dwell}</span></td></tr>
+                    <tr><td style="color: #666;">Facility Type:</td><td>${node.role}</td></tr>
+                </table>
+            </div>
+            `;
+
+            let iconHtml = "";
+            let iconSize = [14, 14];
+            let iconAnchor = [7, 7];
+
+            if (node.type === "seaport") {
+                iconHtml = `
+                <div style="background-color: #D50000; width: 22px; height: 22px; border-radius: 4px; border: 2px solid #FFF; box-shadow: 0 0 6px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 6px; height: 6px; background-color: #FFF; border-radius: 50%;"></div>
+                </div>
+                `;
+                iconSize = [22, 22];
+                iconAnchor = [11, 11];
+            } else if (node.type === "multi_line_oval") {
+                const badgeColor = node.zone_color || "#1976D2";
+                iconHtml = `
+                <div style="background-color: ${badgeColor}; width: 30px; height: 16px; border-radius: 10px; border: 2px solid #FFF; box-shadow: 0 0 6px rgba(0,0,0,0.5);"></div>
+                `;
+                iconSize = [30, 16];
+                iconAnchor = [15, 8];
+            } else if (node.type === "bottleneck") {
+                iconHtml = `
+                <div style="background-color: #FFAB00; width: 20px; height: 20px; border-radius: 50%; border: 2px solid #D50000; box-shadow: 0 0 6px rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; color: #000;">!</div>
+                `;
+                iconSize = [20, 20];
+                iconAnchor = [10, 10];
+            } else {
+                const badgeColor = node.zone_color || "#2E7D32";
+                iconHtml = `
+                <div style="background-color: ${badgeColor}; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #FFF; box-shadow: 0 0 4px rgba(0,0,0,0.5);"></div>
+                `;
+                iconSize = [14, 14];
+                iconAnchor = [7, 7];
+            }
+
+            const marker = L.marker([node.lat, node.lon], {
+                icon: L.divIcon({
+                    iconSize: iconSize,
+                    iconAnchor: iconAnchor,
+                    html: iconHtml
+                })
+            })
+            .bindTooltip(`${node.name} (${node.zone || node.type})`)
+            .bindPopup(popupContent, { maxWidth: 320 });
+
+            if (node.type === "bottleneck") {
+                marker.addTo(layerChokes);
+            } else {
+                marker.addTo(layerNodes);
+            }
+        });
+
+        L.control.layers(
+            {
+                "OpenStreetMap (Yesterday's Default)": osmTiles,
+                "Physical Shaded Terrain (Esri Topo)": terrainTiles
+            },
+            {
+                "1. Pan-EU Corridor Lines (Curved)": layerLines,
+                "2. 195 km Breakeven Catchment Halos": layerHalos,
+                "3. Seaports, Core Switches & Dry Ports": layerNodes,
+                "4. TEN-T Choke Points vs ZeST Fix": layerChokes
+            },
+            { collapsed: false }
+        ).addTo(map);
+    </script>
+</body>
+</html>
