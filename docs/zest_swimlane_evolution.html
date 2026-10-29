@@ -1,0 +1,2811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project ZeST: 12-Swimlane End-to-End Process Evolution (PDCA Maturity Roadmap)</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 10px 18px;
+            background: #0f172a;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .title-block h1 { margin: 0; font-size: 17px; color: #38bdf8; }
+        .title-block p { margin: 2px 0 0 0; font-size: 11px; color: #94a3b8; }
+        .toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .style-switcher, .zoom-controls {
+            display: flex;
+            align-items: center;
+            background: #1e293b;
+            padding: 3px;
+            border-radius: 7px;
+            border: 1px solid #475569;
+            gap: 3px;
+        }
+        .style-btn {
+            background: transparent;
+            color: #cbd5e1;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .style-btn:hover { color: #ffffff; background: #334155; }
+        .style-btn.active-panasonic { background: #f59e0b; color: #0f172a; }
+        .style-btn.active-google { background: #1a73e8; color: #ffffff; }
+        .style-btn.active-eu { background: #003399; color: #ffcc00; border: 1px solid #ffcc00; }
+        .zoom-btn {
+            background: #334155;
+            color: #f8fafc;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .zoom-btn:hover { background: #0284c7; }
+        .zoom-label { font-size: 11px; font-weight: 600; color: #38bdf8; min-width: 44px; text-align: center; }
+        .controls { display: flex; gap: 5px; flex-wrap: wrap; }
+        .tab-btn {
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #475569;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .tab-btn:hover { background: #334155; color: #fff; }
+        .tab-btn.active { background: #0284c7; color: #fff; border-color: #38bdf8; }
+        .stage-container {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 8px 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+            margin-bottom: 16px;
+            overflow: auto;
+        }
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0f172a;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 5px;
+            margin-bottom: 6px;
+        }
+        .stage-header .phase-name { font-size: 13.5px; font-weight: 700; color: #38bdf8; }
+        .stage-header .phase-kpi {
+            font-size: 11px;
+            font-weight: 600;
+            color: #f8fafc;
+            background: #1e293b;
+            padding: 3px 10px;
+            border-radius: 4px;
+            border: 1px solid #334155;
+        }
+        .svg-viewport { width: 100%; overflow: auto; display: flex; justify-content: center; align-items: flex-start; }
+        svg.swimlane-svg {
+            width: 100%;
+            max-height: 78vh;
+            height: auto;
+            display: block;
+            border: 1px solid #94a3b8;
+            transform-origin: top center;
+        }
+        .callout-card {
+            width: 100%;
+            height: 100%;
+            border-radius: 7px;
+            padding: 6px 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.22);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .callout-panasonic { background: rgba(30, 64, 175, 0.94); border: 1.5px solid #1e3a8a; color: #ffffff; }
+        .callout-panasonic .callout-title { color: #fef08a; border-bottom: 1px solid rgba(254, 240, 138, 0.35); }
+        .callout-panasonic .callout-line { color: #f8fafc; }
+        .callout-google { background: rgba(255, 255, 255, 0.97); border: 1.5px solid #1a73e8; border-left: 5px solid #1a73e8; color: #202124; }
+        .callout-google .callout-title { color: #1a73e8; border-bottom: 1px solid #dadce0; }
+        .callout-google .callout-line { color: #3c4043; }
+        .callout-eu { background: rgba(0, 51, 153, 0.95); border: 1.5px solid #ffcc00; border-left: 5px solid #ffcc00; color: #ffffff; }
+        .callout-eu .callout-title { color: #ffcc00; border-bottom: 1px solid rgba(255, 204, 0, 0.4); }
+        .callout-eu .callout-line { color: #f1f5f9; }
+        .callout-title { font-size: 10.2px; font-weight: 700; margin-bottom: 3px; line-height: 1.2; padding-bottom: 2px; }
+        .callout-line { font-size: 9.2px; line-height: 1.26; margin: 1px 0; word-wrap: break-word; overflow-wrap: break-word; }
+        @media print {
+            body { background: #fff; color: #000; padding: 0; }
+            .toolbar { display: none; }
+            .stage-container { page-break-after: always; box-shadow: none; padding: 0; }
+            svg.swimlane-svg { max-height: none !important; width: 100% !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="title-block">
+            <h1 id="main-title"></h1>
+            <p id="main-subtitle"></p>
+        </div>
+        <div class="toolbar">
+            <div class="style-switcher" id="persona-controls"></div>
+            <div class="zoom-controls">
+                <button class="zoom-btn" onclick="adjustZoom(-15)">−</button>
+                <span class="zoom-label" id="zoom-readout">Fit</span>
+                <button class="zoom-btn" onclick="adjustZoom(15)">+</button>
+                <button class="zoom-btn" onclick="resetZoom()" style="font-weight:500;">Reset</button>
+            </div>
+            <div class="controls" id="tab-controls"></div>
+        </div>
+    </div>
+
+    <div id="diagrams-root"></div>
+
+    <script>
+        const schema = {
+  "metadata": {
+    "title": "Project ZeST: 12-Swimlane End-to-End Process Evolution (PDCA Maturity Roadmap)",
+    "subtitle": "Adapted from 12-Layer Industrial Batch Process Architecture to EU TEN-T (740m Block Trains) & eFTI 2020/1056",
+    "version": "0.9.1-spaced",
+    "canvas": {
+      "lane_height": 48,
+      "svg_width": 1080,
+      "label_col_width": 136,
+      "box_height": 28
+    }
+  },
+  "lanes": [
+    {
+      "id": 0,
+      "name": "Control Plane (eFTI / PCS)\nContainer Registry",
+      "bg": "#FFFDE7",
+      "label_bg": "#FFF9C4"
+    },
+    {
+      "id": 1,
+      "name": "Remote Shipper\n(Exporter)",
+      "bg": "#FFF3E0",
+      "label_bg": "#FFE0B2"
+    },
+    {
+      "id": 2,
+      "name": "Remote Seaport Yard\n(Origin Staging)",
+      "bg": "#FFE082",
+      "label_bg": "#FFD54F"
+    },
+    {
+      "id": 3,
+      "name": "Port of Origin\n(Remote Deep-Sea Port)",
+      "bg": "#B0BEC5",
+      "label_bg": "#90A4AE"
+    },
+    {
+      "id": 4,
+      "name": "Ocean Transit\n(Deep-Sea Vessel)",
+      "bg": "#0026D6",
+      "label_bg": "#001999",
+      "dark": true
+    },
+    {
+      "id": 5,
+      "name": "Port of Destination\n(EU Ingress BGP Port)",
+      "bg": "#CFD8DC",
+      "label_bg": "#B0BEC5"
+    },
+    {
+      "id": 6,
+      "name": "Seaport Yard\n(Local Terminal Buffer)",
+      "bg": "#90A4AE",
+      "label_bg": "#78909C"
+    },
+    {
+      "id": 7,
+      "name": "RAIL Spine\n(TEN-T 740m Corridor)",
+      "bg": "#616161",
+      "label_bg": "#424242",
+      "dark": true
+    },
+    {
+      "id": 8,
+      "name": "Inland Dry Port 1\n(Core MPLS Switch / Zone A)",
+      "bg": "#C8E6C9",
+      "label_bg": "#A5D6A7"
+    },
+    {
+      "id": 9,
+      "name": "Inland Dry Port 2\n(Egress Switch / Zone B)",
+      "bg": "#A5D6A7",
+      "label_bg": "#81C784"
+    },
+    {
+      "id": 10,
+      "name": "Road Transport\n(Regional / OTR Drayage)",
+      "bg": "#9E9D24",
+      "label_bg": "#827717"
+    },
+    {
+      "id": 11,
+      "name": "Local Customer\n(195 km Subnet Consignee)",
+      "bg": "#4CAF50",
+      "label_bg": "#388E3C"
+    }
+  ],
+  "personas": {
+    "panasonic": {
+      "button_label": "1. Panasonic Lean VSM",
+      "title": "Project ZeST: 12-Swimlane Lean Process Evolution (Panasonic VSM / PDCA Style)",
+      "subtitle": "Industrial Batch Process Control: Eliminating 'Aggregate' Queueing Muda & Bringing Intermodal Flow Under Statistical Control",
+      "badgeHeader1": "Rail-Borne Intermodal",
+      "badgeHeader2": "Breakeven Point is",
+      "badgeBg": "#1d4ed8",
+      "badgeBorder": "#ffffff",
+      "badgeValColor": "#fef08a",
+      "ctrlLinkColor": "#ec4899",
+      "ctrlLinkDash": "",
+      "secondaryRailColor": "#d97706",
+      "laneNames": [
+        "Remote Data Services\nContainer Tracking",
+        "Remote Shipper\n(Origination)",
+        "Remote Seaport Yard\n(Origin Staging)",
+        "Port of Origin\n(Remote Port)",
+        "Ocean Transit\n(Deep-Sea Batch)",
+        "Port of Destination\n(Local Port)",
+        "Seaport Yard\n(Local Seaport Yard)",
+        "RAIL\n(Corridor Spine)",
+        "Inland Port 1\n(Dry Port 1)",
+        "Inland Port 2\n(Dry Port 2)",
+        "Road Transport\n(OTR / Drayage)",
+        "Local Customer\n(Delivery)"
+      ],
+      "boxStyles": {
+        "std": {
+          "fill": "#ffffff",
+          "stroke": "#475569",
+          "text": "#0f172a",
+          "weight": "600",
+          "rx": 3
+        },
+        "red_text": {
+          "fill": "#ffffff",
+          "stroke": "#ef4444",
+          "text": "#dc2626",
+          "weight": "700",
+          "rx": 3
+        },
+        "light_red": {
+          "fill": "#fee2e2",
+          "stroke": "#dc2626",
+          "text": "#991b1b",
+          "weight": "700",
+          "rx": 3
+        },
+        "grey_box": {
+          "fill": "#cbd5e1",
+          "stroke": "#334155",
+          "text": "#0f172a",
+          "weight": "600",
+          "rx": 3
+        },
+        "blue_box": {
+          "fill": "#1d4ed8",
+          "stroke": "#ffffff",
+          "text": "#ffffff",
+          "weight": "700",
+          "rx": 3
+        },
+        "dark_box": {
+          "fill": "#52525b",
+          "stroke": "#e4e4e7",
+          "text": "#ffffff",
+          "weight": "600",
+          "rx": 3
+        },
+        "green_box": {
+          "fill": "#dcfce7",
+          "stroke": "#15803d",
+          "text": "#14532d",
+          "weight": "700",
+          "rx": 3
+        },
+        "green_solid": {
+          "fill": "#22c55e",
+          "stroke": "#14532d",
+          "text": "#052e16",
+          "weight": "800",
+          "rx": 3
+        },
+        "db_box": {
+          "fill": "#fef08a",
+          "stroke": "#a16207",
+          "text": "#713f12",
+          "weight": "800",
+          "rx": 3
+        },
+        "sort_box": {
+          "fill": "#e9d5ff",
+          "stroke": "#7e22ce",
+          "text": "#4c1d95",
+          "weight": "800",
+          "rx": 3
+        },
+        "pool_box": {
+          "fill": "#fbcfe8",
+          "stroke": "#be185d",
+          "text": "#831843",
+          "weight": "700",
+          "rx": 3
+        },
+        "warn_box": {
+          "fill": "#fef3c7",
+          "stroke": "#d97706",
+          "text": "#92400e",
+          "weight": "700",
+          "rx": 3
+        }
+      },
+      "boxTextMap": {},
+      "callouts": null
+    },
+    "google": {
+      "button_label": "2. Google Cloud / SDN",
+      "title": "Project ZeST: Software-Defined Freight Network (Google Cloud / SDN Architecture)",
+      "subtitle": "Decoupling the Asynchronous Control Plane (Pub/Sub + eFTI State Bus) from the Synchronous Physical Packet-Switching Plane",
+      "badgeHeader1": "SDN Cut-Through",
+      "badgeHeader2": "Packet Breakeven SLA",
+      "badgeBg": "#1a73e8",
+      "badgeBorder": "#e8f0fe",
+      "badgeValColor": "#ffffff",
+      "ctrlLinkColor": "#9334e6",
+      "ctrlLinkDash": "4,3",
+      "secondaryRailColor": "#0284c7",
+      "laneThemes": {
+        "0": {
+          "bg": "#e8f0fe",
+          "label_bg": "#1a73e8",
+          "textColor": "#ffffff",
+          "borderColor": "#93c5fd"
+        },
+        "4": {
+          "bg": "#dbeafe",
+          "label_bg": "#1e40af",
+          "textColor": "#ffffff",
+          "borderColor": "#93c5fd"
+        },
+        "7": {
+          "bg": "#e0f2fe",
+          "label_bg": "#0369a1",
+          "textColor": "#ffffff",
+          "borderColor": "#7dd3fc"
+        },
+        "even": {
+          "bg": "#f8fafc",
+          "label_bg": "#f1f5f9",
+          "textColor": "#1e293b",
+          "borderColor": "#e2e8f0"
+        },
+        "odd": {
+          "bg": "#ffffff",
+          "label_bg": "#e2e8f0",
+          "textColor": "#1e293b",
+          "borderColor": "#e2e8f0"
+        }
+      },
+      "laneNames": [
+        "Control Plane (Pub/Sub)\nAsync State & Token Bus",
+        "Edge Producer\n(Origin Shipper Node)",
+        "Ingress Buffer Queue\n(Origin Yard Staging)",
+        "Origin BGP Ingress\n(4th-Tensor Stowage)",
+        "Long-Haul WAN Pipe\n(120h Maritime Transit)",
+        "Destination BGP Router\n(Quayside Optical Demux)",
+        "L2/L3 Switch Buffer\n(Terminal Yard / Fast-Path)",
+        "Core Optical Backbone\n(100G MPLS Rail Trunk)",
+        "Core LSR Switch 1\n(Cut-Through Node A)",
+        "Egress Access Switch 2\n(Subnet Node B)",
+        "Last-Mile Edge Fleet\n(Auto-Scaled Drayage)",
+        "Consumer Endpoint\n(195 km Subnet SLA)"
+      ],
+      "boxStyles": {
+        "std": {
+          "fill": "#ffffff",
+          "stroke": "#5f6368",
+          "text": "#202124",
+          "weight": "600",
+          "rx": 12
+        },
+        "red_text": {
+          "fill": "#fce8e6",
+          "stroke": "#d93025",
+          "text": "#c5221f",
+          "weight": "700",
+          "rx": 12
+        },
+        "light_red": {
+          "fill": "#fad2cf",
+          "stroke": "#d93025",
+          "text": "#a50e0e",
+          "weight": "700",
+          "rx": 12
+        },
+        "grey_box": {
+          "fill": "#f1f3f4",
+          "stroke": "#5f6368",
+          "text": "#202124",
+          "weight": "600",
+          "rx": 12
+        },
+        "blue_box": {
+          "fill": "#1a73e8",
+          "stroke": "#174ea6",
+          "text": "#ffffff",
+          "weight": "700",
+          "rx": 12
+        },
+        "dark_box": {
+          "fill": "#0369a1",
+          "stroke": "#075985",
+          "text": "#ffffff",
+          "weight": "700",
+          "rx": 12
+        },
+        "green_box": {
+          "fill": "#e6f4ea",
+          "stroke": "#1e8e3e",
+          "text": "#137333",
+          "weight": "700",
+          "rx": 12
+        },
+        "green_solid": {
+          "fill": "#1e8e3e",
+          "stroke": "#0d652d",
+          "text": "#ffffff",
+          "weight": "800",
+          "rx": 12
+        },
+        "db_box": {
+          "fill": "#e8f0fe",
+          "stroke": "#1a73e8",
+          "text": "#174ea6",
+          "weight": "800",
+          "rx": 12
+        },
+        "sort_box": {
+          "fill": "#f3e8fd",
+          "stroke": "#9334e6",
+          "text": "#681da8",
+          "weight": "800",
+          "rx": 12
+        },
+        "pool_box": {
+          "fill": "#fef7e0",
+          "stroke": "#f29900",
+          "text": "#b06000",
+          "weight": "700",
+          "rx": 12
+        },
+        "warn_box": {
+          "fill": "#fef7e0",
+          "stroke": "#ea8600",
+          "text": "#b06000",
+          "weight": "700",
+          "rx": 12
+        }
+      },
+      "boxTextMap": {
+        "Register": "Pub/Sub Ingest",
+        "Update": "State Commit",
+        "eFTI Database": "State Twin DB",
+        "eFTI Token DB": "T-5 Token Bus",
+        "Origin eFTI DB": "Origin State DB",
+        "EU SDN Token DB": "SDN Routing DB",
+        "Origination": "Packet Init",
+        "Aggregate": "Blocking Queue",
+        "Exception Tail": "Exception Queue",
+        "SORT": "O(1) Hash Demux",
+        "Load": "Frame Mux",
+        "Batch Load": "Tensor Mux",
+        "Ocean Transit": "WAN Frame Pipe",
+        "Zone-Stowed Ship": "Pre-Hashed Frame",
+        "UnLoad": "Ingress Demux",
+        "Batch UnLoad": "O(1) Cut-Through",
+        "Make": "Consist Build",
+        "Direct Make": "Zero-Copy Mux",
+        "Rail Transit": "MPLS Wavelength",
+        "Transition": "LSR Switch",
+        "Pass-Thru": "Zero-Shunt Pass",
+        "Truck Pool": "Auto-Scale Pool",
+        "OTR Trucking": "Edge Routing",
+        "195km Drayage": "195km Edge LAN",
+        "Delivery": "ACK / Delivered"
+      },
+      "callouts": {
+        "phase_1": [
+          {
+            "x": 585,
+            "y": 50,
+            "w": 285,
+            "h": 165,
+            "title": "SDN Telemetry Audit: Coupled Store-and-Forward",
+            "lines": [
+              "1. Control Plane & Physical Plane are tightly coupled at T+0",
+              "2. Missing header metadata (customs/release) forces packet grounding",
+              "3. Seaport Yard acts as an O(N\u00b2) blocking buffer (57.39h mean dwell)",
+              "4. Each yard re-handle (2.4x) introduces stochastic jitter",
+              "5. Ad-hoc train assembly causes head-of-line blocking downstream"
+            ]
+          },
+          {
+            "x": 585,
+            "y": 235,
+            "w": 285,
+            "h": 95,
+            "title": "Queueing Theory Diagnosis",
+            "lines": [
+              "\u2022 Red 'Blocking Queue' nodes = unbounded tail latency (p99 > 96h).",
+              "\u2022 Unsorted consists require O(N) marshalling re-classification at LSR 1."
+            ]
+          },
+          {
+            "x": 455,
+            "y": 540,
+            "w": 235,
+            "h": 44,
+            "title": "Edge Egress Starvation",
+            "lines": [
+              "Uncoordinated edge drayage causes chassis starvation & gate congestion."
+            ]
+          }
+        ],
+        "phase_2": [
+          {
+            "x": 585,
+            "y": 50,
+            "w": 285,
+            "h": 165,
+            "title": "Control Plane Activation: Federated State Twin",
+            "lines": [
+              "1. Deploy always-on Pub/Sub Event Bus across all corridor nodes",
+              "2. Ingest container state vectors into federated Graph/Twin DB",
+              "3. Expose low-latency state webhooks to Inland LSR Switches",
+              "4. Pre-provision auto-scaled Chassis & Tractor pools at Egress nodes",
+              "5. Bound dry-port egress turn latency to <30 minutes"
+            ]
+          },
+          {
+            "x": 455,
+            "y": 540,
+            "w": 235,
+            "h": 48,
+            "title": "Warm-Pool Edge Orchestration",
+            "lines": [
+              "Pre-allocated Tractor & Chassis pools eliminate cold-start drayage latency at Egress Switches."
+            ]
+          }
+        ],
+        "phase_3": [
+          {
+            "x": 140,
+            "y": 165,
+            "w": 125,
+            "h": 75,
+            "title": "Ingress Frame Payload",
+            "lines": [
+              "2,792 TEU Burst",
+              "1,500 Packet Boxes",
+              "33x 740m Wavelengths"
+            ]
+          },
+          {
+            "x": 140,
+            "y": 350,
+            "w": 220,
+            "h": 115,
+            "title": "T-5 Pre-Computed Routing Table",
+            "lines": [
+              "\u2022 Routing token crystallized at T-120h on WAN pipe",
+              "\u2022 O(1) Hash Demux binds each box to a fixed wagon pin",
+              "\u2022 Consist framed into pure Zone-A & Zone-B blocks",
+              "\u2022 Eliminates marshalling table lookups at Core LSR"
+            ]
+          },
+          {
+            "x": 585,
+            "y": 50,
+            "w": 285,
+            "h": 165,
+            "title": "Deterministic TDM Slotting & Cut-Through",
+            "lines": [
+              "1. T-120h at Sea: Crystallize eFTI + NCTS cryptographic token",
+              "2. Ingress Demux: 4 STS cranes @ 32 moves/hr (11.72h burst)",
+              "3. Dispatch 33 deterministic 740m MPLS wavelength slots",
+              "4. T-2h Geofence webhook triggers edge truck pool dispatch",
+              "5. End-to-end jitter collapsed; rail breakeven drops to 320 km"
+            ]
+          },
+          {
+            "x": 675,
+            "y": 230,
+            "w": 255,
+            "h": 95,
+            "title": "Zero-Shunt Cut-Through at Core LSR 1",
+            "lines": [
+              "\u2022 Pre-grouped packet blocks decouple in <20 minutes",
+              "\u2022 Zero marshalling re-classification (O(1) pass-through)",
+              "\u2022 Node B wavelength segment bypasses yard stack completely"
+            ]
+          }
+        ],
+        "phase_4": [
+          {
+            "x": 575,
+            "y": 50,
+            "w": 295,
+            "h": 155,
+            "title": "Full SDN Cut-Through: Origin Tensor Pre-Hashing",
+            "lines": [
+              "1. Push O(1) Hash Demux upstream to Origin BGP Ingress",
+              "   via 4th-Tensor Weight-Zone Equivalence Classes",
+              "2. Maritime frame arrives pre-segmented by Egress Subnet",
+              "3. Zero-copy cut-through from Quayside STS straight to Rail",
+              "   (57.39h buffer eliminated -> 4.43h cut-through latency)",
+              "4. Uncrystallized packets routed to isolated Exception Queue"
+            ]
+          },
+          {
+            "x": 140,
+            "y": 350,
+            "w": 220,
+            "h": 115,
+            "title": "Optical Cut-Through Metrics",
+            "lines": [
+              "\u2022 0.28h control-plane token verification buffer",
+              "\u2022 20\u201330% reduction in vessel ingress port occupancy",
+              "\u2022 0 physical yard re-handles on fast-path packets",
+              "\u2022 100% isolation of dirty-data / customs-hold tail"
+            ]
+          },
+          {
+            "x": 140,
+            "y": 500,
+            "w": 265,
+            "h": 52,
+            "title": "WAN Offload Complete",
+            "lines": [
+              "Long-haul road traffic offloaded to MPLS rail spine; Seaport road egress restricted to local subnet & exception tail."
+            ]
+          }
+        ]
+      }
+    },
+    "eu": {
+      "button_label": "3. EU TEN-T / Fraunhofer",
+      "title": "Project ZeST: TEN-T Multimodal Digital Corridor Architecture (EU / Fraunhofer Style)",
+      "subtitle": "Operationalizing Regulation (EU) 2020/1056 (eFTI), UCC NCTS Phase 5 & TEN-T (EU) 2024/1679 for CEF III Modal Shift",
+      "badgeHeader1": "TEN-T Modal Shift",
+      "badgeHeader2": "Rail-vs-Road Breakeven",
+      "badgeBg": "#003399",
+      "badgeBorder": "#ffcc00",
+      "badgeValColor": "#ffcc00",
+      "ctrlLinkColor": "#003399",
+      "ctrlLinkDash": "",
+      "secondaryRailColor": "#d97706",
+      "laneThemes": {
+        "0": {
+          "bg": "#fef9c3",
+          "label_bg": "#003399",
+          "textColor": "#ffcc00",
+          "borderColor": "#eab308"
+        },
+        "4": {
+          "bg": "#dbeafe",
+          "label_bg": "#002266",
+          "textColor": "#ffffff",
+          "borderColor": "#93c5fd"
+        },
+        "7": {
+          "bg": "#e0f2f1",
+          "label_bg": "#004d40",
+          "textColor": "#ffffff",
+          "borderColor": "#80cbc4"
+        },
+        "even": {
+          "bg": "#f1f5f9",
+          "label_bg": "#cbd5e1",
+          "textColor": "#0f172a",
+          "borderColor": "#cbd5e1"
+        },
+        "odd": {
+          "bg": "#ffffff",
+          "label_bg": "#dde6f0",
+          "textColor": "#0f172a",
+          "borderColor": "#cbd5e1"
+        }
+      },
+      "laneNames": [
+        "EU eFTI / PCS Federation\n(Reg. EU 2020/1056 Gate)",
+        "Third-Country Consignor\n(Origin Exporter)",
+        "Origin Port Staging\n(Pre-Loading Consolidation)",
+        "Third-Country Port\n(CSPP Stability Stowage)",
+        "Maritime Deep-Sea Leg\n(T-5 ICS2 / NCTS Window)",
+        "EU Core Maritime Port\n(Maasvlakte II / Antwerp)",
+        "Port Terminal Buffer\n(Customs & Rail Transfer)",
+        "TEN-T Core Rail Spine\n(740m ERTMS / P400 Trunk)",
+        "Core Trimodal Megahub\n(Duisburg / Mannheim Node)",
+        "Central/East Dry Port\n(Vienna / Prague / Budapest)",
+        "Regional Zero-Emission\n(195 km Catchment Drayage)",
+        "EU Industrial Consignee\n(Final Multimodal Delivery)"
+      ],
+      "boxStyles": {
+        "std": {
+          "fill": "#ffffff",
+          "stroke": "#334155",
+          "text": "#0f172a",
+          "weight": "600",
+          "rx": 4
+        },
+        "red_text": {
+          "fill": "#fff1f2",
+          "stroke": "#be123c",
+          "text": "#be123c",
+          "weight": "700",
+          "rx": 4
+        },
+        "light_red": {
+          "fill": "#ffe4e6",
+          "stroke": "#be123c",
+          "text": "#881337",
+          "weight": "700",
+          "rx": 4
+        },
+        "grey_box": {
+          "fill": "#e2e8f0",
+          "stroke": "#334155",
+          "text": "#0f172a",
+          "weight": "600",
+          "rx": 4
+        },
+        "blue_box": {
+          "fill": "#003399",
+          "stroke": "#ffcc00",
+          "text": "#ffffff",
+          "weight": "700",
+          "rx": 4
+        },
+        "dark_box": {
+          "fill": "#004d40",
+          "stroke": "#00251a",
+          "text": "#ffffff",
+          "weight": "700",
+          "rx": 4
+        },
+        "green_box": {
+          "fill": "#ccfbf1",
+          "stroke": "#0f766e",
+          "text": "#115e59",
+          "weight": "700",
+          "rx": 4
+        },
+        "green_solid": {
+          "fill": "#0d9488",
+          "stroke": "#115e59",
+          "text": "#ffffff",
+          "weight": "800",
+          "rx": 4
+        },
+        "db_box": {
+          "fill": "#003399",
+          "stroke": "#eab308",
+          "text": "#ffcc00",
+          "weight": "800",
+          "rx": 4
+        },
+        "sort_box": {
+          "fill": "#fef08a",
+          "stroke": "#003399",
+          "text": "#003399",
+          "weight": "800",
+          "rx": 4
+        },
+        "pool_box": {
+          "fill": "#e0e7ff",
+          "stroke": "#1d4ed8",
+          "text": "#1e3a8a",
+          "weight": "700",
+          "rx": 4
+        },
+        "warn_box": {
+          "fill": "#fef3c7",
+          "stroke": "#b45309",
+          "text": "#78350f",
+          "weight": "700",
+          "rx": 4
+        }
+      },
+      "boxTextMap": {
+        "Register": "ICS2 / B/L Filing",
+        "Update": "eFTI Archive",
+        "eFTI Database": "NAP / PCS Node",
+        "eFTI Token DB": "eFTI + NCTS Token",
+        "Origin eFTI DB": "Origin PCS Gate",
+        "EU SDN Token DB": "EU eFTI Gate",
+        "Origination": "Export Consignment",
+        "Aggregate": "Stacking Dwell",
+        "Exception Tail": "Customs Hold Tail",
+        "SORT": "Zone-Weight Sort",
+        "Load": "Vessel Stowage",
+        "Batch Load": "Zone Bay Stow",
+        "Ocean Transit": "Deep-Sea Voyage",
+        "Zone-Stowed Ship": "Zone-Stowed ULCV",
+        "UnLoad": "STS Discharge",
+        "Batch UnLoad": "Direct STS-to-Rail",
+        "Make": "740m Formation",
+        "Direct Make": "Green-Wave Consist",
+        "Rail Transit": "RFC Corridor Slot",
+        "Transition": "Marshalling Stop",
+        "Pass-Thru": "Zero-Shunt Relay",
+        "Truck Pool": "Clean Dray Pool",
+        "OTR Trucking": "Long-Haul HGV",
+        "195km Drayage": "195km EV Drayage",
+        "Delivery": "Consignee POD"
+      },
+      "callouts": {
+        "phase_1": [
+          {
+            "x": 585,
+            "y": 50,
+            "w": 285,
+            "h": 165,
+            "title": "Baseline TEN-T Assessment: Administrative & Yard Friction",
+            "lines": [
+              "1. Sequential paper/PDF workflows delay customs & PCS release until T+0",
+              "2. Deep-sea terminals absorb 57.39h mean dwell & 2.4 crane re-handles",
+              "3. Ad-hoc rail path requests under-utilize bottlenecked TEN-T tracks",
+              "4. Cross-border marshalling stops erode rail competitiveness vs. HGV",
+              "5. Rail only competes above 750 km, missing EU Green Deal targets"
+            ]
+          },
+          {
+            "x": 585,
+            "y": 235,
+            "w": 285,
+            "h": 95,
+            "title": "Structural Corridor Bottlenecks",
+            "lines": [
+              "\u2022 Red 'Stacking Dwell' consumes scarce port land & berth capacity.",
+              "\u2022 Mixed consists require 18\u201324h reclassification at inland marshalling yards."
+            ]
+          },
+          {
+            "x": 455,
+            "y": 540,
+            "w": 235,
+            "h": 44,
+            "title": "Driver Shortage Exposure",
+            "lines": [
+              "Long-haul HGV drayage from seaports exacerbates EU driver shortage & highway congestion."
+            ]
+          }
+        ],
+        "phase_2": [
+          {
+            "x": 585,
+            "y": 50,
+            "w": 285,
+            "h": 165,
+            "title": "Phase 2: Federated PCS & Regional Drayage Pools",
+            "lines": [
+              "1. Interconnect Port Community Systems (Portbase) with Inland Hubs",
+              "2. Standardize electronic freight data exchange ahead of Jul 2027 eFTI mandate",
+              "3. Establish dedicated chassis & zero-emission tractor pools at dry ports",
+              "4. Guarantee <30 min gate turnaround at inland trimodal terminals",
+              "5. Shift medium-distance corridor volumes from HGV to rail (550 km breakeven)"
+            ]
+          },
+          {
+            "x": 455,
+            "y": 540,
+            "w": 235,
+            "h": 48,
+            "title": "Regional Driver Retention",
+            "lines": [
+              "Dedicated inland drayage pools enable predictable regional shuttle shifts (<195 km radius)."
+            ]
+          }
+        ],
+        "phase_3": [
+          {
+            "x": 140,
+            "y": 165,
+            "w": 125,
+            "h": 75,
+            "title": "ULCV Rail Call Benchmark",
+            "lines": [
+              "2,792 TEU Rail Call",
+              "1,500 Containers",
+              "33x 740m Block Trains"
+            ]
+          },
+          {
+            "x": 140,
+            "y": 350,
+            "w": 220,
+            "h": 115,
+            "title": "T-5 eFTI & NCTS Pre-Clearance",
+            "lines": [
+              "\u2022 EU 2020/1056 eFTI token validated 120h before berth",
+              "\u2022 UCC NCTS Phase 5 T1 transit customs pre-cleared at sea",
+              "\u2022 TAF-TSI wagon allocation locked prior to STS discharge",
+              "\u2022 Pure single-zone consists formed for Duisburg, Vienna & Budapest"
+            ]
+          },
+          {
+            "x": 585,
+            "y": 50,
+            "w": 285,
+            "h": 165,
+            "title": "CEF III Software Multiplier on Existing Steel",
+            "lines": [
+              "1. T-5 Days at Sea: Crystallize eFTI, ICS2, NCTS T1 & rail slot token",
+              "2. Quayside Discharge: 4 STS cranes @ 32 moves/hr (11.72h cohort)",
+              "3. Dispatch 33 synchronized 740m block trains on ERTMS green-wave slots",
+              "4. Extract +24% effective capacity on Emmerich\u2013Oberhausen & Karlsruhe\u2013Basel",
+              "5. Decades ahead of 2035+ civil works completion"
+            ]
+          },
+          {
+            "x": 675,
+            "y": 230,
+            "w": 255,
+            "h": 95,
+            "title": "Zero-Shunt Corridor Relay (TEN-T Article 19)",
+            "lines": [
+              "\u2022 Block trains bypass intermediate marshalling humps completely",
+              "\u2022 20-minute block decouple at Core Hub; downstream block passes through",
+              "\u2022 Eliminates border administrative dwell across DE/AT/CZ/PL/HU/RO"
+            ]
+          }
+        ],
+        "phase_4": [
+          {
+            "x": 575,
+            "y": 50,
+            "w": 295,
+            "h": 155,
+            "title": "Phase 4: Full ZeST \u2014 Origin Zone-Stowage & Direct Transfer",
+            "lines": [
+              "1. Origin stowage grouped by EU Inland Zone + Weight Class",
+              "   (4th-Tensor CSPP preserves full vessel hydrostatic stability)",
+              "2. ULCV unloads BY BATCH directly onto on-dock 740m rail consists",
+              "3. Seaport dwell collapses from 57.39h to 4.43h (0 yard re-handles)",
+              "4. Non-compliant / customs-flagged tail isolated to Exception Buffer"
+            ]
+          },
+          {
+            "x": 140,
+            "y": 350,
+            "w": 220,
+            "h": 115,
+            "title": "Port & Climate Impact (EU Green Deal)",
+            "lines": [
+              "\u2022 20\u201330% reduction in gross mega-ship berth time",
+              "\u2022 Rail-over-road breakeven collapses to 195 km",
+              "\u2022 Displaces long-haul HGV & short-haul intra-EU air freight",
+              "\u2022 Immediately deployable under CEF III Digital Transport priorities"
+            ]
+          },
+          {
+            "x": 140,
+            "y": 500,
+            "w": 265,
+            "h": 52,
+            "title": "Port Hinterland De-Congestion",
+            "lines": [
+              "Seaport HGV gate traffic restricted to local port-city zone & expedited exceptions only."
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "phases": [
+    {
+      "id": "phase_1",
+      "tab_label": "Phase 1: Legacy Baseline (750 km)",
+      "breakeven": "750 km",
+      "breakeven_sub": "(~465 mi Legacy EU Baseline)",
+      "dwell_kpi": "57.39h Seaport Dwell | 2.4 Re-Handles",
+      "boxes": [
+        {
+          "id": "reg",
+          "lane": 0,
+          "x": 200,
+          "w": 85,
+          "text": "Register",
+          "style": "std"
+        },
+        {
+          "id": "upd",
+          "lane": 0,
+          "x": 960,
+          "w": 85,
+          "text": "Update",
+          "style": "std"
+        },
+        {
+          "id": "orig",
+          "lane": 1,
+          "x": 140,
+          "w": 95,
+          "text": "Origination",
+          "style": "std"
+        },
+        {
+          "id": "agg1",
+          "lane": 2,
+          "x": 140,
+          "w": 95,
+          "text": "Aggregate",
+          "style": "red_text"
+        },
+        {
+          "id": "load",
+          "lane": 3,
+          "x": 300,
+          "w": 85,
+          "text": "Load",
+          "style": "grey_box"
+        },
+        {
+          "id": "ocean",
+          "lane": 4,
+          "x": 280,
+          "w": 125,
+          "text": "Ocean Transit",
+          "style": "blue_box"
+        },
+        {
+          "id": "unload",
+          "lane": 5,
+          "x": 295,
+          "w": 95,
+          "text": "UnLoad",
+          "style": "light_red"
+        },
+        {
+          "id": "agg2",
+          "lane": 6,
+          "x": 295,
+          "w": 95,
+          "text": "Aggregate",
+          "style": "red_text"
+        },
+        {
+          "id": "make1",
+          "lane": 6,
+          "x": 465,
+          "w": 80,
+          "text": "Make",
+          "style": "grey_box"
+        },
+        {
+          "id": "rail1",
+          "lane": 7,
+          "x": 500,
+          "w": 100,
+          "text": "Rail Transit",
+          "style": "dark_box"
+        },
+        {
+          "id": "rail2",
+          "lane": 7,
+          "x": 695,
+          "w": 100,
+          "text": "Rail Transit",
+          "style": "dark_box"
+        },
+        {
+          "id": "trans1",
+          "lane": 8,
+          "x": 545,
+          "w": 95,
+          "text": "Transition",
+          "style": "red_text"
+        },
+        {
+          "id": "make2",
+          "lane": 8,
+          "x": 645,
+          "w": 75,
+          "text": "Make",
+          "style": "green_box"
+        },
+        {
+          "id": "trans2",
+          "lane": 9,
+          "x": 705,
+          "w": 95,
+          "text": "Transition",
+          "style": "red_text"
+        },
+        {
+          "id": "otr",
+          "lane": 10,
+          "x": 695,
+          "w": 115,
+          "text": "OTR Trucking",
+          "style": "std"
+        },
+        {
+          "id": "deliv",
+          "lane": 11,
+          "x": 765,
+          "w": 95,
+          "text": "Delivery",
+          "style": "green_solid"
+        }
+      ],
+      "links": [
+        {
+          "from": "orig",
+          "to": "reg",
+          "type": "data",
+          "orth": "vh"
+        },
+        {
+          "from": "reg",
+          "to": "upd",
+          "type": "data",
+          "orth": "h"
+        },
+        {
+          "from": "load",
+          "to": "reg",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "unload",
+          "to": "reg",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "make1",
+          "to": "reg",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "trans1",
+          "to": "reg",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "otr",
+          "to": "reg",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "deliv",
+          "to": "upd",
+          "type": "data",
+          "orth": "hv"
+        },
+        {
+          "from": "orig",
+          "to": "agg1",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "agg1",
+          "to": "load",
+          "type": "phys",
+          "orth": "hv"
+        },
+        {
+          "from": "load",
+          "to": "ocean",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "ocean",
+          "to": "unload",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "unload",
+          "to": "agg2",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "agg2",
+          "to": "make1",
+          "type": "phys",
+          "orth": "h"
+        },
+        {
+          "from": "agg2",
+          "to": "otr",
+          "type": "phys_heavy",
+          "orth": "vh",
+          "label": "Heavy Long-Haul Seaport OTR"
+        },
+        {
+          "from": "make1",
+          "to": "rail1",
+          "type": "phys",
+          "orth": "vh"
+        },
+        {
+          "from": "rail1",
+          "to": "trans1",
+          "type": "phys",
+          "orth": "vh"
+        },
+        {
+          "from": "trans1",
+          "to": "make2",
+          "type": "phys",
+          "orth": "h"
+        },
+        {
+          "from": "make2",
+          "to": "rail2",
+          "type": "phys_yellow",
+          "orth": "vh"
+        },
+        {
+          "from": "rail2",
+          "to": "trans2",
+          "type": "phys_yellow",
+          "orth": "v"
+        },
+        {
+          "from": "trans1",
+          "to": "otr",
+          "type": "phys",
+          "orth": "vh"
+        },
+        {
+          "from": "trans2",
+          "to": "otr",
+          "type": "phys_yellow",
+          "orth": "v"
+        },
+        {
+          "from": "otr",
+          "to": "deliv",
+          "type": "phys",
+          "orth": "vh"
+        }
+      ],
+      "callouts": [
+        {
+          "x": 605,
+          "y": 55,
+          "w": 265,
+          "h": 170,
+          "title": "Phase 1: Baseline Site Survey & Batch Audit",
+          "lines": [
+            "1. Map existing End-to-End Intermodal process",
+            "2. Confirm access to container registry at each step",
+            "3. Focus on areas where we control our own destiny",
+            "4. Compare Intermodal to sequential industrial batch flow",
+            "5. Formulate vision of decoupled cut-through process",
+            "6. Target Low- / No-Capital process improvements first"
+          ]
+        },
+        {
+          "x": 605,
+          "y": 240,
+          "w": 265,
+          "h": 95,
+          "title": "Key Bottleneck Diagnosis",
+          "lines": [
+            "1. Red 'Aggregate' points = pure queueing latency (57.39h dwell & 2.4 yard re-handles at Seaport).",
+            "2. 'Transition' points require marshalling & re-sorting."
+          ]
+        },
+        {
+          "x": 465,
+          "y": 545,
+          "w": 225,
+          "h": 42,
+          "title": "Drayage Constraint",
+          "lines": [
+            "The pool of trucks, chassis & drivers matters in all cases."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase_2",
+      "tab_label": "Phase 2: Control Plane & Truck Pools (550 km)",
+      "breakeven": "550 km",
+      "breakeven_sub": "(Inland Quick-Turn Enabled)",
+      "dwell_kpi": "Data Link Works: Always | Managed Dry-Port Drayage",
+      "boxes": [
+        {
+          "id": "reg",
+          "lane": 0,
+          "x": 200,
+          "w": 85,
+          "text": "Register",
+          "style": "std"
+        },
+        {
+          "id": "db",
+          "lane": 0,
+          "x": 415,
+          "w": 105,
+          "text": "eFTI Database",
+          "style": "db_box"
+        },
+        {
+          "id": "upd",
+          "lane": 0,
+          "x": 960,
+          "w": 85,
+          "text": "Update",
+          "style": "std"
+        },
+        {
+          "id": "orig",
+          "lane": 1,
+          "x": 140,
+          "w": 95,
+          "text": "Origination",
+          "style": "std"
+        },
+        {
+          "id": "agg1",
+          "lane": 2,
+          "x": 140,
+          "w": 95,
+          "text": "Aggregate",
+          "style": "red_text"
+        },
+        {
+          "id": "load",
+          "lane": 3,
+          "x": 300,
+          "w": 85,
+          "text": "Load",
+          "style": "grey_box"
+        },
+        {
+          "id": "ocean",
+          "lane": 4,
+          "x": 280,
+          "w": 125,
+          "text": "Ocean Transit",
+          "style": "blue_box"
+        },
+        {
+          "id": "unload",
+          "lane": 5,
+          "x": 295,
+          "w": 95,
+          "text": "UnLoad",
+          "style": "light_red"
+        },
+        {
+          "id": "agg2",
+          "lane": 6,
+          "x": 295,
+          "w": 95,
+          "text": "Aggregate",
+          "style": "red_text"
+        },
+        {
+          "id": "make1",
+          "lane": 6,
+          "x": 465,
+          "w": 80,
+          "text": "Make",
+          "style": "grey_box"
+        },
+        {
+          "id": "rail1",
+          "lane": 7,
+          "x": 500,
+          "w": 100,
+          "text": "Rail Transit",
+          "style": "dark_box"
+        },
+        {
+          "id": "rail2",
+          "lane": 7,
+          "x": 695,
+          "w": 100,
+          "text": "Rail Transit",
+          "style": "dark_box"
+        },
+        {
+          "id": "tpool1",
+          "lane": 8,
+          "x": 445,
+          "w": 80,
+          "text": "Truck Pool",
+          "style": "pool_box"
+        },
+        {
+          "id": "trans1",
+          "lane": 8,
+          "x": 555,
+          "w": 90,
+          "text": "Transition",
+          "style": "red_text"
+        },
+        {
+          "id": "make2",
+          "lane": 8,
+          "x": 655,
+          "w": 70,
+          "text": "Make",
+          "style": "green_box"
+        },
+        {
+          "id": "tpool2",
+          "lane": 9,
+          "x": 605,
+          "w": 80,
+          "text": "Truck Pool",
+          "style": "pool_box"
+        },
+        {
+          "id": "trans2",
+          "lane": 9,
+          "x": 715,
+          "w": 90,
+          "text": "Transition",
+          "style": "red_text"
+        },
+        {
+          "id": "otr",
+          "lane": 10,
+          "x": 695,
+          "w": 115,
+          "text": "OTR Trucking",
+          "style": "std"
+        },
+        {
+          "id": "deliv",
+          "lane": 11,
+          "x": 765,
+          "w": 95,
+          "text": "Delivery",
+          "style": "green_solid"
+        }
+      ],
+      "links": [
+        {
+          "from": "orig",
+          "to": "reg",
+          "type": "data",
+          "orth": "vh"
+        },
+        {
+          "from": "reg",
+          "to": "db",
+          "type": "data",
+          "orth": "h"
+        },
+        {
+          "from": "db",
+          "to": "upd",
+          "type": "data",
+          "orth": "h"
+        },
+        {
+          "from": "load",
+          "to": "db",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "unload",
+          "to": "db",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "make1",
+          "to": "db",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "trans1",
+          "to": "db",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "otr",
+          "to": "upd",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "deliv",
+          "to": "upd",
+          "type": "data",
+          "orth": "hv"
+        },
+        {
+          "from": "tpool1",
+          "to": "trans1",
+          "type": "pink_ctrl",
+          "orth": "h"
+        },
+        {
+          "from": "tpool1",
+          "to": "otr",
+          "type": "pink_ctrl",
+          "orth": "d"
+        },
+        {
+          "from": "tpool2",
+          "to": "trans2",
+          "type": "pink_ctrl",
+          "orth": "h"
+        },
+        {
+          "from": "tpool2",
+          "to": "otr",
+          "type": "pink_ctrl",
+          "orth": "d"
+        },
+        {
+          "from": "orig",
+          "to": "agg1",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "agg1",
+          "to": "load",
+          "type": "phys",
+          "orth": "hv"
+        },
+        {
+          "from": "load",
+          "to": "ocean",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "ocean",
+          "to": "unload",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "unload",
+          "to": "agg2",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "agg2",
+          "to": "make1",
+          "type": "phys",
+          "orth": "h"
+        },
+        {
+          "from": "agg2",
+          "to": "otr",
+          "type": "phys",
+          "orth": "vh"
+        },
+        {
+          "from": "make1",
+          "to": "rail1",
+          "type": "phys",
+          "orth": "vh"
+        },
+        {
+          "from": "rail1",
+          "to": "trans1",
+          "type": "phys",
+          "orth": "vh"
+        },
+        {
+          "from": "trans1",
+          "to": "make2",
+          "type": "phys",
+          "orth": "h"
+        },
+        {
+          "from": "make2",
+          "to": "rail2",
+          "type": "phys_yellow",
+          "orth": "vh"
+        },
+        {
+          "from": "rail2",
+          "to": "trans2",
+          "type": "phys_yellow",
+          "orth": "v"
+        },
+        {
+          "from": "trans1",
+          "to": "otr",
+          "type": "phys",
+          "orth": "vh"
+        },
+        {
+          "from": "trans2",
+          "to": "otr",
+          "type": "phys_yellow",
+          "orth": "v"
+        },
+        {
+          "from": "otr",
+          "to": "deliv",
+          "type": "phys",
+          "orth": "vh"
+        }
+      ],
+      "callouts": [
+        {
+          "x": 605,
+          "y": 55,
+          "w": 270,
+          "h": 165,
+          "title": "Phase 2: Statistical Control & Registry Database",
+          "lines": [
+            "1. Measure system timing & variability across all nodes",
+            "2. Establish federated eFTI / PCS Registry Database",
+            "3. Confirm Seaport & Dry Port real-time database access",
+            "4. Deploy dedicated Truck, Chassis & Driver Pools at Inland Ports 1 & 2",
+            "5. Execute PDCA cycles on dry-port gate turnaround"
+          ]
+        },
+        {
+          "x": 465,
+          "y": 540,
+          "w": 230,
+          "h": 48,
+          "title": "Inland Quick-Turn Enabled",
+          "lines": [
+            "Truck, Chassis & Driver Pool is adequate for <30 min quick-turn processing at the inland dry ports."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase_3",
+      "tab_label": "Phase 3: Seaport T-5 Sort & Scheduled Consists (320 km)",
+      "breakeven": "320 km",
+      "breakeven_sub": "(PoD Batch Sort + Pass-Through)",
+      "dwell_kpi": "T-5 Pre-Cleared Sort | Zero-Shunt Dry Port Pass-Through",
+      "boxes": [
+        {
+          "id": "reg",
+          "lane": 0,
+          "x": 195,
+          "w": 85,
+          "text": "Register",
+          "style": "std"
+        },
+        {
+          "id": "db",
+          "lane": 0,
+          "x": 395,
+          "w": 110,
+          "text": "eFTI Token DB",
+          "style": "db_box"
+        },
+        {
+          "id": "upd",
+          "lane": 0,
+          "x": 960,
+          "w": 85,
+          "text": "Update",
+          "style": "std"
+        },
+        {
+          "id": "orig",
+          "lane": 1,
+          "x": 140,
+          "w": 95,
+          "text": "Origination",
+          "style": "std"
+        },
+        {
+          "id": "agg1",
+          "lane": 2,
+          "x": 140,
+          "w": 95,
+          "text": "Aggregate",
+          "style": "red_text"
+        },
+        {
+          "id": "load",
+          "lane": 3,
+          "x": 280,
+          "w": 85,
+          "text": "Load",
+          "style": "grey_box"
+        },
+        {
+          "id": "ocean",
+          "lane": 4,
+          "x": 265,
+          "w": 125,
+          "text": "Ocean Transit",
+          "style": "blue_box"
+        },
+        {
+          "id": "unload",
+          "lane": 5,
+          "x": 265,
+          "w": 95,
+          "text": "UnLoad",
+          "style": "light_red"
+        },
+        {
+          "id": "agg2",
+          "lane": 6,
+          "x": 235,
+          "w": 95,
+          "text": "Aggregate",
+          "style": "red_text"
+        },
+        {
+          "id": "sortw",
+          "lane": 6,
+          "x": 387,
+          "w": 85,
+          "text": "SORT",
+          "style": "sort_box"
+        },
+        {
+          "id": "make1",
+          "lane": 6,
+          "x": 533,
+          "w": 90,
+          "text": "Make",
+          "style": "grey_box"
+        },
+        {
+          "id": "rail1",
+          "lane": 7,
+          "x": 530,
+          "w": 100,
+          "text": "Rail Transit",
+          "style": "dark_box"
+        },
+        {
+          "id": "rail2",
+          "lane": 7,
+          "x": 710,
+          "w": 100,
+          "text": "Rail Transit",
+          "style": "dark_box"
+        },
+        {
+          "id": "tpool1",
+          "lane": 8,
+          "x": 430,
+          "w": 85,
+          "text": "Truck Pool",
+          "style": "pool_box"
+        },
+        {
+          "id": "trans1",
+          "lane": 8,
+          "x": 555,
+          "w": 90,
+          "text": "Transition",
+          "style": "red_text"
+        },
+        {
+          "id": "make2",
+          "lane": 8,
+          "x": 665,
+          "w": 75,
+          "text": "Make",
+          "style": "green_box"
+        },
+        {
+          "id": "tpool2",
+          "lane": 9,
+          "x": 590,
+          "w": 85,
+          "text": "Truck Pool",
+          "style": "pool_box"
+        },
+        {
+          "id": "trans2",
+          "lane": 9,
+          "x": 715,
+          "w": 90,
+          "text": "Transition",
+          "style": "red_text"
+        },
+        {
+          "id": "otr",
+          "lane": 10,
+          "x": 695,
+          "w": 115,
+          "text": "OTR Trucking",
+          "style": "std"
+        },
+        {
+          "id": "deliv",
+          "lane": 11,
+          "x": 765,
+          "w": 95,
+          "text": "Delivery",
+          "style": "green_solid"
+        }
+      ],
+      "links": [
+        {
+          "from": "orig",
+          "to": "reg",
+          "type": "data",
+          "orth": "vh"
+        },
+        {
+          "from": "reg",
+          "to": "db",
+          "type": "data",
+          "orth": "h"
+        },
+        {
+          "from": "db",
+          "to": "upd",
+          "type": "data",
+          "orth": "h"
+        },
+        {
+          "from": "load",
+          "to": "db",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "unload",
+          "to": "db",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "make1",
+          "to": "db",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "trans1",
+          "to": "db",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "otr",
+          "to": "upd",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "deliv",
+          "to": "upd",
+          "type": "data",
+          "orth": "hv"
+        },
+        {
+          "from": "db",
+          "to": "agg2",
+          "type": "pink_ctrl",
+          "orth": "d",
+          "label": "T-5 Token"
+        },
+        {
+          "from": "db",
+          "to": "sortw",
+          "type": "pink_ctrl",
+          "orth": "d"
+        },
+        {
+          "from": "tpool1",
+          "to": "trans1",
+          "type": "pink_ctrl",
+          "orth": "h"
+        },
+        {
+          "from": "tpool1",
+          "to": "otr",
+          "type": "pink_ctrl",
+          "orth": "d"
+        },
+        {
+          "from": "tpool2",
+          "to": "trans2",
+          "type": "pink_ctrl",
+          "orth": "h"
+        },
+        {
+          "from": "tpool2",
+          "to": "otr",
+          "type": "pink_ctrl",
+          "orth": "d"
+        },
+        {
+          "from": "orig",
+          "to": "agg1",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "agg1",
+          "to": "load",
+          "type": "phys",
+          "orth": "hv"
+        },
+        {
+          "from": "load",
+          "to": "ocean",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "ocean",
+          "to": "unload",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "unload",
+          "to": "agg2",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "agg2",
+          "to": "sortw",
+          "type": "phys",
+          "orth": "h"
+        },
+        {
+          "from": "sortw",
+          "to": "make1",
+          "type": "phys",
+          "orth": "h"
+        },
+        {
+          "from": "agg2",
+          "to": "otr",
+          "type": "phys",
+          "orth": "vh"
+        },
+        {
+          "from": "make1",
+          "to": "rail1",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "rail1",
+          "to": "trans1",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "trans1",
+          "to": "make2",
+          "type": "phys",
+          "orth": "h"
+        },
+        {
+          "from": "make2",
+          "to": "rail2",
+          "type": "phys_yellow",
+          "orth": "vh"
+        },
+        {
+          "from": "rail2",
+          "to": "trans2",
+          "type": "phys_yellow",
+          "orth": "v"
+        },
+        {
+          "from": "trans1",
+          "to": "otr",
+          "type": "phys",
+          "orth": "vh"
+        },
+        {
+          "from": "trans2",
+          "to": "otr",
+          "type": "phys_yellow",
+          "orth": "v"
+        },
+        {
+          "from": "otr",
+          "to": "deliv",
+          "type": "phys",
+          "orth": "vh"
+        }
+      ],
+      "callouts": [
+        {
+          "x": 140,
+          "y": 165,
+          "w": 115,
+          "h": 75,
+          "title": "EU Mega-Ship Cohort",
+          "lines": [
+            "2,792 TEU Rail Cohort",
+            "1,500 Containers",
+            "33 Block Trains (740m)"
+          ]
+        },
+        {
+          "x": 140,
+          "y": 350,
+          "w": 220,
+          "h": 115,
+          "title": "PoD Sort & Batch \u2014 Go Live",
+          "lines": [
+            "\u2022 Yard configured for T-5 pre-cleared batching",
+            "\u2022 740m train loaded by Zone batch allocation",
+            "\u2022 Partial loads separated by railcar block",
+            "\u2022 All Zone A (Duisburg) boxes together",
+            "\u2022 All Zone B (Mannheim/Vienna) boxes together"
+          ]
+        },
+        {
+          "x": 595,
+          "y": 50,
+          "w": 275,
+          "h": 165,
+          "title": "Phase 3: Master Cadence & Scheduling",
+          "lines": [
+            "1. T-5 Days at Sea: Crystallize eFTI + NCTS T1 tokens",
+            "2. Vessel Discharge: 4 STS cranes @ 32 moves/hr",
+            "   = 11.72h per 1,500-box rail cohort",
+            "3. Schedule 33 fixed-slot 740m train departures",
+            "4. Synchronize corridor transit & T-2h geofence",
+            "5. Lock inland distribution & customer arrival window"
+          ]
+        },
+        {
+          "x": 675,
+          "y": 230,
+          "w": 255,
+          "h": 95,
+          "title": "Cut-Through Switch at Inland Port 1",
+          "lines": [
+            "\u2022 Train arrives sorted by destination block",
+            "\u2022 Simple decouple\u2013couple step (<20 min)",
+            "\u2022 Marshalling / shunting activity eliminated",
+            "\u2022 Zone B railcar segment is pure pass-through"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase_4",
+      "tab_label": "Phase 4: Full ZeST \u2014 Origin Pre-Sorted (195 km)",
+      "breakeven": "195 km",
+      "breakeven_sub": "(~120 mi ZeST Cut-Through Target)",
+      "dwell_kpi": "4.43h Seaport Dwell | 0 Re-Handles | 20\u201330% Berth Reduction",
+      "boxes": [
+        {
+          "id": "reg",
+          "lane": 0,
+          "x": 165,
+          "w": 80,
+          "text": "Register",
+          "style": "std"
+        },
+        {
+          "id": "db1",
+          "lane": 0,
+          "x": 275,
+          "w": 95,
+          "text": "Origin eFTI DB",
+          "style": "db_box"
+        },
+        {
+          "id": "db2",
+          "lane": 0,
+          "x": 425,
+          "w": 100,
+          "text": "EU SDN Token DB",
+          "style": "db_box"
+        },
+        {
+          "id": "upd",
+          "lane": 0,
+          "x": 960,
+          "w": 85,
+          "text": "Update",
+          "style": "std"
+        },
+        {
+          "id": "orig",
+          "lane": 1,
+          "x": 135,
+          "w": 90,
+          "text": "Origination",
+          "style": "std"
+        },
+        {
+          "id": "agg1",
+          "lane": 2,
+          "x": 135,
+          "w": 90,
+          "text": "Aggregate",
+          "style": "red_text"
+        },
+        {
+          "id": "sort1",
+          "lane": 2,
+          "x": 275,
+          "w": 85,
+          "text": "SORT",
+          "style": "sort_box"
+        },
+        {
+          "id": "load",
+          "lane": 3,
+          "x": 275,
+          "w": 85,
+          "text": "Batch Load",
+          "style": "grey_box"
+        },
+        {
+          "id": "ocean",
+          "lane": 4,
+          "x": 265,
+          "w": 135,
+          "text": "Zone-Stowed Ship",
+          "style": "blue_box"
+        },
+        {
+          "id": "unload",
+          "lane": 5,
+          "x": 265,
+          "w": 95,
+          "text": "Batch UnLoad",
+          "style": "green_box"
+        },
+        {
+          "id": "agg2",
+          "lane": 6,
+          "x": 235,
+          "w": 95,
+          "text": "Exception Tail",
+          "style": "warn_box"
+        },
+        {
+          "id": "sort2",
+          "lane": 6,
+          "x": 387,
+          "w": 85,
+          "text": "SORT",
+          "style": "sort_box"
+        },
+        {
+          "id": "make1",
+          "lane": 6,
+          "x": 533,
+          "w": 90,
+          "text": "Direct Make",
+          "style": "green_solid"
+        },
+        {
+          "id": "rail1",
+          "lane": 7,
+          "x": 530,
+          "w": 100,
+          "text": "Rail Transit",
+          "style": "dark_box"
+        },
+        {
+          "id": "rail2",
+          "lane": 7,
+          "x": 710,
+          "w": 100,
+          "text": "Rail Transit",
+          "style": "dark_box"
+        },
+        {
+          "id": "tpool1",
+          "lane": 8,
+          "x": 430,
+          "w": 85,
+          "text": "Truck Pool",
+          "style": "pool_box"
+        },
+        {
+          "id": "trans1",
+          "lane": 8,
+          "x": 555,
+          "w": 90,
+          "text": "Transition",
+          "style": "green_box"
+        },
+        {
+          "id": "make2",
+          "lane": 8,
+          "x": 665,
+          "w": 75,
+          "text": "Pass-Thru",
+          "style": "green_box"
+        },
+        {
+          "id": "tpool2",
+          "lane": 9,
+          "x": 590,
+          "w": 85,
+          "text": "Truck Pool",
+          "style": "pool_box"
+        },
+        {
+          "id": "trans2",
+          "lane": 9,
+          "x": 715,
+          "w": 90,
+          "text": "Transition",
+          "style": "green_box"
+        },
+        {
+          "id": "otr",
+          "lane": 10,
+          "x": 695,
+          "w": 115,
+          "text": "195km Drayage",
+          "style": "std"
+        },
+        {
+          "id": "deliv",
+          "lane": 11,
+          "x": 765,
+          "w": 95,
+          "text": "Delivery",
+          "style": "green_solid"
+        }
+      ],
+      "links": [
+        {
+          "from": "orig",
+          "to": "reg",
+          "type": "data",
+          "orth": "vh"
+        },
+        {
+          "from": "reg",
+          "to": "db1",
+          "type": "data",
+          "orth": "h"
+        },
+        {
+          "from": "db1",
+          "to": "db2",
+          "type": "data",
+          "orth": "h"
+        },
+        {
+          "from": "db2",
+          "to": "upd",
+          "type": "data",
+          "orth": "h"
+        },
+        {
+          "from": "load",
+          "to": "db1",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "unload",
+          "to": "db2",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "make1",
+          "to": "db2",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "trans1",
+          "to": "db2",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "otr",
+          "to": "upd",
+          "type": "data",
+          "orth": "v_up"
+        },
+        {
+          "from": "deliv",
+          "to": "upd",
+          "type": "data",
+          "orth": "hv"
+        },
+        {
+          "from": "db1",
+          "to": "agg1",
+          "type": "pink_ctrl",
+          "orth": "d"
+        },
+        {
+          "from": "db1",
+          "to": "sort1",
+          "type": "pink_ctrl",
+          "orth": "d",
+          "label": "4th-Tensor Stow"
+        },
+        {
+          "from": "db2",
+          "to": "sort2",
+          "type": "pink_ctrl",
+          "orth": "d",
+          "label": "0.28h Gate"
+        },
+        {
+          "from": "tpool1",
+          "to": "trans1",
+          "type": "pink_ctrl",
+          "orth": "h"
+        },
+        {
+          "from": "tpool1",
+          "to": "otr",
+          "type": "pink_ctrl",
+          "orth": "d"
+        },
+        {
+          "from": "tpool2",
+          "to": "trans2",
+          "type": "pink_ctrl",
+          "orth": "h"
+        },
+        {
+          "from": "tpool2",
+          "to": "otr",
+          "type": "pink_ctrl",
+          "orth": "d"
+        },
+        {
+          "from": "orig",
+          "to": "agg1",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "agg1",
+          "to": "sort1",
+          "type": "phys",
+          "orth": "h"
+        },
+        {
+          "from": "sort1",
+          "to": "load",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "load",
+          "to": "ocean",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "ocean",
+          "to": "unload",
+          "type": "phys",
+          "orth": "v"
+        },
+        {
+          "from": "unload",
+          "to": "sort2",
+          "type": "phys_fast",
+          "orth": "vh",
+          "label": "Quay-to-Rail (4.43h)"
+        },
+        {
+          "from": "unload",
+          "to": "agg2",
+          "type": "phys_dashed",
+          "orth": "v"
+        },
+        {
+          "from": "sort2",
+          "to": "make1",
+          "type": "phys_fast",
+          "orth": "h"
+        },
+        {
+          "from": "make1",
+          "to": "rail1",
+          "type": "phys_fast",
+          "orth": "v"
+        },
+        {
+          "from": "rail1",
+          "to": "trans1",
+          "type": "phys_fast",
+          "orth": "v"
+        },
+        {
+          "from": "trans1",
+          "to": "make2",
+          "type": "phys_fast",
+          "orth": "h"
+        },
+        {
+          "from": "make2",
+          "to": "rail2",
+          "type": "phys_yellow",
+          "orth": "vh"
+        },
+        {
+          "from": "rail2",
+          "to": "trans2",
+          "type": "phys_yellow",
+          "orth": "v"
+        },
+        {
+          "from": "trans1",
+          "to": "otr",
+          "type": "phys_fast",
+          "orth": "vh"
+        },
+        {
+          "from": "trans2",
+          "to": "otr",
+          "type": "phys_yellow",
+          "orth": "v"
+        },
+        {
+          "from": "otr",
+          "to": "deliv",
+          "type": "phys_fast",
+          "orth": "vh"
+        }
+      ],
+      "callouts": [
+        {
+          "x": 575,
+          "y": 50,
+          "w": 295,
+          "h": 150,
+          "title": "Phase 4: Full ZeST (Port of Origin Pre-Sorted)",
+          "lines": [
+            "1. Ship load sorted & batched at Port of Origin (SORT)",
+            "   using 4th-Tensor Weight-Zone Equivalence Classes",
+            "2. Vessel arrives segmented by EU Inland Destination Zone",
+            "3. Unloaded BY BATCH directly onto 740m Block Trains",
+            "   (57.39h stack eliminated -> 4.43h direct transfer)",
+            "4. Uncrystallized tail isolated to Exception Buffer"
+          ]
+        },
+        {
+          "x": 140,
+          "y": 350,
+          "w": 220,
+          "h": 115,
+          "title": "Zero-Stack Direct Transfer",
+          "lines": [
+            "\u2022 Ship unloaded BY BATCH to designated trains",
+            "\u2022 20\u201330% reduction in gross vessel berth time",
+            "\u2022 0 yard re-handles on pre-cleared containers",
+            "\u2022 Zone A & Zone B blocks depart on green-wave slots"
+          ]
+        },
+        {
+          "x": 140,
+          "y": 500,
+          "w": 265,
+          "h": 52,
+          "title": "Long-Haul Seaport OTR Eliminated",
+          "lines": [
+            "Trucking out of the Seaport is for Local port-city delivery and Expedited Exception Tail ONLY."
+          ]
+        }
+      ]
+    }
+  ]
+};
+        const canvasCfg = schema.metadata.canvas;
+        const LANE_H = canvasCfg.lane_height;
+        const SVG_W = canvasCfg.svg_width;
+        const SVG_H = schema.lanes.length * LANE_H;
+        const LABEL_COL_W = canvasCfg.label_col_width;
+        const BOX_H = canvasCfg.box_height;
+
+        let currentStyle = Object.keys(schema.personas)[0];
+        let currentMode = "phase_4";
+        let currentZoom = 100;
+
+        function adjustZoom(delta) {
+            currentZoom = Math.min(220, Math.max(55, currentZoom + delta));
+            applyZoom();
+        }
+
+        function resetZoom() {
+            currentZoom = 100;
+            applyZoom();
+        }
+
+        function applyZoom() {
+            document.getElementById("zoom-readout").textContent = currentZoom === 100 ? "Fit" : currentZoom + "%";
+            document.querySelectorAll("svg.swimlane-svg").forEach(svg => {
+                svg.style.maxHeight = currentZoom === 100 ? "78vh" : "none";
+                svg.style.width = currentZoom + "%";
+            });
+        }
+
+        window.addEventListener("wheel", (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                e.preventDefault();
+                adjustZoom(e.deltaY < 0 ? 10 : -10);
+            }
+        }, { passive: false });
+
+        function getLaneTheme(laneIdx, defaultLane, pCfg) {
+            if (!pCfg.laneThemes) {
+                return {
+                    bg: defaultLane.bg,
+                    label_bg: defaultLane.label_bg,
+                    textColor: defaultLane.dark ? "#ffffff" : "#0f172a",
+                    borderColor: "#cbd5e1"
+                };
+            }
+            if (pCfg.laneThemes[String(laneIdx)]) return pCfg.laneThemes[String(laneIdx)];
+            return laneIdx % 2 === 0 ? pCfg.laneThemes.even : pCfg.laneThemes.odd;
+        }
+
+        function getLinkStyle(type, pCfg) {
+            const styles = {
+                "data":        { color: "#2563eb", width: 1.8, dash: "" },
+                "pink_ctrl":   { color: pCfg.ctrlLinkColor, width: 2.3, dash: pCfg.ctrlLinkDash || "" },
+                "phys":        { color: "#1e3a8a", width: 2.2, dash: "" },
+                "phys_heavy":  { color: "#dc2626", width: 3.0, dash: "" },
+                "phys_fast":   { color: "#059669", width: 3.2, dash: "" },
+                "phys_yellow": { color: pCfg.secondaryRailColor, width: 2.5, dash: "" },
+                "phys_dashed": { color: "#d97706", width: 2.0, dash: "5,4" }
+            };
+            return styles[type] || styles["phys"];
+        }
+
+        function renderPhaseSVG(phase) {
+            const pCfg = schema.personas[currentStyle];
+            let svg = `<svg class="swimlane-svg" viewBox="0 0 ${SVG_W} ${SVG_H}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">`;
+
+            svg += `
+            <defs>
+                <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+                    <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.22"/>
+                </filter>
+                <marker id="arrow-data" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb"/>
+                </marker>
+                <marker id="arrow-pink_ctrl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="${pCfg.ctrlLinkColor}"/>
+                </marker>
+                <marker id="arrow-phys" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e3a8a"/>
+                </marker>
+                <marker id="arrow-phys_heavy" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#dc2626"/>
+                </marker>
+                <marker id="arrow-phys_fast" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669"/>
+                </marker>
+                <marker id="arrow-phys_yellow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="${pCfg.secondaryRailColor}"/>
+                </marker>
+                <marker id="arrow-phys_dashed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706"/>
+                </marker>
+            </defs>`;
+
+            schema.lanes.forEach((lane, i) => {
+                const y = i * LANE_H;
+                const theme = getLaneTheme(i, lane, pCfg);
+                const lines = (pCfg.laneNames[i] || lane.name).split("\n");
+
+                svg += `<rect x="0" y="${y}" width="${LABEL_COL_W}" height="${LANE_H}" fill="${theme.label_bg}" stroke="#64748b" stroke-width="0.8"/>`;
+                svg += `<rect x="${LABEL_COL_W}" y="${y}" width="${SVG_W - LABEL_COL_W}" height="${LANE_H}" fill="${theme.bg}" stroke="${theme.borderColor}" stroke-width="0.7"/>`;
+
+                lines.forEach((lineText, idx) => {
+                    const ty = y + (lines.length === 1 ? 28 : (idx === 0 ? 20 : 34));
+                    svg += `<text x="${LABEL_COL_W - 8}" y="${ty}" text-anchor="end" fill="${theme.textColor}" font-size="9.6" font-weight="${idx === 0 ? '700' : '500'}">${lineText}</text>`;
+                });
+            });
+
+            const boxMap = {};
+            phase.boxes.forEach(b => {
+                const y = b.lane * LANE_H + (LANE_H - BOX_H) / 2;
+                const mappedText = (pCfg.boxTextMap && pCfg.boxTextMap[b.text]) || b.text;
+                const widthAdjust = mappedText.length > 13 ? Math.max(b.w, mappedText.length * 6.5 + 14) : b.w;
+                boxMap[b.id] = {
+                    ...b,
+                    w: widthAdjust,
+                    displayText: mappedText,
+                    y: y,
+                    h: BOX_H,
+                    cx: b.x + widthAdjust / 2,
+                    cy: y + BOX_H / 2
+                };
+            });
+
+            phase.links.forEach(lk => {
+                const src = boxMap[lk.from];
+                const dst = boxMap[lk.to];
+                if (!src || !dst) return;
+
+                const st = getLinkStyle(lk.type, pCfg);
+                let d = "";
+
+                if (lk.orth === "h") {
+                    const x1 = src.cx < dst.cx ? src.x + src.w : src.x;
+                    const x2 = src.cx < dst.cx ? dst.x : dst.x + dst.w;
+                    d = `M ${x1} ${src.cy} L ${x2} ${dst.cy}`;
+                } else if (lk.orth === "v") {
+                    const y1 = src.cy < dst.cy ? src.y + src.h : src.y;
+                    const y2 = src.cy < dst.cy ? dst.y : dst.y + dst.h;
+                    d = `M ${src.cx} ${y1} L ${dst.cx} ${y2}`;
+                } else if (lk.orth === "vh") {
+                    const y1 = src.cy < dst.cy ? src.y + src.h : src.y;
+                    const x2 = src.cx < dst.cx ? dst.x : dst.x + dst.w;
+                    d = `M ${src.cx} ${y1} L ${src.cx} ${dst.cy} L ${x2} ${dst.cy}`;
+                } else if (lk.orth === "hv") {
+                    const x1 = src.cx < dst.cx ? src.x + src.w : src.x;
+                    const y2 = src.cy < dst.cy ? dst.y : dst.y + dst.h;
+                    d = `M ${x1} ${src.cy} L ${dst.cx} ${src.cy} L ${dst.cx} ${y2}`;
+                } else if (lk.orth === "v_up") {
+                    d = `M ${src.cx} ${src.y} L ${src.cx} 24`;
+                } else {
+                    const y1 = src.cy < dst.cy ? src.y + src.h : src.y;
+                    const y2 = src.cy < dst.cy ? dst.y : dst.y + dst.h;
+                    d = `M ${src.cx} ${y1} L ${dst.cx} ${y2}`;
+                }
+
+                const dashAttr = st.dash ? `stroke-dasharray="${st.dash}"` : "";
+                svg += `<path d="${d}" fill="none" stroke="${st.color}" stroke-width="${st.width}" ${dashAttr} marker-end="url(#arrow-${lk.type})"/>`;
+
+                if (lk.label) {
+                    const mx = (src.cx + dst.cx) / 2 + 5;
+                    const my = (src.cy + dst.cy) / 2;
+                    svg += `<rect x="${mx - 4}" y="${my - 9}" width="${lk.label.length * 5.4 + 8}" height="13" rx="3" fill="rgba(255,255,255,0.94)" stroke="${st.color}" stroke-width="0.8"/>`;
+                    svg += `<text x="${mx}" y="${my}" fill="${st.color}" font-size="8.8" font-weight="700">${lk.label}</text>`;
+                }
+            });
+
+            Object.values(boxMap).forEach(b => {
+                const st = pCfg.boxStyles[b.style] || pCfg.boxStyles["std"];
+                svg += `<rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" rx="${st.rx}" fill="${st.fill}" stroke="${st.stroke}" stroke-width="1.5" filter="url(#shadow)"/>`;
+                svg += `<text x="${b.cx}" y="${b.cy + 3.5}" text-anchor="middle" fill="${st.text}" font-size="10.2" font-weight="${st.weight}">${b.displayText}</text>`;
+            });
+
+            const activeCallouts = (pCfg.callouts && pCfg.callouts[phase.id]) ? pCfg.callouts[phase.id] : (phase.callouts || []);
+            activeCallouts.forEach(c => {
+                const linesHtml = c.lines.map(ln => `<div class="callout-line">${ln}</div>`).join("");
+                svg += `
+                <foreignObject x="${c.x}" y="${c.y * (LANE_H / 50)}" width="${c.w + 18}" height="${c.h + 14}">
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="callout-card callout-${currentStyle}">
+                        <div class="callout-title">${c.title}</div>
+                        ${linesHtml}
+                    </div>
+                </foreignObject>`;
+            });
+
+            svg += `
+            <g filter="url(#shadow)">
+                <rect x="922" y="60" width="146" height="72" rx="6" fill="${pCfg.badgeBg}" stroke="${pCfg.badgeBorder}" stroke-width="1.8"/>
+                <text x="995" y="79" text-anchor="middle" fill="#e2e8f0" font-size="9.5" font-weight="600">${pCfg.badgeHeader1}</text>
+                <text x="995" y="92" text-anchor="middle" fill="#e2e8f0" font-size="9.5" font-weight="600">${pCfg.badgeHeader2}</text>
+                <text x="995" y="113" text-anchor="middle" fill="${pCfg.badgeValColor}" font-size="15.5" font-weight="800">${phase.breakeven}</text>
+                <text x="995" y="125" text-anchor="middle" fill="#cbd5e1" font-size="8.2">${phase.breakeven_sub}</text>
+            </g></svg>`;
+            return svg;
+        }
+
+        function setStyle(styleKey) {
+            currentStyle = styleKey;
+            const pCfg = schema.personas[currentStyle];
+            document.getElementById("main-title").textContent = pCfg.title;
+            document.getElementById("main-subtitle").textContent = pCfg.subtitle;
+
+            Object.keys(schema.personas).forEach(k => {
+                const btn = document.getElementById("btn-style-" + k);
+                btn.className = "style-btn" + (k === styleKey ? " active-" + k : "");
+            });
+            selectView(currentMode);
+        }
+
+        function selectView(mode) {
+            currentMode = mode;
+            const root = document.getElementById("diagrams-root");
+            root.innerHTML = "";
+
+            document.querySelectorAll(".tab-btn").forEach(btn => {
+                btn.classList.toggle("active", btn.dataset.mode === mode);
+            });
+
+            const phasesToRender = mode === "all" ? schema.phases : schema.phases.filter(p => p.id === mode);
+            phasesToRender.forEach(p => {
+                const card = document.createElement("div");
+                card.className = "stage-container";
+                card.innerHTML = `
+                    <div class="stage-header">
+                        <div class="phase-name">${p.tab_label} — [${currentStyle.toUpperCase()} VIEW]</div>
+                        <div class="phase-kpi">${p.dwell_kpi}</div>
+                    </div>
+                    <div class="svg-viewport">${renderPhaseSVG(p)}</div>
+                `;
+                root.appendChild(card);
+            });
+            applyZoom();
+        }
+
+        const personaBar = document.getElementById("persona-controls");
+        Object.entries(schema.personas).forEach(([key, cfg]) => {
+            const b = document.createElement("button");
+            b.className = "style-btn";
+            b.id = "btn-style-" + key;
+            b.textContent = cfg.button_label;
+            b.onclick = () => setStyle(key);
+            personaBar.appendChild(b);
+        });
+
+        const ctrlBar = document.getElementById("tab-controls");
+        schema.phases.forEach(p => {
+            const b = document.createElement("button");
+            b.className = "tab-btn";
+            b.dataset.mode = p.id;
+            b.textContent = p.tab_label;
+            b.onclick = () => selectView(p.id);
+            ctrlBar.appendChild(b);
+        });
+
+        const allBtn = document.createElement("button");
+        allBtn.className = "tab-btn";
+        allBtn.dataset.mode = "all";
+        allBtn.textContent = "Show All 4 Phases";
+        allBtn.onclick = () => selectView("all");
+        ctrlBar.appendChild(allBtn);
+
+        setStyle(currentStyle);
+    </script>
+</body>
+</html>
