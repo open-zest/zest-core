@@ -418,6 +418,38 @@ async def serve_corridor_map():
     )
 
 
+@app.get("/swimlane", response_class=HTMLResponse)
+async def serve_swimlane():
+    p = REPO_ROOT / "docs" / "zest_swimlane_evolution.html"
+    if p.exists():
+        return HTMLResponse(content=p.read_text(encoding="utf-8"))
+    return HTMLResponse(content="<h1>Swimlane HTML not found</h1>", status_code=404)
+
+
+@app.get("/process", response_class=HTMLResponse)
+async def serve_process():
+    p = REPO_ROOT / "docs" / "zest_process_architecture.html"
+    if p.exists():
+        return HTMLResponse(content=p.read_text(encoding="utf-8"))
+    return HTMLResponse(content="<h1>Process Architecture HTML not found</h1>", status_code=404)
+
+
+@app.get("/hydrostatics", response_class=HTMLResponse)
+async def serve_hydrostatics():
+    p = REPO_ROOT / "docs" / "cspp_hydrostatic_feasibility.html"
+    if p.exists():
+        return HTMLResponse(content=p.read_text(encoding="utf-8"))
+    return HTMLResponse(content="<h1>Hydrostatic Feasibility HTML not found</h1>", status_code=404)
+
+
+@app.get("/cheatsheet", response_class=HTMLResponse)
+async def serve_cheatsheet():
+    p = REPO_ROOT / "docs" / "gui_presenter_cheatsheet.html"
+    if p.exists():
+        return HTMLResponse(content=p.read_text(encoding="utf-8"))
+    return HTMLResponse(content="<h1>GUI Cheat Sheet HTML not found</h1>", status_code=404)
+
+
 @app.get("/api/telemetry", response_class=JSONResponse)
 async def get_telemetry_snapshot(adoption_pct: float = Query(100.0, ge=0.0, le=100.0)):
     return JSONResponse(content=build_telemetry_snapshot(tick=1, adoption_pct=adoption_pct))

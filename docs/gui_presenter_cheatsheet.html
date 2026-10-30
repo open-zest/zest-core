@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project ZeST — 1-Page GUI Presenter Cheat Sheet</title>
+  <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+  <style>
+    body { background-color: #020617; color: #f8fafc; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    @media print {
+      body { background-color: #ffffff; color: #0f172a; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body class="p-4 md:p-6 max-w-7xl mx-auto space-y-4 text-xs">
+
+  <header class="bg-slate-900 border border-amber-500/60 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+    <div>
+      <div class="text-amber-400 font-bold uppercase tracking-widest mono">INTERMODAL EUROPE 2026 (ROTTERDAM) • PRESENTER FIELD GUIDE</div>
+      <h1 class="text-xl font-extrabold text-white mt-0.5">Project ZeST — 1-Page Executive GUI &amp; Architecture Cheat Sheet</h1>
+      <p class="text-slate-300 mt-0.5">Launch command: <code class="mono bg-slate-950 px-2 py-0.5 rounded text-emerald-300">uvicorn tools.dashboard.server:app --host 127.0.0.1 --port 8050 --reload</code></p>
+    </div>
+    <div class="flex flex-wrap gap-2 no-print">
+      <a href="/" class="px-3 py-1.5 rounded-lg font-bold bg-emerald-600 hover:bg-emerald-500 text-white">⬅ Back to Live Dashboard</a>
+      <button onclick="window.print()" class="px-3 py-1.5 rounded-lg font-bold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/50">🖨️ Print 1-Pager</button>
+    </div>
+  </header>
+
+  <section class="bg-slate-900/90 border border-slate-700 rounded-xl p-4">
+    <h2 class="text-sm font-extrabold uppercase tracking-wider text-sky-400 mono mb-2.5">1. The 90-Second Demo Choreography (5 Clicks)</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b border-slate-700 text-slate-400 mono uppercase">
+            <th class="py-1.5 px-2">Step</th>
+            <th class="py-1.5 px-2">Control to Click / Drag</th>
+            <th class="py-1.5 px-2">Visual Response on Screen</th>
+            <th class="py-1.5 px-2">Executive Punchline</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800">
+          <tr>
+            <td class="py-2 px-2 font-bold text-amber-300 mono">1. Paradigm Contrast</td>
+            <td class="py-2 px-2 font-semibold text-white">Top-Right View Mode:<br><span class="mono text-sky-300">Stacked ➔ Legacy ➔ ZeST</span></td>
+            <td class="py-2 px-2 text-slate-300">Isolates Red Legacy Bufferbloat (84.5% stack, 1.65 digs) vs. Green ZeST Cut-Through Switch (0.31h quayside, 0.00 digs).</td>
+            <td class="py-2 px-2 text-emerald-300">"5-high concrete yard stacks are router bufferbloat caused by late data. Resolving eFTI headers at T-5 days turns the port into a 0.31h cut-through switch."</td>
+          </tr>
+          <tr>
+            <td class="py-2 px-2 font-bold text-amber-300 mono">2. Day-1 Partial Rollout</td>
+            <td class="py-2 px-2 font-semibold text-white">Section 1 Slider (α_eFTI):<br><span class="mono text-sky-300">0% ➔ 25% ➔ 50% ➔ 100%</span></td>
+            <td class="py-2 px-2 text-slate-300">Pillar 3 Queue Collapse jumps non-linearly; Live Packet Table splits between green <span class="mono">CUT_THROUGH_AGV</span> and amber <span class="mono">FALLBACK_STACK</span>.</td>
+            <td class="py-2 px-2 text-emerald-300">"Because M/Ek/c port queuing is hyperbolic, <strong>just 50% Partial eFTI adoption collapses offshore anchorage waiting time by 47.1%</strong> (46.5 fleet hours saved)."</td>
+          </tr>
+          <tr>
+            <td class="py-2 px-2 font-bold text-amber-300 mono">3. Vessel Pre-Solver</td>
+            <td class="py-2 px-2 font-semibold text-white">Section 1 Vessel Cards:<br><span class="mono text-sky-300">Click BERTH_Q01 or Q04</span></td>
+            <td class="py-2 px-2 text-slate-300">Highlights selected ULCV (at quay or T-120h at Suez) and filters the 12-packet stream to that ship.</td>
+            <td class="py-2 px-2 text-emerald-300">"While EVER ALOT is 120h out at sea, 98.4% of its eFTI headers and wagon pins are locked. Gross ship berth time drops <strong>28.7% (54.0h ➔ 38.5h)</strong>."</td>
+          </tr>
+          <tr>
+            <td class="py-2 px-2 font-bold text-amber-300 mono">4. 740m Takt Consist</td>
+            <td class="py-2 px-2 font-semibold text-white">Section 4 Left (Rail Tracks):<br><span class="mono text-sky-300">Click TRK-02 or TRK-04</span></td>
+            <td class="py-2 px-2 text-slate-300">Filters packet table to the 36-wagon (740m) rake; shows <strong>96.8% MINLP utilization</strong> vs. 71.0% legacy fill.</td>
+            <td class="py-2 px-2 text-emerald-300">"Pre-known VGM weights let our MINLP solver pack 740m trains to 96.8% axle-load limit without a single yard shuffle, protecting passenger rail slots."</td>
+          </tr>
+          <tr>
+            <td class="py-2 px-2 font-bold text-amber-300 mono">5. EU Parity &amp; Air Shift</td>
+            <td class="py-2 px-2 font-semibold text-white">Section 4 Right (EU Zones):<br><span class="mono text-sky-300">Click ZONE_B (195km) or ZONE_F</span></td>
+            <td class="py-2 px-2 text-slate-300">Filters stream to Venlo (195km) or Budapest/Curtici (1280km); shows 15-min set-outs and Air Tonnes Diverted.</td>
+            <td class="py-2 px-2 text-emerald-300">"Zero port digs collapse rail break-even from <strong>540 km to 195 km</strong>, and σ &lt; 24h reliability pulls $4.50/kg air cargo back onto $0.25/kg rail (-97% CO₂)."</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <section class="bg-slate-900/90 border border-slate-700 rounded-xl p-4 space-y-2">
+      <h2 class="text-sm font-extrabold uppercase tracking-wider text-emerald-400 mono">2. Top-Bar Architecture Suite Tabs</h2>
+      <div class="space-y-1.5 text-slate-300">
+        <div><strong class="text-indigo-300 mono">🗺️ EU Map (/map):</strong> Pan-European, UK Channel Tunnel (to Scotland), and Italian spine (to Palermo) packet map with 3SI catchment halos.</div>
+        <div><strong class="text-teal-300 mono">🏊 3-in-1 Swimlane (/swimlane):</strong> Interactive persona toggle switching between <em>Panasonic VSM</em>, <em>Google SDN</em>, and <em>EU TEN-T / DG MOVE</em> vocabularies.</div>
+        <div><strong class="text-cyan-300 mono">⚙️ Process Flow (/process):</strong> 3-part Dual-Stream Block Architecture (End-to-End, Seaport Ingress, Dry-Port Egress).</div>
+        <div><strong class="text-purple-300 mono">⚓ ΔGM Proof (/hydrostatics):</strong> 1-page naval architecture proof that adding Destination Rail Zone (Zr) at origin shifts metacentric height by only ΔGM = ±1.32 cm.</div>
+      </div>
+    </section>
+
+    <section class="bg-slate-900/90 border border-slate-700 rounded-xl p-4 space-y-2">
+      <h2 class="text-sm font-extrabold uppercase tracking-wider text-purple-400 mono">3. Rotterdam Audience Pivot Matrix</h2>
+      <div class="space-y-1.5 text-slate-300">
+        <div><strong class="text-white">Portbase (Vanderwolf) &amp; Smartport (Broere):</strong> Lead with the <strong>Partial eFTI Slider (50% ➔ -47.1% queue collapse)</strong> &amp; +28% virtual quay capacity with zero concrete capex.</div>
+        <div><strong class="text-white">Fraunhofer IML &amp; ALICE:</strong> Lead with <strong>MINLP 740m rake fill (96.8%)</strong>, 15-min dry-port block set-outs, and the 3-in-1 Swimlane VSM view.</div>
+        <div><strong class="text-white">Google Cloud / OSPO (Thalbauer):</strong> Lead with <strong>Layer-2 Cut-Through Switching vs. Bufferbloat</strong> and openmanifest.v1 T-5 control plane decoupling.</div>
+        <div><strong class="text-white">EU DG MOVE / TRAN Committee MEPs:</strong> Lead with <strong>/map (West-East 3SI parity)</strong>, 195 km Venlo break-even, and $4.50/kg ➔ $0.25/kg air-to-rail modal shift.</div>
+      </div>
+    </section>
+  </div>
+
+</body>
+</html>
