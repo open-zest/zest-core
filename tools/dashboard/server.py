@@ -2,6 +2,7 @@
 Project ZeST — Multi-Ship Seaport SDN & Rail Transfer Telemetry Server
 File: tools/dashboard/server.py
 Architecture: Decoupled T-5 Control Plane (eFTI Packet Headers) vs. T=0 Cut-Through Switch
+Supports Partial eFTI / Pre-Cleared Adoption (alpha_eFTI in [0%, 100%])
 License: Apache 2.0 (open-zest/zest-core)
 """
 
@@ -14,14 +15,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Any
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Project ZeST — SDN Port & Rail Transfer Telemetry",
-    version="0.4.1-sdn-packet-fix",
-    description="T-5 Control Plane vs. T=0 Physical Forwarding Plane Telemetry Engine"
+    version="0.4.2-partial-efti-control",
+    description="T-5 Control Plane vs. T=0 Physical Forwarding Plane Telemetry Engine with Partial eFTI Adoption Control"
 )
 
 app.add_middleware(
@@ -35,6 +36,8 @@ DASHBOARD_HTML_PATH = Path(__file__).parent / "index.html"
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MAP_SCRIPT_PATH = REPO_ROOT / "tools" / "corridor_map" / "build_map.py"
 MAP_CANDIDATE_PATHS = [
+    REPO_ROOT / " docs" / "nsrm_packet_network_map.html",
+    REPO_ROOT / "docs" / "nsrm_packet_network_map.html",
     REPO_ROOT / "tools" / "corridor_map" / "corridor_nsrm_map.html",
     REPO_ROOT / "corridor_nsrm_map.html",
     REPO_ROOT / "docs" / "corridor_nsrm_map.html",
@@ -187,39 +190,74 @@ RAIL_TRACKS: List[Dict[str, Any]] = [
 ]
 
 
-def compute_queuing_compounding(queue_ships: int = 6, berth_hours_saved: float = 15.5) -> Dict[str, Any]:
+def clamp_adoption(adoption_pct: float) -> float:
+    return max(0.0, min(100.0, float(adoption_pct)))
+
+
+def compute_queuing_compounding(
+    queue_ships: int = 6,
+    max_berth_hours_saved: float = 15.5,
+    adoption_pct: float = 100.0,
+) -> Dict[str, Any]:
+    alpha = clamp_adoption(adoption_pct) / 100.0
     rho_legacy = 0.86
-    rho_zest = 0.64
+    rho_zest_full = 0.64
+    rho_effective = round(rho_legacy - alpha * (rho_legacy - rho_zest_full), 4)
+
     pk_legacy = rho_legacy / (1.0 - rho_legacy)
-    pk_zest = rho_zest / (1.0 - rho_zest)
-    queue_collapse_pct = round((1.0 - (pk_zest / pk_legacy)) * 100.0, 1)
+    pk_effective = rho_effective / (1.0 - rho_effective)
+    queue_collapse_pct = round((1.0 - (pk_effective / pk_legacy)) * 100.0, 1)
+
+    berth_hours_saved = round(max_berth_hours_saved * alpha, 2)
+    berth_time_reduction_pct = round((berth_hours_saved / 54.0) * 100.0, 1)
 
     fleet_hours_saved = round(queue_ships * berth_hours_saved, 1)
     hourly_ship_burn_eur = 3666.0
-    fleet_cash_saved_eur = int(fleet_hours_saved * hourly_ship_burn_eur)
+    fleet_cash_saved_eur = int(round(fleet_hours_saved * hourly_ship_burn_eur))
 
     return {
+        "adoption_pct": round(alpha * 100.0, 1),
         "anchored_ships_waiting": queue_ships,
         "berth_hours_shaved_per_call": berth_hours_saved,
-        "berth_time_reduction_pct": 28.7,
+        "berth_time_reduction_pct": berth_time_reduction_pct,
         "rho_legacy": rho_legacy,
-        "rho_zest": rho_zest,
+        "rho_zest": round(rho_effective, 2),
         "queue_collapse_pct": queue_collapse_pct,
         "total_fleet_hours_eliminated": fleet_hours_saved,
         "fleet_cash_saved_eur": fleet_cash_saved_eur,
     }
 
 
-def generate_live_packets(tick: int) -> List[Dict[str, Any]]:
+def generate_live_packets(tick: int, adoption_pct: float = 100.0) -> List[Dict[str, Any]]:
+    alpha = clamp_adoption(adoption_pct) / 100.0
     prefixes = ["MSCU", "MAEU", "CMAU", "EISU"]
     packets = []
-    for i in range(12):
+    total_packets = 12
+    pre_cleared_cutoff = int(round(alpha * total_packets))
+
+    for i in range(total_packets):
         zone = ZONES[(i + tick) % len(ZONES)]
         vessel = VESSELS[i % len(VESSELS)]
         track = RAIL_TRACKS[i % len(RAIL_TRACKS)]
         bic = f"{prefixes[i % 4]}{482910 + i * 137 + (tick % 9)}0"
         vgm_t = round(18.4 + ((i * 1.7) % 11.2), 1)
         wagon_slot = f"UIC-W{(i % 36) + 1:02d}-P{(i % 2) + 1}"
+
+        legacy_digs = round(1.4 + ((i % 3) * 0.4), 1)
+        legacy_dwell_h = round(52.0 + ((i * 2.3) % 11.0), 1)
+        legacy_route = f"3D_YARD_STACK_BLK_{chr(65 + (i % 4))}_TIER_{(i % 4) + 1}"
+
+        is_pre_cleared = i < pre_cleared_cutoff
+        if is_pre_cleared:
+            ncts_status = "PRE_CLEARED_T_MINUS_5D"
+            zest_route = f"CUT_THROUGH_AGV -> {track['track_id']} ({wagon_slot})"
+            zest_digs = 0.0
+            zest_dwell_h = 0.31
+        else:
+            ncts_status = "UNRESOLVED_AT_BERTH_FALLBACK"
+            zest_route = f"FALLBACK_STACK -> {legacy_route}"
+            zest_digs = legacy_digs
+            zest_dwell_h = legacy_dwell_h
 
         packets.append({
             "bic_id": bic,
@@ -230,39 +268,86 @@ def generate_live_packets(tick: int) -> List[Dict[str, Any]]:
             "zone_id": zone["zone_id"],
             "zone_name": zone["name"],
             "vgm_tonnes": vgm_t,
-            "t5_header_hash": f"0x9f{i:02x}e7a{tick % 10}",
-            "ncts_t1_status": "PRE_CLEARED_T_MINUS_5D",
-            "wagon_slot": wagon_slot,
-            "legacy_routing": f"3D_YARD_STACK_BLK_{chr(65 + (i % 4))}_TIER_{(i % 4) + 1}",
-            "legacy_digs": round(1.4 + ((i % 3) * 0.4), 1),
-            "legacy_dwell_h": round(52.0 + ((i * 2.3) % 11.0), 1),
-            "zest_routing": f"CUT_THROUGH_AGV -> {track['track_id']} ({wagon_slot})",
-            "zest_digs": 0.0,
-            "zest_dwell_h": 0.31,
+            "t5_header_hash": f"0x9f{i:02x}e7a{tick % 10}" if is_pre_cleared else "PENDING_EDI_HOLD",
+            "ncts_t1_status": ncts_status,
+            "is_pre_cleared": is_pre_cleared,
+            "wagon_slot": wagon_slot if is_pre_cleared else "UNASSIGNED",
+            "legacy_routing": legacy_route,
+            "legacy_digs": legacy_digs,
+            "legacy_dwell_h": legacy_dwell_h,
+            "zest_routing": zest_route,
+            "zest_digs": zest_digs,
+            "zest_dwell_h": zest_dwell_h,
         })
     return packets
 
 
-def build_telemetry_snapshot(tick: int = 0) -> Dict[str, Any]:
+def build_telemetry_snapshot(tick: int = 0, adoption_pct: float = 100.0) -> Dict[str, Any]:
+    pct = clamp_adoption(adoption_pct)
+    alpha = pct / 100.0
     jitter = math.sin(tick * 0.3) * 0.02
-    queuing = compute_queuing_compounding(queue_ships=6, berth_hours_saved=15.5)
+    queuing = compute_queuing_compounding(queue_ships=6, max_berth_hours_saved=15.5, adoption_pct=pct)
+
+    legacy_dwell = 57.39
+    zest_full_dwell = 4.43
+    effective_dwell = round(legacy_dwell - alpha * (legacy_dwell - zest_full_dwell), 2)
+
+    legacy_quayside = 6.80
+    zest_full_quayside = 0.31
+    effective_quayside = round(legacy_quayside - alpha * (legacy_quayside - zest_full_quayside), 2)
+
+    effective_rehandles = round(1.65 * (1.0 - alpha), 2)
+    effective_lifts = round(5.2 - alpha * (5.2 - 2.0), 2)
+    effective_stack_occ = round(84.5 - alpha * (84.5 - 8.2), 1)
+    effective_agv_idle = round(15.4 - alpha * (15.4 - 1.1), 1)
+    effective_crane_mph = round((25.1 + alpha * (34.2 - 25.1)) - jitter * 2, 1)
+    effective_berth_h = round(54.0 - alpha * (54.0 - 38.5), 1)
+    effective_savings_eur = int(round(785000 * alpha))
+    effective_sigma_days = round(6.8 - alpha * (6.8 - 0.35), 2)
+    effective_breakeven_km = int(round(540 - alpha * (540 - 195)))
+
+    vessels_scaled = []
+    for v in VESSELS:
+        v_copy = dict(v)
+        eff_hdr = round(v["efti_resolved_pct_legacy"] + alpha * (v["efti_resolved_pct_zest"] - v["efti_resolved_pct_legacy"]), 1)
+        eff_berth = round(v["legacy_berth_hrs"] - alpha * (v["legacy_berth_hrs"] - v["zest_berth_hrs"]), 1)
+        eff_reduction_pct = round(((v["legacy_berth_hrs"] - eff_berth) / v["legacy_berth_hrs"]) * 100.0, 1)
+        v_copy["efti_resolved_pct_effective"] = eff_hdr
+        v_copy["effective_berth_hrs"] = eff_berth
+        v_copy["effective_berth_reduction_pct"] = eff_reduction_pct
+        vessels_scaled.append(v_copy)
+
+    tracks_scaled = []
+    for t in RAIL_TRACKS:
+        t_copy = dict(t)
+        eff_util = round(t["utilization_legacy_pct"] + alpha * (t["utilization_zest_pct"] - t["utilization_legacy_pct"]), 1)
+        t_copy["utilization_effective_pct"] = eff_util
+        tracks_scaled.append(t_copy)
+
+    zones_scaled = []
+    for z in ZONES:
+        z_copy = dict(z)
+        z_copy["effective_air_diverted_tonnes"] = int(round(z["air_diverted_tonnes"] * alpha))
+        zones_scaled.append(z_copy)
 
     return {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "tick": tick,
+        "adoption_pct": round(pct, 1),
         "sdn_architecture": {
             "axiom": "Data Precedes Physical Unit by T-5 Days (120 Hours)",
             "control_plane": {
                 "standard": "EU eFTI Reg 2020/1056 + openmanifest.v1",
                 "crystallization_lead_hours": 120,
-                "headers_resolved_at_sea_pct": 100.0,
+                "headers_resolved_at_sea_pct": round(21.4 + alpha * (100.0 - 21.4), 1),
+                "efti_pre_cleared_share_pct": round(pct, 1),
                 "legacy_headers_resolved_at_berth_pct": 21.4,
             },
             "data_plane_comparison": {
                 "legacy": {
                     "mode_label": "LEGACY: ASYNC HEADERS -> 3D STACK BUFFERBLOAT (DISK STORAGE)",
-                    "mean_terminal_dwell_h": round(57.39 + jitter * 5, 2),
-                    "quayside_transfer_h": 6.80,
+                    "mean_terminal_dwell_h": round(legacy_dwell + jitter * 5, 2),
+                    "quayside_transfer_h": legacy_quayside,
                     "yard_rehandles_per_box": 1.65,
                     "port_to_rail_lifts": 5.2,
                     "yard_stack_occupancy_pct": 84.5,
@@ -274,18 +359,22 @@ def build_telemetry_snapshot(tick: int = 0) -> Dict[str, Any]:
                     "rail_breakeven_km": 540,
                 },
                 "zest": {
-                    "mode_label": "ZeST SDN: T-5 HEADER LOCKED -> CUT-THROUGH SWITCH (ZERO STACK)",
-                    "mean_terminal_dwell_h": 4.43,
-                    "quayside_transfer_h": 0.31,
-                    "yard_rehandles_per_box": 0.00,
-                    "port_to_rail_lifts": 2.0,
-                    "yard_stack_occupancy_pct": 8.2,
-                    "agv_starvation_idle_pct": 1.1,
-                    "gross_crane_rate_mph": round(34.2 - jitter * 2, 1),
-                    "gross_vessel_berth_h": 38.5,
-                    "rehandle_savings_eur_per_call": 785000,
-                    "transit_variance_sigma_days": 0.35,
-                    "rail_breakeven_km": 195,
+                    "mode_label": (
+                        "ZeST SDN: T-5 HEADER LOCKED -> CUT-THROUGH SWITCH (ZERO STACK)"
+                        if pct >= 99.5
+                        else f"TRANSITIONAL HYBRID ({int(round(pct))}% eFTI PRE-CLEARED CUT-THROUGH / {100 - int(round(pct))}% LEGACY STACK)"
+                    ),
+                    "mean_terminal_dwell_h": effective_dwell,
+                    "quayside_transfer_h": effective_quayside,
+                    "yard_rehandles_per_box": effective_rehandles,
+                    "port_to_rail_lifts": effective_lifts,
+                    "yard_stack_occupancy_pct": effective_stack_occ,
+                    "agv_starvation_idle_pct": effective_agv_idle,
+                    "gross_crane_rate_mph": effective_crane_mph,
+                    "gross_vessel_berth_h": effective_berth_h,
+                    "rehandle_savings_eur_per_call": effective_savings_eur,
+                    "transit_variance_sigma_days": effective_sigma_days,
+                    "rail_breakeven_km": effective_breakeven_km,
                 },
             },
             "maritime_queue_compounding": queuing,
@@ -294,15 +383,15 @@ def build_telemetry_snapshot(tick: int = 0) -> Dict[str, Any]:
                 "zest_rail_rate_usd_kg": 0.25,
                 "air_co2_g_tkm": 680,
                 "zest_rail_co2_g_tkm": 18,
-                "corridor_door_to_door_days": "18–21 Days (σ < 24h)",
-                "high_value_tonnes_converted_per_call": 2850,
-                "bco_freight_savings_usd_per_call": 12112500,
+                "corridor_door_to_door_days": "18–21 Days (σ < 24h)" if pct >= 75.0 else f"Blended σ = ±{effective_sigma_days}d",
+                "high_value_tonnes_converted_per_call": int(round(2850 * alpha)),
+                "bco_freight_savings_usd_per_call": int(round(12112500 * alpha)),
             },
         },
-        "vessels": VESSELS,
-        "rail_tracks": RAIL_TRACKS,
-        "zones": ZONES,
-        "live_packets": generate_live_packets(tick),
+        "vessels": vessels_scaled,
+        "rail_tracks": tracks_scaled,
+        "zones": zones_scaled,
+        "live_packets": generate_live_packets(tick, adoption_pct=pct),
     }
 
 
@@ -324,26 +413,42 @@ async def serve_corridor_map():
             if candidate.exists():
                 return HTMLResponse(content=candidate.read_text(encoding="utf-8"))
     return HTMLResponse(
-        content="<h1>Corridor Map HTML not found. Run: python tools/corridor_map/build_map.py</h1>",
+        content="<h1>Corridor Map HTML not found. Run: python scripts/build_nsrm_map.py</h1>",
         status_code=404,
     )
 
 
 @app.get("/api/telemetry", response_class=JSONResponse)
-async def get_telemetry_snapshot():
-    return JSONResponse(content=build_telemetry_snapshot(tick=1))
+async def get_telemetry_snapshot(adoption_pct: float = Query(100.0, ge=0.0, le=100.0)):
+    return JSONResponse(content=build_telemetry_snapshot(tick=1, adoption_pct=adoption_pct))
 
 
 @app.websocket("/ws/telemetry")
 async def websocket_telemetry(websocket: WebSocket):
     await websocket.accept()
     tick = 0
+    adoption_pct = 100.0
+    qp = websocket.query_params.get("adoption_pct")
+    if qp is not None:
+        try:
+            adoption_pct = clamp_adoption(float(qp))
+        except ValueError:
+            adoption_pct = 100.0
+
     try:
         while True:
-            payload = build_telemetry_snapshot(tick=tick)
+            payload = build_telemetry_snapshot(tick=tick, adoption_pct=adoption_pct)
             await websocket.send_text(json.dumps(payload))
             tick += 1
-            await asyncio.sleep(1.5)
+            try:
+                msg = await asyncio.wait_for(websocket.receive_text(), timeout=1.5)
+                data = json.loads(msg)
+                if isinstance(data, dict) and "adoption_pct" in data:
+                    adoption_pct = clamp_adoption(float(data["adoption_pct"]))
+            except asyncio.TimeoutError:
+                pass
+            except (ValueError, KeyError):
+                pass
     except WebSocketDisconnect:
         pass
 

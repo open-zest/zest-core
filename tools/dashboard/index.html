@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Project ZeST — SDN Control Plane & Seaport Cut-Through Switch</title>
+  <title>Project ZeST — Seaport SDN Control & Data Plane Telemetry</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background-color: #070b14;
-      color: #e2e8f0;
+      background-color: #020617;
+      color: #f8fafc;
       font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
     .mono {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
     .pulse-dot {
-      animation: pulse 1.6s infinite;
+      animation: pulse-ring 2s infinite;
     }
-    @keyframes pulse {
+    @keyframes pulse-ring {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.45; transform: scale(1.18); }
     }
@@ -36,7 +36,7 @@
         <div class="flex items-center gap-2.5">
           <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-dot"></span>
           <span class="text-xs font-bold uppercase tracking-widest text-sky-400 mono">
-            OPEN-ZEST / ZEST-CORE v0.4.1 • SOFTWARE-DEFINED INTERMODAL NETWORK (SDN)
+            OPEN-ZEST / ZEST-CORE v0.4.2 • SOFTWARE-DEFINED INTERMODAL NETWORK (SDN)
           </span>
         </div>
         <h1 class="text-xl md:text-2xl font-extrabold text-white mt-1">
@@ -68,29 +68,55 @@
     </div>
   </header>
 
-  <!-- SECTION 1: THE T-5 DAYS CONTROL PLANE PRE-SOLVER STRIP -->
-  <section class="bg-slate-900/90 border border-sky-500/40 rounded-xl p-4 shadow-lg">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 pb-3 border-b border-slate-800">
+  <!-- SECTION 1: THE T-5 DAYS CONTROL PLANE PRE-SOLVER STRIP & PARTIAL eFTI ADOPTION CONTROL -->
+  <section class="bg-slate-900/90 border border-sky-500/40 rounded-xl p-4 shadow-lg space-y-3">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-2 pb-2 border-b border-slate-800">
       <div>
         <span class="text-xs font-bold uppercase tracking-wider text-sky-400 mono">
-          LAYER 1: THE CONTROL PLANE (T-5 DAYS MID-OCEAN HEADER CRYSTALLIZATION)
+          CONTROL PLANE TELEMETRY (T-120h TO T=0 QUAYSIDE)
         </span>
-        <h2 class="text-sm md:text-base font-bold text-white">
+        <h2 class="text-base md:text-lg font-bold text-white">
           Advance eFTI Token Resolution (<span class="mono">EU Reg 2020/1056</span>) + MINLP Rail Consist Binding Before Pilot Boarding
         </h2>
       </div>
-      <div class="flex items-center gap-4 text-xs mono">
+      <div class="flex flex-wrap items-center gap-3 text-xs mono">
         <span class="px-2.5 py-1 rounded bg-rose-950/90 border border-rose-700 text-rose-300">
-          Legacy Headers Resolved at Berth: <strong id="hdr-legacy-pct">21.4%</strong> (78.6% Unresolved -> Sent to 3D Stack)
+          Legacy Headers Resolved at Berth: <strong id="hdr-legacy-pct">21.4%</strong> (78.6% Sent to 3D Stack)
         </span>
         <span class="px-2.5 py-1 rounded bg-emerald-950/90 border border-emerald-600 text-emerald-300">
-          ZeST Headers Locked at T-5d: <strong id="hdr-zest-pct">100.0%</strong> (Cut-Through Forwarding Ready)
+          Active eFTI Cut-Through Share: <strong id="hdr-zest-pct">100.0%</strong>
         </span>
       </div>
     </div>
 
+    <!-- INTERACTIVE PARTIAL eFTI / PRE-CLEARED ADOPTION CONTROL BAR -->
+    <div class="bg-slate-950/90 border border-sky-700/60 rounded-lg p-3 flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+      <div class="space-y-0.5">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold uppercase text-amber-300 mono">Partial eFTI / Pre-Cleared Adoption Control (α_eFTI):</span>
+          <span id="adoption-badge" class="px-2 py-0.5 rounded bg-emerald-600 text-white text-xs font-extrabold mono">100% FULL ZeST SDN</span>
+        </div>
+        <p class="text-xs text-slate-400">
+          Simulate Day-1 transitional rollout: drag slider or click a preset to split container stream between <strong class="text-emerald-300">0.31h Cut-Through Switch</strong> and <strong class="text-rose-300">57.4h Legacy 3D Stack</strong>.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <input id="adoption-slider" type="range" min="0" max="100" step="5" value="100"
+               oninput="setAdoptionPct(this.value)"
+               class="w-40 md:w-52 accent-emerald-400 cursor-pointer" />
+        <div class="flex flex-wrap gap-1.5 text-xs mono">
+          <button onclick="setAdoptionPct(0)" id="btn-adopt-0" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-rose-300 border border-rose-800">0% Legacy</button>
+          <button onclick="setAdoptionPct(25)" id="btn-adopt-25" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-200 border border-slate-700">25% Pilot</button>
+          <button onclick="setAdoptionPct(50)" id="btn-adopt-50" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-700">50% Hybrid</button>
+          <button onclick="setAdoptionPct(75)" id="btn-adopt-75" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-200 border border-slate-700">75% TEN-T</button>
+          <button onclick="setAdoptionPct(100)" id="btn-adopt-100" class="px-2 py-1 rounded bg-emerald-600 text-white font-bold border border-emerald-400">100% Full SDN</button>
+        </div>
+      </div>
+    </div>
+
     <!-- 4 ULCV Vessels Pipeline (Mid-Ocean T-120h -> Berth T=0) -->
-    <div id="vessel-control-strip" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
+    <div id="vessel-control-strip" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
       <!-- Populated dynamically via WebSocket -->
     </div>
   </section>
@@ -104,11 +130,11 @@
         57.39h <span class="text-slate-500">➔</span> <span class="text-emerald-400" id="kpi-zest-dwell">4.43h Turn</span>
       </div>
       <div class="text-xs text-slate-300 mt-1">
-        Quayside Transfer: <strong class="text-emerald-300">0.31h</strong> | Re-handles: <strong class="text-rose-400 line-through">1.65</strong> ➔ <strong class="text-emerald-400">0.00 Digs</strong>
+        Quayside: <strong id="kpi-quayside-h" class="text-emerald-300">0.31h</strong> | Re-handles: <strong class="text-rose-400 line-through">1.65</strong> ➔ <strong id="kpi-rehandles" class="text-emerald-400">0.00 Digs</strong>
       </div>
       <div class="mt-2 pt-2 border-t border-slate-800 text-xs text-slate-400 flex justify-between mono">
-        <span>Lifts: 5.2 ➔ 2.0 (-62%)</span>
-        <span class="text-emerald-300 font-bold">€785k Saved/Call</span>
+        <span id="kpi-lifts">Lifts: 5.2 ➔ 2.0</span>
+        <span id="kpi-rehandle-eur" class="text-emerald-300 font-bold">€785,000 Saved/Call</span>
       </div>
     </div>
 
@@ -116,13 +142,13 @@
     <div class="bg-slate-900/90 border border-slate-700 rounded-xl p-4">
       <div class="text-xs font-bold uppercase text-sky-400 mono">2. Gross Ship Berth Time</div>
       <div class="text-lg font-extrabold text-white mt-1">
-        54.0h <span class="text-slate-500">➔</span> <span class="text-sky-400">38.5h (-28.7%)</span>
+        54.0h <span class="text-slate-500">➔</span> <span id="kpi-berth-time" class="text-sky-400">38.5h (-28.7%)</span>
       </div>
       <div class="text-xs text-slate-300 mt-1">
-        AGV Starvation: <strong class="text-rose-400">15.4%</strong> ➔ <strong class="text-emerald-400">1.1%</strong> | Crane Rate: <strong id="kpi-crane-rate" class="text-sky-300">34.2 mph</strong>
+        AGV Starvation: <strong class="text-rose-400">15.4%</strong> ➔ <strong id="kpi-agv-idle" class="text-emerald-400">1.1%</strong> | Crane: <strong id="kpi-crane-rate" class="text-sky-300">34.2 mph</strong>
       </div>
       <div class="mt-2 pt-2 border-t border-slate-800 text-xs text-slate-400 flex justify-between mono">
-        <span>15.5h Shaved at Wall</span>
+        <span id="kpi-berth-shaved">15.5h Shaved at Wall</span>
         <span class="text-sky-300 font-bold">+28% Virtual Quay Cap</span>
       </div>
     </div>
@@ -131,13 +157,13 @@
     <div class="bg-slate-900/90 border border-emerald-600/50 rounded-xl p-4">
       <div class="text-xs font-bold uppercase text-emerald-400 mono">3. Offshore Queue Compounding (M/Ek/c)</div>
       <div class="text-lg font-extrabold text-white mt-1">
-        <span id="kpi-queue-collapse">-71.0%</span> <span class="text-sm font-semibold text-emerald-300">Queue Wait Collapse</span>
+        <span id="kpi-queue-collapse">-71.1%</span> <span class="text-sm font-semibold text-emerald-300">Queue Wait Collapse</span>
       </div>
       <div class="text-xs text-slate-300 mt-1">
         6 Ships at Maascenter Anchorage pulled forward by <strong id="kpi-fleet-hours" class="text-emerald-300">93.0 Fleet Hours</strong>
       </div>
       <div class="mt-2 pt-2 border-t border-slate-800 text-xs text-slate-400 flex justify-between mono">
-        <span>Util (ρ): 0.86 ➔ 0.64</span>
+        <span id="kpi-rho">Util (ρ): 0.86 ➔ 0.64</span>
         <span id="kpi-fleet-cash" class="text-emerald-400 font-bold">€340,938 Fleet Saved</span>
       </div>
     </div>
@@ -149,11 +175,11 @@
         $4.50/kg <span class="text-slate-500">➔</span> <span class="text-purple-300">$0.25/kg Rail</span>
       </div>
       <div class="text-xs text-slate-300 mt-1">
-        Transit Variance (σ): <strong class="text-rose-400">±6.8d</strong> ➔ <strong class="text-emerald-400">±0.35d (&lt;24h SLA)</strong>
+        Transit Variance (σ): <strong class="text-rose-400">±6.8d</strong> ➔ <strong id="kpi-sigma" class="text-emerald-400">±0.35d (&lt;24h SLA)</strong>
       </div>
       <div class="mt-2 pt-2 border-t border-slate-800 text-xs text-slate-400 flex justify-between mono">
-        <span>Breakeven: 540➔195km</span>
-        <span class="text-purple-300 font-bold">-97% CO₂ vs Air</span>
+        <span id="kpi-breakeven">Breakeven: 540➔195km</span>
+        <span id="kpi-bco-savings" class="text-purple-300 font-bold">$12.1M Saved/Call</span>
       </div>
     </div>
   </section>
@@ -213,12 +239,12 @@
           <span class="px-2.5 py-0.5 rounded bg-emerald-600 text-white text-xs font-bold uppercase mono">
             PROJECT ZeST PARADIGM (GOOGLE SDN + MANUFACTURING PROCESS CONTROL)
           </span>
-          <h3 class="text-sm md:text-base font-bold text-emerald-200">
+          <h3 id="zest-panel-subtitle" class="text-sm md:text-base font-bold text-emerald-200">
             T-5 Days eFTI Header Crystallization ➔ Zero-Stack Cut-Through Switch (0.31h Quayside / 0.00 Re-Handles)
           </h3>
         </div>
         <div class="text-xs mono text-emerald-300">
-          Direct Yard Bypass: <strong>96.4%</strong> • Re-handles: <strong>0.00 Digs</strong> • Train Rake Load: <strong>96.8% MINLP Solved</strong>
+          Cut-Through Share: <strong id="zest-panel-share">100.0%</strong> • Re-handles: <strong id="zest-panel-digs">0.00 Digs</strong> • Stack Occ: <strong id="zest-panel-stack">8.2%</strong>
         </div>
       </div>
 
@@ -227,19 +253,19 @@
         <div class="bg-slate-900/90 border border-emerald-700/60 rounded-lg p-3">
           <div class="font-bold text-emerald-300 mono">1. CONTROL PLANE (T-5 DAYS)</div>
           <p class="text-slate-300 mt-1">
-            <span class="mono">openmanifest.v1</span> + eFTI token locks VGM, NCTS T1 bond, and exact UIC wagon pocket while ship is 120h out at sea. Forwarding table 100% solved.
+            <span class="mono">openmanifest.v1</span> + eFTI token locks VGM, NCTS T1 bond, and exact UIC wagon pocket while ship is 120h out at sea. Forwarding table pre-solved.
           </p>
         </div>
         <div class="bg-slate-900/90 border border-emerald-700/60 rounded-lg p-3">
           <div class="font-bold text-emerald-300 mono">2. QUAYSIDE CUT-THROUGH (T=0)</div>
           <p class="text-slate-300 mt-1">
-            Zero customs pauses; zero AGV starvation. STS crane drops onto dedicated AGV loop routing straight to on-dock rail siding in <strong>0.31 hours</strong>.
+            Pre-cleared boxes bypass the 3D yard stack via dedicated AGV loop straight to on-dock rail siding in <strong>0.31 hours</strong>; un-cleared fallback boxes use standard stack.
           </p>
         </div>
         <div class="bg-slate-900/90 border border-emerald-700/60 rounded-lg p-3">
           <div class="font-bold text-emerald-300 mono">3. TAKT-TIME RAIL DISPATCH (4.43h)</div>
           <p class="text-slate-300 mt-1">
-            740m rakes solved via MINLP to <strong>96.8% axle-load capacity (22.5t Cat D)</strong>. Depart on exact Takt slot, preserving passenger rail timetable integrity.
+            740m rakes solved via MINLP up to <strong>96.8% axle-load capacity (22.5t Cat D)</strong>. Depart on exact Takt slot, preserving passenger rail timetable integrity.
           </p>
         </div>
         <div class="bg-slate-900/90 border border-emerald-700/60 rounded-lg p-3">
@@ -274,7 +300,7 @@
           <span class="text-xs font-bold uppercase text-emerald-400 mono">TEN-T &amp; THREE SEAS (3SI) CATCHMENT ZONES</span>
           <h3 class="text-sm font-bold text-white">15-Min Dry-Port Siding Set-Outs &amp; Air-Freight Conversion (Click Zone to Filter)</h3>
         </div>
-        <span class="text-xs text-slate-400 mono">Breakeven: 195 km</span>
+        <span id="zone-breakeven-label" class="text-xs text-slate-400 mono">Breakeven: 195 km</span>
       </div>
       <div id="zones-grid" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 mt-3">
         <!-- Populated via WebSocket -->
@@ -305,7 +331,7 @@
             <th class="py-2 px-2.5">T-5 eFTI Header &amp; VGM</th>
             <th class="py-2 px-2.5">Target EU Zone</th>
             <th class="py-2 px-2.5 text-rose-400">Legacy Path (Bufferbloat)</th>
-            <th class="py-2 px-2.5 text-emerald-400">ZeST SDN Path (Cut-Through Switch)</th>
+            <th class="py-2 px-2.5 text-emerald-400">Active ZeST / Hybrid Path</th>
           </tr>
         </thead>
         <tbody id="packet-table-body" class="divide-y divide-slate-800/80 mono">
@@ -318,7 +344,9 @@
   <script>
     let currentFilter = { type: null, value: null };
     let currentViewMode = 'stacked';
+    let currentAdoptionPct = 100;
     let latestData = null;
+    let wsConnection = null;
 
     function setViewMode(mode) {
       currentViewMode = mode;
@@ -344,6 +372,31 @@
       }
     }
 
+    function setAdoptionPct(val) {
+      currentAdoptionPct = Number(val);
+      document.getElementById('adoption-slider').value = currentAdoptionPct;
+
+      const badge = document.getElementById('adoption-badge');
+      if (currentAdoptionPct === 100) {
+        badge.textContent = '100% FULL ZeST SDN';
+        badge.className = 'px-2 py-0.5 rounded bg-emerald-600 text-white text-xs font-extrabold mono';
+      } else if (currentAdoptionPct === 0) {
+        badge.textContent = '0% LEGACY BASELINE';
+        badge.className = 'px-2 py-0.5 rounded bg-rose-700 text-white text-xs font-extrabold mono';
+      } else {
+        badge.textContent = `${currentAdoptionPct}% PARTIAL eFTI HYBRID`;
+        badge.className = 'px-2 py-0.5 rounded bg-sky-600 text-white text-xs font-extrabold mono';
+      }
+
+      if (wsConnection && wsConnection.readyState === WebSocket.OPEN) {
+        wsConnection.send(JSON.stringify({ adoption_pct: currentAdoptionPct }));
+      }
+      fetch(`/api/telemetry?adoption_pct=${currentAdoptionPct}`)
+        .then(r => r.json())
+        .then(d => renderDashboard(d))
+        .catch(() => {});
+    }
+
     function toggleFilter(type, value) {
       if (currentFilter.type === type && currentFilter.value === value) {
         currentFilter = { type: null, value: null };
@@ -361,12 +414,36 @@
     function renderDashboard(data) {
       latestData = data;
       const sdn = data.sdn_architecture;
+      const zPlane = sdn.data_plane_comparison.zest;
       const q = sdn.maritime_queue_compounding;
+      const air = sdn.air_freight_arbitrage;
 
-      document.getElementById('kpi-crane-rate').textContent = `${sdn.data_plane_comparison.zest.gross_crane_rate_mph} mph`;
+      document.getElementById('hdr-zest-pct').textContent = `${sdn.control_plane.efti_pre_cleared_share_pct}%`;
+      document.getElementById('kpi-zest-dwell').textContent = `${zPlane.mean_terminal_dwell_h}h Turn`;
+      document.getElementById('kpi-quayside-h').textContent = `${zPlane.quayside_transfer_h}h`;
+      document.getElementById('kpi-rehandles').textContent = `${zPlane.yard_rehandles_per_box} Digs`;
+      document.getElementById('kpi-lifts').textContent = `Lifts: 5.2 ➔ ${zPlane.port_to_rail_lifts}`;
+      document.getElementById('kpi-rehandle-eur').textContent = `€${zPlane.rehandle_savings_eur_per_call.toLocaleString()} Saved/Call`;
+
+      document.getElementById('kpi-berth-time').textContent = `${zPlane.gross_vessel_berth_h}h (-${q.berth_time_reduction_pct}%)`;
+      document.getElementById('kpi-agv-idle').textContent = `${zPlane.agv_starvation_idle_pct}%`;
+      document.getElementById('kpi-crane-rate').textContent = `${zPlane.gross_crane_rate_mph} mph`;
+      document.getElementById('kpi-berth-shaved').textContent = `${q.berth_hours_shaved_per_call}h Shaved at Wall`;
+
       document.getElementById('kpi-queue-collapse').textContent = `-${q.queue_collapse_pct}%`;
       document.getElementById('kpi-fleet-hours').textContent = `${q.total_fleet_hours_eliminated} Fleet Hours`;
+      document.getElementById('kpi-rho').textContent = `Util (ρ): ${q.rho_legacy} ➔ ${q.rho_zest}`;
       document.getElementById('kpi-fleet-cash').textContent = `€${q.fleet_cash_saved_eur.toLocaleString()} Fleet Saved`;
+
+      document.getElementById('kpi-sigma').textContent = `±${zPlane.transit_variance_sigma_days}d`;
+      document.getElementById('kpi-breakeven').textContent = `Breakeven: 540➔${zPlane.rail_breakeven_km}km`;
+      document.getElementById('kpi-bco-savings').textContent = `$${(air.bco_freight_savings_usd_per_call / 1e6).toFixed(1)}M Saved/Call`;
+      document.getElementById('zone-breakeven-label').textContent = `Breakeven: ${zPlane.rail_breakeven_km} km`;
+
+      document.getElementById('zest-panel-subtitle').textContent = zPlane.mode_label;
+      document.getElementById('zest-panel-share').textContent = `${sdn.control_plane.efti_pre_cleared_share_pct}%`;
+      document.getElementById('zest-panel-digs').textContent = `${zPlane.yard_rehandles_per_box} Digs`;
+      document.getElementById('zest-panel-stack').textContent = `${zPlane.yard_stack_occupancy_pct}%`;
 
       const badge = document.getElementById('active-filter-badge');
       badge.textContent = currentFilter.value
@@ -377,6 +454,9 @@
       vStrip.innerHTML = data.vessels.map(v => {
         const isActive = currentFilter.type === 'berth_id' && currentFilter.value === v.berth_id;
         const atSea = v.eta_hours < 0;
+        const effHdr = v.efti_resolved_pct_effective !== undefined ? v.efti_resolved_pct_effective : v.efti_resolved_pct_zest;
+        const effBerth = v.effective_berth_hrs !== undefined ? v.effective_berth_hrs : v.zest_berth_hrs;
+        const effRed = v.effective_berth_reduction_pct !== undefined ? v.effective_berth_reduction_pct : 28.7;
         return `
           <div onclick="toggleFilter('berth_id', '${v.berth_id}')"
                class="cursor-pointer bg-slate-950/90 border ${atSea ? 'border-sky-700/70' : 'border-emerald-600/70'} rounded-lg p-3 hover:border-sky-400 transition ${isActive ? 'active-filter' : ''}">
@@ -387,12 +467,12 @@
             <div class="font-bold text-white text-sm mt-1 truncate">${v.name}</div>
             <div class="mt-2 space-y-1 text-xs mono">
               <div class="flex justify-between">
-                <span class="text-slate-400">eFTI Headers (ZeST vs Leg):</span>
-                <span><strong class="text-emerald-400">${v.efti_resolved_pct_zest}%</strong> / <span class="text-rose-400">${v.efti_resolved_pct_legacy}%</span></span>
+                <span class="text-slate-400">eFTI Headers (Active vs Leg):</span>
+                <span><strong class="text-emerald-400">${effHdr}%</strong> / <span class="text-rose-400">${v.efti_resolved_pct_legacy}%</span></span>
               </div>
               <div class="flex justify-between">
                 <span class="text-slate-400">Gross Berth Time:</span>
-                <span><span class="text-rose-400 line-through">${v.legacy_berth_hrs}h</span> ➔ <strong class="text-emerald-300">${v.zest_berth_hrs}h (-28.7%)</strong></span>
+                <span><span class="text-rose-400 line-through">${v.legacy_berth_hrs}h</span> ➔ <strong class="text-emerald-300">${effBerth}h (-${effRed}%)</strong></span>
               </div>
             </div>
           </div>
@@ -402,6 +482,7 @@
       const tGrid = document.getElementById('rail-tracks-grid');
       tGrid.innerHTML = data.rail_tracks.map(t => {
         const isActive = currentFilter.type === 'track_id' && currentFilter.value === t.track_id;
+        const effUtil = t.utilization_effective_pct !== undefined ? t.utilization_effective_pct : t.utilization_zest_pct;
         return `
           <div onclick="toggleFilter('track_id', '${t.track_id}')"
                class="cursor-pointer bg-slate-950/80 border border-slate-800 rounded-lg p-2.5 hover:border-sky-400 transition ${isActive ? 'active-filter' : ''}">
@@ -410,8 +491,8 @@
               <span class="text-emerald-300 font-bold">Target: ${t.zone_id}</span>
             </div>
             <div class="flex items-center justify-between text-xs mt-1.5 mono">
-              <span class="text-slate-400">MINLP Rake Fill: <strong class="text-emerald-400">${t.utilization_zest_pct}%</strong> <span class="text-slate-500">(Legacy: ${t.utilization_legacy_pct}%)</span></span>
-              <span class="text-amber-300">0.00 Re-handles</span>
+              <span class="text-slate-400">MINLP Rake Fill: <strong class="text-emerald-400">${effUtil}%</strong> <span class="text-slate-500">(Legacy: ${t.utilization_legacy_pct}%)</span></span>
+              <span class="text-amber-300">${zPlane.yard_rehandles_per_box} Digs</span>
             </div>
           </div>
         `;
@@ -420,6 +501,7 @@
       const zGrid = document.getElementById('zones-grid');
       zGrid.innerHTML = data.zones.map(z => {
         const isActive = currentFilter.type === 'zone_id' && currentFilter.value === z.zone_id;
+        const effAir = z.effective_air_diverted_tonnes !== undefined ? z.effective_air_diverted_tonnes : z.air_diverted_tonnes;
         return `
           <div onclick="toggleFilter('zone_id', '${z.zone_id}')"
                class="cursor-pointer bg-slate-950/80 border border-slate-800 rounded-lg p-2.5 hover:border-emerald-400 transition ${isActive ? 'active-filter' : ''}">
@@ -430,7 +512,7 @@
             <div class="font-bold text-white text-xs mt-0.5 truncate">${z.name}</div>
             <div class="flex items-center justify-between text-xs mt-1.5 mono text-slate-300">
               <span>Set-Out: <strong class="text-sky-300">${z.setout_min} min</strong></span>
-              <span class="text-purple-300">Air Diverted: <strong>${z.air_diverted_tonnes}t</strong></span>
+              <span class="text-purple-300">Air Diverted: <strong>${effAir}t</strong></span>
             </div>
           </div>
         `;
@@ -442,38 +524,41 @@
       });
 
       const tbody = document.getElementById('packet-table-body');
-      tbody.innerHTML = packets.map(p => `
-        <tr class="hover:bg-slate-800/60 transition">
-          <td class="py-2 px-2.5 font-bold text-white">${p.bic_id}</td>
-          <td class="py-2 px-2.5 text-slate-300">${p.berth_id} <span class="text-slate-500">(${p.vessel_id})</span></td>
-          <td class="py-2 px-2.5">
-            <span class="px-1.5 py-0.5 rounded bg-emerald-950 border border-emerald-700 text-emerald-300">${p.t5_header_hash}</span>
-            <span class="text-slate-400 ml-1">${p.vgm_tonnes}t • T1 OK</span>
-          </td>
-          <td class="py-2 px-2.5 font-semibold text-sky-300">${p.zone_id}</td>
-          <td class="py-2 px-2.5 text-rose-300">
-            ${p.legacy_routing} <span class="text-rose-400 font-bold">(${p.legacy_digs} digs / ${p.legacy_dwell_h}h)</span>
-          </td>
-          <td class="py-2 px-2.5 text-emerald-300 font-semibold">
-            ${p.zest_routing} <span class="text-emerald-400 font-bold">(0.0 digs / ${p.zest_dwell_h}h)</span>
-          </td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = packets.map(p => {
+        const cleared = p.is_pre_cleared !== false;
+        return `
+          <tr class="hover:bg-slate-800/60 transition">
+            <td class="py-2 px-2.5 font-bold text-white">${p.bic_id}</td>
+            <td class="py-2 px-2.5 text-slate-300">${p.berth_id} <span class="text-slate-500">(${p.vessel_id})</span></td>
+            <td class="py-2 px-2.5">
+              <span class="px-1.5 py-0.5 rounded ${cleared ? 'bg-emerald-950 border border-emerald-700 text-emerald-300' : 'bg-amber-950 border border-amber-700 text-amber-300'}">${p.t5_header_hash}</span>
+              <span class="text-slate-400 ml-1">${p.vgm_tonnes}t • ${cleared ? 'T1 OK' : 'HOLD'}</span>
+            </td>
+            <td class="py-2 px-2.5 font-semibold text-sky-300">${p.zone_id}</td>
+            <td class="py-2 px-2.5 text-rose-300">
+              ${p.legacy_routing} <span class="text-rose-400 font-bold">(${p.legacy_digs} digs / ${p.legacy_dwell_h}h)</span>
+            </td>
+            <td class="py-2 px-2.5 ${cleared ? 'text-emerald-300 font-semibold' : 'text-amber-300'}">
+              ${p.zest_routing} <span class="${cleared ? 'text-emerald-400' : 'text-amber-400'} font-bold">(${p.zest_digs} digs / ${p.zest_dwell_h}h)</span>
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
     function connectWebSocket() {
       const proto = window.location.protocol === 'https:' ? 'wss' : 'ws';
-      const ws = new WebSocket(`${proto}://${window.location.host}/ws/telemetry`);
-      ws.onmessage = (event) => {
+      wsConnection = new WebSocket(`${proto}://${window.location.host}/ws/telemetry?adoption_pct=${currentAdoptionPct}`);
+      wsConnection.onmessage = (event) => {
         const data = JSON.parse(event.data);
         renderDashboard(data);
       };
-      ws.onclose = () => {
+      wsConnection.onclose = () => {
         setTimeout(connectWebSocket, 2000);
       };
     }
 
-    fetch('/api/telemetry')
+    fetch(`/api/telemetry?adoption_pct=${currentAdoptionPct}`)
       .then(r => r.json())
       .then(d => renderDashboard(d))
       .catch(() => {});
