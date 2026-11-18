@@ -1,0 +1,26 @@
+site_name: Project ZeST
+site_url: https://your-custom-domain.org
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.instant
+
+nav:
+  - The ZeST Narrative: index.md
+  - Architecture & Briefs:
+      - Architecture Overview: architecture_diagram.md
+      - Dual-Stream Process Sheet: zest_process_architecture.html
+      - Hydrostatic Feasibility Brief: cspp_hydrostatic_feasibility.html
+      - Presenter Suite Index: gui_presenter_cheatsheet.html

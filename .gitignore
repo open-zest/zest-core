@@ -53,3 +53,6 @@ zest_core.egg-info/
 
 # Corridor Visualizer artifacts
 tools/corridor_map/*.html
+
+site/
+.firebase/
