@@ -56,3 +56,8 @@ tools/corridor_map/*.html
 
 site/
 .firebase/
+
+# Local docs holding & shadow drafts
+.DS_Store
+_docs_holding/
+docs/drafts/

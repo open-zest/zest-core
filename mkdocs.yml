@@ -14,13 +14,15 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
   features:
-    - navigation.sections
     - navigation.instant
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.path
+    - navigation.sections
+
+draft_docs: |
+  drafts/
 
 nav:
-  - The ZeST Narrative: index.md
-  - Architecture & Briefs:
-      - Architecture Overview: architecture_diagram.md
-      - Dual-Stream Process Sheet: zest_process_architecture.html
-      - Hydrostatic Feasibility Brief: cspp_hydrostatic_feasibility.html
-      - Presenter Suite Index: gui_presenter_cheatsheet.html
+  - Home: index.md
