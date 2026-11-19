@@ -1,5 +1,5 @@
 site_name: Project ZeST
-site_url: https://your-custom-domain.org
+site_url: https://open-zest.web.app
 theme:
   name: material
   palette:
