@@ -1,5 +1,8 @@
 site_name: Project ZeST
 site_url: https://open-zest.web.app
+repo_url: https://github.com/open-zest/zest-core
+repo_name: open-zest/zest-core
+
 theme:
   name: material
   palette:
@@ -21,8 +24,23 @@ theme:
     - navigation.path
     - navigation.sections
 
+plugins:
+  - search
+  - blog:
+      blog_dir: series
+      blog_toc: true
+
 draft_docs: |
   drafts/
 
 nav:
   - Home: index.md
+  - Policy:
+      - policy/index.md
+      - EU eFTI FTI004 Submission: policy/eu-efti-fti004.md
+  - Series:
+      - series/index.md
+  - Architecture:
+      - architecture/index.md
+  - Exhibits:
+      - exhibits/index.md
