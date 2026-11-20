@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technical Annex — Tuning FTI004 for EU Intermodal Freight Velocity (Project ZeST)</title>
+  <style>
+    :root {
+      --ink: #1a202c;
+      --muted: #4a5568;
+      --accent: #003399; /* EU Blue */
+      --accent-light: #edf2f7;
+      --border: #cbd5e0;
+      --highlight: #f7fafc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: #ffffff;
+      line-height: 1.55;
+      margin: 0;
+      padding: 0;
+      font-size: 10.5pt;
+    }
+
+    .page {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 36px 44px;
+    }
+
+    header {
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 8.5pt;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-size: 19pt;
+      line-height: 1.2;
+      margin: 0 0 10px 0;
+      color: #0f172a;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 20px;
+      font-size: 9pt;
+      color: var(--muted);
+      margin-top: 12px;
+      background: var(--highlight);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 4px;
+    }
+
+    .meta-grid strong { color: var(--ink); }
+
+    h2 {
+      font-size: 13pt;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+      margin-top: 24px;
+      margin-bottom: 10px;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-size: 10.8pt;
+      color: var(--ink);
+      margin-top: 14px;
+      margin-bottom: 6px;
+      page-break-after: avoid;
+    }
+
+    p { margin: 0 0 10px 0; }
+
+    ul {
+      margin: 0 0 12px 0;
+      padding-left: 20px;
+    }
+
+    li { margin-bottom: 6px; }
+
+    .callout {
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      padding: 12px 16px;
+      margin: 14px 0 18px 0;
+      border-radius: 0 4px 4px 0;
+      page-break-inside: avoid;
+    }
+
+    .callout strong { color: var(--accent); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px 0;
+      font-size: 9.2pt;
+      page-break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) td { background: var(--highlight); }
+
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 8.8pt;
+      background: #edf2f7;
+      padding: 1px 4px;
+      border-radius: 3px;
+      color: #1e3a8a;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 14px 0 18px 0;
+      page-break-inside: avoid;
+    }
+
+    .kpi-card {
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: 4px;
+      padding: 10px 12px;
+      background: #ffffff;
+    }
+
+    .kpi-value {
+      font-size: 15pt;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+
+    .kpi-label {
+      font-size: 8.5pt;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    footer {
+      margin-top: 28px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 8.5pt;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    @media print {
+      body { font-size: 9.8pt; }
+      .page { padding: 0; max-width: 100%; }
+      @page { margin: 16mm 15mm; }
+      a { color: var(--accent); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="kicker">European Commission Call for Evidence — Technical Annex</div>
+      <h1>Tuning the eFTI Registry of Identifiers (FTI004) to Unlock EU Intermodal Freight Velocity</h1>
+      <div class="meta-grid">
+        <div><strong>Initiative:</strong> Introduction of new identifiers in the eFTI registry of identifiers</div>
+        <div><strong>Legal Basis:</strong> Reg. (EU) 2020/1056 &amp; Impl. Reg. (EU) 2024/1942</div>
+        <div><strong>Submitted by:</strong> James P. Reefe, Lead Architect — Project ZeST</div>
+        <div><strong>Date:</strong> November 2026</div>
+        <div><strong>Open Repository:</strong> <a href="https://github.com/open-zest/zest-core">github.com/open-zest/zest-core</a></div>
+        <div><strong>Documentation:</strong> <a href="https://open-zest.web.app">open-zest.web.app</a></div>
+      </div>
+    </header>
+
+    <div class="callout">
+      <strong>Executive Thesis:</strong> Enriching FTI004 with takeover and delivery locations for road smart enforcement is a welcome improvement. Adding four lightweight, <em>optional</em> intermodal fields while the <strong>eFTI XML Schemas V1.0.0 Beta</strong> are still open for amendment eliminates a structural road-centric blind spot—unlocking rail-port-road synchronization across the TEN-T network ahead of the 9 July 2027 compliance date at negligible marginal cost.
+    </div>
+
+    <h2>1. Regulatory Context &amp; The Intermodal Blind Spot</h2>
+    <p>
+      Under Regulation (EU) 2020/1056, Delegated Regulation (EU) 2024/2024 (Common Data Set), Implementing Regulation (EU) 2024/1942 (eFTI Gate &amp; FTI004 authority access), and Implementing Regulation (EU) 2025/2243 (eFTI platform functional requirements), the Commission is establishing Europe’s federated digital freight backbone.
+    </p>
+    <p>
+      In combined transport, a single ISO container or intermodal transport unit (ITU) moves across vessel, port terminal, rail wagon, and multiple drayage trucks. When the FTI004 registry indexes Unique Identifying Links (UILs) primarily by road vehicle registration plates, visibility breaks at the exact handoff points where European freight loses the most time: port gates, inland rail ramps, and cross-border marshalling yards.
+    </p>
+
+    <h2>2. Proposed FTI004 Schema Extensions (Optional / Non-Breaking)</h2>
+    <p>
+      To preserve zero additional burden on road-only SMEs, all four proposed fields should be introduced as <strong>optional</strong> elements in the eFTI XML Schemas V1.0.0 Beta (Semantic and Normalized variants):
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 22%;">Proposed FTI004 Field</th>
+          <th style="width: 20%;">Standard / Format</th>
+          <th style="width: 28%;">Gate Lookup Function</th>
+          <th style="width: 30%;">Intermodal Value Unlocked</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>intermodalUnitId</code></td>
+          <td>ISO 6346 (BIC) / EN 13044 (ILU)</td>
+          <td>Indexes the UIL by container or swap-body ID alongside truck registration plates.</td>
+          <td>Maintains continuous regulatory identity across maritime &rarr; rail &rarr; drayage transfers.</td>
+        </tr>
+        <tr>
+          <td><code>transportModeChain</code></td>
+          <td>UN/ECE Rec. 19 Mode Codes (<code>1, 2, 3, 8</code>)</td>
+          <td>Flags multimodal / Combined Transport operations at registry level.</td>
+          <td>Enables automated verification of Combined Transport road-leg exemptions without roadside stops.</td>
+        </tr>
+        <tr>
+          <td><code>transferTerminalLocode</code></td>
+          <td>UN/LOCODE (5-char + terminal code)</td>
+          <td>Identifies the port or inland rail ramp where mode handoff occurs.</td>
+          <td>Allows national Gates to correlate pre-arrival clearance with port and rail terminal windows.</td>
+        </tr>
+        <tr>
+          <td><code>upstreamRefPointer</code></td>
+          <td>DCSA 3.0 eBL / CIM-SMGS / MRN hash</td>
+          <td>Non-sensitive pointer linking maritime/customs pre-arrival data to the eFTI UIL.</td>
+          <td>Enables <strong>Data-Precedes-Physical</strong> release prior to vessel berthing or train assembly.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. Case Study: Port of Constanța &amp; the Black Sea / Orient–East-Med Corridor</h2>
+    <p>
+      Western European mega-hubs are not the only testbed for eFTI. The highest marginal return on an intermodal FTI004 registry lies at fast-growing Eastern European gateways where physical rail infrastructure cannot expand fast enough to absorb geopolitical and Middle Corridor volume shifts.
+    </p>
+    <ul>
+      <li><strong>Volume Surge:</strong> As the largest port on the Black Sea, Constanța has absorbed record throughput (exceeding 92.5 million tonnes and 776,590 TEUs in recent peak years) driven by Black Sea transit, Middle Corridor flows, and the emerging Rail-2-Sea axis.</li>
+      <li><strong>Physical Rail Bottlenecks:</strong> Across Romania’s CFR network, average freight train speeds have hovered near 15.9 km/h with extensive rolling-stock modernization still underway. Along the broader TEN-T Orient/East-Med corridor, roughly half of rail sections still restrict 740-meter freight trains and over 85% lack operational ETCS.</li>
+      <li><strong>The "Warehouses on Wheels" Trap:</strong> When regulatory, customs, and commercial consignment data arrive fragmented—or physically with the carrier—containers dwell on port sidings awaiting manual clearance. Rail operators face strict slot restrictions to prevent trains from stalling as mobile storage. Every missed rail path pushes cargo back onto congested road arteries toward Western Europe.</li>
+      <li><strong>The Digital Lever:</strong> Registering container-level FTI004 pointers prior to vessel berthing (T-5 / pre-gate) allows Member State Gates to complete risk-targeting before discharge, freeing terminals to transfer cleared units directly from quay to rail without yard re-handling.</li>
+    </ul>
+
+    <h2>4. Open-Source Simulation Evidence (Project ZeST)</h2>
+    <p>
+      Project ZeST (<code>open-zest/zest-core</code>) provides open-source Python/Pydantic v2 manifest models and SimPy discrete-event terminal simulations testing <em>Data-Precedes-Physical</em> synchronization under realistic port-rail constraints (including a 10% physical port capacity deficit):
+    </p>
+
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-value">57.39 h &rarr; 4.43 h</div>
+        <div class="kpi-label">Simulated mean container dwell (1,500-box Rotterdam corridor baseline vs. T-5 pre-arrival handshake)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">0 Re-Handles</div>
+        <div class="kpi-label">Zone-sequenced quay-to-rail transfer once regulatory clearance precedes physical discharge</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">Zero Lock-In</div>
+        <div class="kpi-label">Vendor-neutral alignment with DCSA 3.0 eBL, eFTI XML V1.0.0 Beta, and EU ViDA reuse</div>
+      </div>
+    </div>
+
+    <h2>5. Summary Recommendation to DG MOVE</h2>
+    <p>
+      Physical rail upgrades along the Orient/East-Med and Baltic–Adriatic corridors require a decade of capital works. Adding optional intermodal identifiers (<code>intermodalUnitId</code>, <code>transportModeChain</code>, <code>transferTerminalLocode</code>, and <code>upstreamRefPointer</code>) to FTI004 requires a minor, non-breaking update to the V1.0.0 Beta schema before final adoption. Making the registry natively intermodal turns eFTI from a roadside paper-replacement tool into a digital velocity engine for European rail and combined transport.
+    </p>
+
+    <footer>
+      <div>Project ZeST &mdash; Open Intermodal Freight Architecture</div>
+      <div>James P. Reefe | <a href="https://open-zest.web.app">open-zest.web.app</a> | <a href="https://github.com/open-zest/zest-core">github.com/open-zest/zest-core</a></div>
+    </footer>
+  </div>
+</body>
+</html>

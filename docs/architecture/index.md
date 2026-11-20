@@ -1,9 +1,7 @@
-# Architecture & Simulation Core
+# Architecture
 
-Project ZeST (`open-zest/zest-core`) models intermodal port-to-rail synchronization using open-source Python tooling:
+Project ZeST (`open-zest/zest-core`) specifies a vendor-neutral, open-source data architecture that synchronizes maritime, port terminal, rail, and drayage handoffs ahead of physical arrival.
 
-* **Discrete-Event Simulation (`SimPy`):** Terminal dwell, yard re-handling, and European single-stack rail milk-run capacity modeling.
-* **Data & Regulatory Schemas (`Pydantic v2`):** Pre-arrival manifest tokens aligned with EU eFTI (Regulation 2020/1056) and DCSA 3.0 eBL.
-* **Interactive Digital Twin (`Streamlit`):** Corridor throughput and latency benchmarking.
+## Core Specifications
 
-Detailed technical specifications and latency benchmarks are rolling out in Phase 2. Source code is available on [GitHub](https://github.com/open-zest/zest-core).
+* **[Data-Precedes-Physical Specification](data-precedes-physical.md)** — How pre-arrival manifest tokens bridge DCSA 3.0 eBL, EU eFTI (Regulation 2020/1056) FTI004 pointers, and terminal yard-sequencing under European single-stack rail constraints.

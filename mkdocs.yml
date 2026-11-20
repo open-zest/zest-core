@@ -26,21 +26,24 @@ theme:
 
 plugins:
   - search
-  - blog:
-      blog_dir: series
-      blog_toc: true
 
 draft_docs: |
   drafts/
 
 nav:
   - Home: index.md
+  - Architecture:
+      - architecture/index.md
+      - Data-Precedes-Physical Spec: architecture/data-precedes-physical.md
+  - Maps:
+      - maps/index.md
+      - European & UK Corridor Reference: maps/corridor-reference-map.md
+  - Methodology:
+      - methodology/index.md
+      - Discrete-Event Simulation (SimPy): methodology/discrete-event-simulation.md
   - Policy:
       - policy/index.md
       - EU eFTI FTI004 Submission: policy/eu-efti-fti004.md
   - Series:
       - series/index.md
-  - Architecture:
-      - architecture/index.md
-  - Exhibits:
-      - exhibits/index.md
+      - "S01: Why Intermodal Is a Data Timing Problem": series/s01/01-data-timing-problem.md
