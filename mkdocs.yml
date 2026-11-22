@@ -45,5 +45,6 @@ nav:
       - policy/index.md
       - EU eFTI FTI004 Submission: policy/eu-efti-fti004.md
   - Series:
-      - series/index.md
-      - "S01: Why Intermodal Is a Data Timing Problem": series/s01/01-data-timing-problem.md
+      - Overview: series/index.md
+      - "Part 1: The Data Timing Problem": series/s01/01-data-timing-problem.md
+      - "Part 2: The Suez-to-Gibraltar Arc": series/s01/02-suez-gibraltar-arc.md
