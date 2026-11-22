@@ -20,3 +20,21 @@ European intermodal freight rarely fails because cranes are too slow; it fails b
 ## Reference Implementation
 
 Source schemas and validation tests live in [`open-zest/zest-core`](https://github.com/open-zest/zest-core) (`schemas/` and `solvers/zone_stow.py`).
+
+---
+
+## Interactive Process Exhibit
+
+* **[12-Swimlane End-to-End Process Evolution (PDCA Maturity Roadmap)](../exhibits/swimlane-process-evolution.html)** — Interactive 4-phase diagram comparing Legacy Baseline (750 km) through Full ZeST Origin Pre-Sorted Cut-Through (195 km) across Lean VSM, Cloud/SDN, and EU TEN-T views.
+
+---
+
+## Interactive Process Exhibit
+
+* **[12-Swimlane End-to-End Process Evolution (PDCA Maturity Roadmap)](../exhibits/swimlane-process-evolution.html)** — Interactive 4-phase diagram comparing Legacy Baseline (750 km) through Full ZeST Origin Pre-Sorted Cut-Through (195 km) across Lean VSM, Cloud/SDN, and EU TEN-T views.
+
+---
+
+## Interactive Process Exhibit
+
+* **[12-Swimlane End-to-End Process Evolution (PDCA Maturity Roadmap)](../exhibits/swimlane-process-evolution.html)** — Interactive 4-phase diagram comparing Legacy Baseline (750 km) through Full ZeST Origin Pre-Sorted Cut-Through (195 km) across Lean VSM, Cloud/SDN, and EU TEN-T views.

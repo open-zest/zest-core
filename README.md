@@ -18,6 +18,7 @@ Project ZeST (*Zero-Sort Transport*) demonstrates how **Data-Precedes-Physical**
 * **Corridor Reference Map:** [open-zest.web.app/maps/corridor-reference-map](https://open-zest.web.app/maps/corridor-reference-map/)
 * **EU Policy & eFTI FTI004 Annex:** [open-zest.web.app/policy/eu-efti-fti004](https://open-zest.web.app/policy/eu-efti-fti004/)
 * **System Architecture:** [open-zest.web.app/architecture/data-precedes-physical](https://open-zest.web.app/architecture/data-precedes-physical/)
+* **Interactive Process Exhibit (12-Swimlane PDCA):** [open-zest.web.app/exhibits/swimlane-process-evolution.html](https://open-zest.web.app/exhibits/swimlane-process-evolution.html)
 * **Simulation Methodology:** [open-zest.web.app/methodology/discrete-event-simulation](https://open-zest.web.app/methodology/discrete-event-simulation/)
 
 ---

@@ -22,7 +22,7 @@ Take a look at the Suez-to-Gibraltar arc on the whole—just as more than 60% of
 
 At Intermodal Europe in Rotterdam, Stefan Verberckmoes put the structural math on the table: while operators chase 1% incremental gains, European container demand is tracking ~10% ahead of port capacity heading into 2027. Yet ocean networks remain built around 24,000-TEU North Sea loops—sailing right past Southern Europe and the Adriatic, only to haul boxes back south by rail into Munich, Vienna, Budapest, and Milan.
 
-![Dual horizontal bar chart comparing 84-day Northern Range 24k-TEU container loops (4.35 annual hull turns and 57 hours of container dwell) against right-sized 11k–15.6k TEU direct Suez loops into Iberian, Ligurian, 3SI North Adriatic, and Aegean gateways (63–75 days, +12.0% to +33.3% more annual turns, and 4.5-hour T-5 cut-through dwell).](../../assets/images/ZeST_Post2_Suez_Gibraltar_Matrix_v2.jpg)
+![Dual horizontal bar chart comparing 84-day Northern Range 24k-TEU container loops (4.35 annual hull turns and 57 hours of container dwell) against right-sized 11k–15.6k TEU direct Suez loops into Iberian, Ligurian, 3SI North Adriatic, and Aegean gateways (63–75 days, +12.0% to +33.3% more annual turns, and 4.5-hour T-5 cut-through dwell).](../../assets/images/ZeST_Post2_Suez_Gibraltar_Matrix_v3.jpg)
 
 The fleet deployment is out of balance with the geography. How do you rebalance it without waiting years for deeper berths or mega-cranes? You pair right-sized 11,000 to 15,600 TEU vessels with T-5 pre-arrival synchronization across Europe’s seven Southern, Three Seas Adriatic, and Black Sea port clusters (30.8M TEU):
 
