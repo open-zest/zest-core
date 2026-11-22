@@ -1,6 +1,7 @@
 """
 Data models for Project ZeST synthetic manifests and operational telemetry.
-Aligned with eFTI Common Data Set (Regulation (EU) 2024/2024) and DTLF specifications.
+Aligned with eFTI Common Data Set (Regulation (EU) 2020/1056 & (EU) 2024/2024),
+FTI004 intermodal handoff extensions, DCSA 3.0 eBL, and DTLF specifications.
 """
 
 from collections import Counter
@@ -35,14 +36,76 @@ class CustomsChannel(str, Enum):
     RED = "RED"        # Non-intrusive scan or physical turn-out
 
 
+class PreArrivalSyncTier(str, Enum):
+    T_MINUS_14D = "T-14D"          # Origin inception lock (>= 336h pre-berth)
+    T_MINUS_5D = "T-5D"            # Regional cut-through lock (>= 120h pre-berth)
+    T_MINUS_24H = "T-24H"          # Short-sea / late pre-advise (>= 24h pre-berth)
+    POST_BERTH_LAG = "POST_BERTH"  # Legacy reactive EDI (< 24h or post-berth)
+
+
 class RegulatoryTokens(BaseModel):
     ics2_status: str = Field(default="APPROVED", description="ICS2 Safety and Security filing status")
     customs_channel: CustomsChannel = Field(default=CustomsChannel.GREEN, description="Automated customs routing decision")
     ncts_mrn: Optional[str] = Field(default=None, description="T1 Transit Master Reference Number")
+    ebl_reference: Optional[str] = Field(default=None, description="DCSA 3.0 Electronic Bill of Lading reference")
+    efti_gate_id: Optional[str] = Field(default=None, description="Member State eFTI Gate identifier (EU 2020/1056)")
     commercial_release: bool = Field(default=True, description="Bill of lading surrendered & freight charges cleared")
     data_lead_time_hours: float = Field(
-        default=48.0, 
+        default=48.0,
         description="Hours prior to berth that the complete eFTI data token was verified in Portbase/Gate (negative means lagged)"
+    )
+
+    @property
+    def sync_tier(self) -> PreArrivalSyncTier:
+        if self.data_lead_time_hours >= 336.0:
+            return PreArrivalSyncTier.T_MINUS_14D
+        if self.data_lead_time_hours >= 120.0:
+            return PreArrivalSyncTier.T_MINUS_5D
+        if self.data_lead_time_hours >= 24.0:
+            return PreArrivalSyncTier.T_MINUS_24H
+        return PreArrivalSyncTier.POST_BERTH_LAG
+
+    @property
+    def is_t5_cut_through_ready(self) -> bool:
+        """True when eFTI token & commercial release clear at least T-5 days (120h) prior to berth."""
+        return (
+            self.data_lead_time_hours >= 120.0
+            and self.commercial_release
+            and self.ics2_status == "APPROVED"
+        )
+
+
+class IntermodalHandoffFTI004(BaseModel):
+    """FTI004 intermodal sea-to-rail handoff extension fields (DG MOVE / DTLF annex)."""
+    efti_subset_code: str = Field(default="FTI004", description="eFTI regulatory data subset identifier")
+    origin_zone_stow_block: Optional[str] = Field(
+        default=None,
+        description="Coarse origin stowage bay/block mapped to inland rail corridor (e.g. BAY14-ZONE_F_BUD)"
+    )
+    quay_to_rail_cut_through: bool = Field(
+        default=False,
+        description="Authorizes direct STS-to-wagon zero-sort transfer bypassing coastal stack yard"
+    )
+    rail_undertaking_rics: Optional[str] = Field(
+        default=None,
+        description="4-digit UIC/RICS rail undertaking identifier"
+    )
+    target_dry_port_unlocode: Optional[str] = Field(
+        default=None,
+        description="UN/LOCODE of destination inland dry port (e.g. HUBUD, ATWIE, ROBUH)"
+    )
+    train_path_slot_id: Optional[str] = Field(
+        default=None,
+        description="Pre-allocated TEN-T Rail Freight Corridor train path slot ID"
+    )
+    wagon_sequence_index: Optional[int] = Field(
+        default=None,
+        ge=1,
+        description="Target wagon slot index for deterministic siding drop"
+    )
+    offline_customs_fallout: bool = Field(
+        default=False,
+        description="Routes YELLOW/RED channel units under T1 bond to inland dry-port inspection bay"
     )
 
 
@@ -58,6 +121,10 @@ class ContainerManifest(BaseModel):
     cryptographic_token: str = Field(default="", description="SHA-256 consignment tamper-proof token")
     imdg_code: Optional[str] = Field(default=None, description="IMDG hazard class if dangerous cargo")
     regulatory: RegulatoryTokens = Field(default_factory=RegulatoryTokens, description="eFTI data twin & customs clearance tokens")
+    fti004_handoff: IntermodalHandoffFTI004 = Field(
+        default_factory=IntermodalHandoffFTI004,
+        description="FTI004 intermodal sea-to-rail synchronization metadata"
+    )
 
     @model_validator(mode="before")
     @classmethod
@@ -84,6 +151,10 @@ class VesselCallManifest(BaseModel):
     vessel_name: str
     vessel_imo: str
     port_of_discharge: str = "NL-RTM"
+    vessel_class_teu: Optional[int] = Field(
+        default=None,
+        description="Nominal vessel capacity in TEU (e.g. 13500 regional Suez string vs 24000 North Sea ULCV)"
+    )
     scheduled_berth_hours: float = 0.0
     total_containers: int
     containers: List[ContainerManifest]
