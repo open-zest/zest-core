@@ -1,0 +1,4229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_b0a7e30a04700b54d8000e6b1c75b369 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-dvf/0.3.0/leaflet-dvf.markers.min.js"></script>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_b0a7e30a04700b54d8000e6b1c75b369" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_b0a7e30a04700b54d8000e6b1c75b369 = L.map(
+                "map_b0a7e30a04700b54d8000e6b1c75b369",
+                {
+                    center: [48.5, 11.5],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_b0a7e30a04700b54d8000e6b1c75b369);
+
+            
+
+        
+    
+            var tile_layer_5b8f444211991ad7445a30f3a781eba5 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_5b8f444211991ad7445a30f3a781eba5.addTo(map_b0a7e30a04700b54d8000e6b1c75b369);
+        
+    
+            var feature_group_cef63894854da7b159d4a269c0c2ce7c = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_18ae6aa8c650314f1bd424a95bb2f01a = L.polygon(
+                [[53.506, 6.2157], [53.5104, 6.0742], [53.0918, 4.706], [51.6205, 3.8303], [51.3458, 3.315], [50.9413, 1.637], [47.5898, 5.7367], [48.7048, 9.3911], [49.0641, 9.9146], [53.506, 6.2157]],
+                {"bubblingMouseEvents": true, "color": "#0ea5e9", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0ea5e9", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_9f649997c36c0e0f148ec9344c1bdda5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7f91f04f125724de04140c167e2b87f9 = $(`<div id="html_7f91f04f125724de04140c167e2b87f9" style="width: 100.0%; height: 100.0%;"><b>Rotterdam / Antwerp-Bruges Catchment (27.9M TEU)</b><br></div>`)[0];
+                popup_9f649997c36c0e0f148ec9344c1bdda5.setContent(html_7f91f04f125724de04140c167e2b87f9);
+            
+        
+
+        polygon_18ae6aa8c650314f1bd424a95bb2f01a.bindPopup(popup_9f649997c36c0e0f148ec9344c1bdda5)
+        ;
+
+        
+    
+    
+            polygon_18ae6aa8c650314f1bd424a95bb2f01a.bindTooltip(
+                `<div>
+                     Rotterdam / Antwerp-Bruges Catchment (27.9M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_e0c7cb361c2fe035be539b0c31ab6509 = L.polygon(
+                [[53.8459, 14.3245], [53.757, 14.1197], [54.0755, 13.6475], [54.4704, 12.5184], [54.1965, 11.9563], [54.0087, 10.9395], [54.3636, 10.9501], [54.5966, 9.9396], [54.9831, 9.9219], [55.47, 9.65], [56.19, 10.37], [56.0814, 10.6678], [56.4586, 10.9122], [56.61, 10.37], [56.89, 10.25], [57.2157, 10.5461], [57.73, 10.58], [57.4479, 9.7756], [57.1721, 9.4245], [57.11, 8.5434], [56.81, 8.2566], [56.54, 8.09], [55.5177, 8.1203], [54.9627, 8.5262], [54.3956, 8.5721], [54.0208, 8.8007], [53.5278, 8.1217], [53.7483, 7.9362], [53.6939, 7.1004], [53.4822, 6.9051], [53.506, 6.2157], [49.0641, 9.9146], [50.1586, 15.2728], [53.8459, 14.3245]],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_ca821efe092af4dccf5d1301f795d776 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_06eb1887ea9d2d03c3c6d0d9eafb634a = $(`<div id="html_06eb1887ea9d2d03c3c6d0d9eafb634a" style="width: 100.0%; height: 100.0%;"><b>Hamburg / Bremerhaven Catchment (13.2M TEU)</b><br></div>`)[0];
+                popup_ca821efe092af4dccf5d1301f795d776.setContent(html_06eb1887ea9d2d03c3c6d0d9eafb634a);
+            
+        
+
+        polygon_e0c7cb361c2fe035be539b0c31ab6509.bindPopup(popup_ca821efe092af4dccf5d1301f795d776)
+        ;
+
+        
+    
+    
+            polygon_e0c7cb361c2fe035be539b0c31ab6509.bindTooltip(
+                `<div>
+                     Hamburg / Bremerhaven Catchment (13.2M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_0f5037a1a58422a3992e2c04ebd3b3ec = L.polygon(
+                [[55.3649, 11.0435], [54.8, 12.09], [55.61, 12.69], [56.1114, 12.3709], [55.78, 10.9039], [55.3649, 11.0435]],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_e6b1bda3e4886f78caf1d66aa31987ec = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_48d97dbd0c0b9618143cb38d1f64a094 = $(`<div id="html_48d97dbd0c0b9618143cb38d1f64a094" style="width: 100.0%; height: 100.0%;"><b>Hamburg / Bremerhaven Catchment (13.2M TEU)</b><br></div>`)[0];
+                popup_e6b1bda3e4886f78caf1d66aa31987ec.setContent(html_48d97dbd0c0b9618143cb38d1f64a094);
+            
+        
+
+        polygon_0f5037a1a58422a3992e2c04ebd3b3ec.bindPopup(popup_e6b1bda3e4886f78caf1d66aa31987ec)
+        ;
+
+        
+    
+    
+            polygon_0f5037a1a58422a3992e2c04ebd3b3ec.bindTooltip(
+                `<div>
+                     Hamburg / Bremerhaven Catchment (13.2M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_3d0cbd9e8b73e2d1249994d43f639361 = L.polygon(
+                [[48.4778, 22.0469], [48.5141, 22.1297], [48.8254, 22.2808], [49.0857, 22.5581], [49.0274, 22.7764], [49.4768, 22.5185], [50.3085, 23.4265], [50.4249, 23.9228], [50.7054, 24.03], [51.5785, 23.5271], [52.0236, 23.508], [52.487, 23.1995], [52.6911, 23.7992], [53.0897, 23.8049], [53.4701, 23.5275], [53.9125, 23.4841], [53.9057, 24.4507], [54.2824, 25.5364], [54.847, 25.7684], [55.1672, 26.5883], [55.6151, 26.4943], [55.7833, 27.1025], [56.1691, 28.1767], [56.7593, 27.8553], [57.2443, 27.77], [57.4745, 27.2882], [57.7919, 27.7167], [58.7246, 27.4202], [59.3008, 28.1317], [59.4754, 27.9811], [59.4458, 26.9491], [59.6111, 25.8642], [59.4659, 24.6042], [59.1872, 23.3398], [58.6128, 23.4266], [58.2574, 24.0612], [58.3834, 24.4289], [57.0257, 24.1207], [57.0062, 23.3185], [57.7534, 22.5243], [57.4119, 21.5819], [56.7839, 21.0904], [56.0311, 21.0558], [55.1905, 21.2684], [55.0153, 22.3157], [54.8566, 22.7578], [54.5827, 22.6511], [54.3275, 22.7311], [54.3125, 20.8922], [54.4261, 19.6606], [54.4387, 18.6963], [54.6826, 18.6209], [54.8515, 17.6228], [54.0507, 14.8029], [53.8459, 14.3245], [50.1586, 15.2728], [48.4778, 22.0469]],
+                {"bubblingMouseEvents": true, "color": "#f59e0b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_0442205981393cabfc837242065ff708 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8d8f80ebf228def92f732a323a14334d = $(`<div id="html_8d8f80ebf228def92f732a323a14334d" style="width: 100.0%; height: 100.0%;"><b>Gdańsk / Gdynia — 3SI Baltic Catchment (3.8M TEU)</b><br></div>`)[0];
+                popup_0442205981393cabfc837242065ff708.setContent(html_8d8f80ebf228def92f732a323a14334d);
+            
+        
+
+        polygon_3d0cbd9e8b73e2d1249994d43f639361.bindPopup(popup_0442205981393cabfc837242065ff708)
+        ;
+
+        
+    
+    
+            polygon_3d0cbd9e8b73e2d1249994d43f639361.bindTooltip(
+                `<div>
+                     Gdańsk / Gdynia — 3SI Baltic Catchment (3.8M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_d5c49cd0bfa6ef9ee0b5dbcb16a07e14 = L.polygon(
+                [[50.9371, 1.6427], [50.1272, 1.3388], [49.3474, -0.9895], [49.7763, -1.9335], [48.6444, -1.6165], [48.9017, -3.2958], [48.6842, -4.5923], [47.955, -4.4916], [47.5703, -2.9633], [47.0644, -2.2257], [46.0149, -1.1938], [44.8779, -1.3031], [47.5427, 5.6778], [47.5898, 5.7367], [50.9371, 1.6427]],
+                {"bubblingMouseEvents": true, "color": "#8b5cf6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8b5cf6", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_ae1f73611ab498e94142dcea88fd76f1 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7437832976fd592e8ed28d8a43a9843f = $(`<div id="html_7437832976fd592e8ed28d8a43a9843f" style="width: 100.0%; height: 100.0%;"><b>Le Havre / HAROPA Catchment (3.2M TEU)</b><br></div>`)[0];
+                popup_ae1f73611ab498e94142dcea88fd76f1.setContent(html_7437832976fd592e8ed28d8a43a9843f);
+            
+        
+
+        polygon_d5c49cd0bfa6ef9ee0b5dbcb16a07e14.bindPopup(popup_ae1f73611ab498e94142dcea88fd76f1)
+        ;
+
+        
+    
+    
+            polygon_d5c49cd0bfa6ef9ee0b5dbcb16a07e14.bindTooltip(
+                `<div>
+                     Le Havre / HAROPA Catchment (3.2M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_97a71d5b8b3a66d48017bfb88eebc8aa = L.polygon(
+                [[36.6683, -2.8157], [36.6741, -2.1465], [37.4431, -1.4384], [37.6424, -0.6834], [38.2924, -0.4671], [38.7385, 0.1113], [39.31, -0.2787], [40.1239, 0.1067], [40.6783, 0.7213], [41.0147, 0.8105], [41.2261, 2.0918], [41.6928, 2.7525], [44.7636, -1.314], [44.0226, -1.3842], [43.4228, -1.9014], [43.4559, -3.5175], [43.4034, -4.3478], [43.5742, -5.4119], [43.5735, -6.7908], [36.6683, -2.8157]],
+                {"bubblingMouseEvents": true, "color": "#ec4899", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ec4899", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_440ef9c51b270073e37c000e6286032c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e6aab3250903e3ccb9e48e02fc0510e5 = $(`<div id="html_e6aab3250903e3ccb9e48e02fc0510e5" style="width: 100.0%; height: 100.0%;"><b>Valencia / Barcelona Catchment (9.4M TEU)</b><br></div>`)[0];
+                popup_440ef9c51b270073e37c000e6286032c.setContent(html_e6aab3250903e3ccb9e48e02fc0510e5);
+            
+        
+
+        polygon_97a71d5b8b3a66d48017bfb88eebc8aa.bindPopup(popup_440ef9c51b270073e37c000e6286032c)
+        ;
+
+        
+    
+    
+            polygon_97a71d5b8b3a66d48017bfb88eebc8aa.bindTooltip(
+                `<div>
+                     Valencia / Barcelona Catchment (9.4M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_45cb73aea82d4e9da6c6be9b340ccc6b = L.polygon(
+                [[43.5735, -6.7908], [43.7483, -7.9782], [43.0266, -9.3929], [42.5928, -8.9844], [41.8806, -9.0348], [41.5435, -8.9908], [41.1843, -8.7909], [40.7606, -8.7687], [40.1593, -8.9774], [39.7551, -9.0483], [39.3921, -9.447], [38.7374, -9.5266], [38.3585, -9.2875], [38.2662, -8.84], [37.6513, -8.7461], [36.8688, -8.8989], [36.9789, -8.3828], [36.8383, -7.8556], [37.0978, -7.4537], [36.9429, -6.5202], [36.3677, -6.2367], [36.0298, -5.8664], [35.9469, -5.3772], [36.3247, -4.9952], [36.6778, -4.3689], [36.6589, -3.4158], [36.6683, -2.8157], [43.5735, -6.7908]],
+                {"bubblingMouseEvents": true, "color": "#14b8a6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#14b8a6", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_25b346cbdc9402c01d611d341f580240 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ea5861e5868dd6220cef9a521fa4f758 = $(`<div id="html_ea5861e5868dd6220cef9a521fa4f758" style="width: 100.0%; height: 100.0%;"><b>Algeciras / Sines / Lisbon Catchment (6.5M TEU)</b><br></div>`)[0];
+                popup_25b346cbdc9402c01d611d341f580240.setContent(html_ea5861e5868dd6220cef9a521fa4f758);
+            
+        
+
+        polygon_45cb73aea82d4e9da6c6be9b340ccc6b.bindPopup(popup_25b346cbdc9402c01d611d341f580240)
+        ;
+
+        
+    
+    
+            polygon_45cb73aea82d4e9da6c6be9b340ccc6b.bindTooltip(
+                `<div>
+                     Algeciras / Sines / Lisbon Catchment (6.5M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_50e35ec03773a9be7f97568c58675a82 = L.polygon(
+                [[44.8779, -1.3031], [44.7636, -1.314], [41.6928, 2.7525], [41.8921, 3.0395], [42.473, 2.986], [43.0752, 3.1004], [43.3997, 4.557], [43.1289, 6.5292], [43.5518, 7.2045], [47.5427, 5.6778], [44.8779, -1.3031]],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f97316", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_69fd35f65dc898a717ced90410d2d3cd = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_11ac9b84067125dd41c32efd421628ee = $(`<div id="html_11ac9b84067125dd41c32efd421628ee" style="width: 100.0%; height: 100.0%;"><b>Marseille-Fos Catchment (1.5M TEU)</b><br></div>`)[0];
+                popup_69fd35f65dc898a717ced90410d2d3cd.setContent(html_11ac9b84067125dd41c32efd421628ee);
+            
+        
+
+        polygon_50e35ec03773a9be7f97568c58675a82.bindPopup(popup_69fd35f65dc898a717ced90410d2d3cd)
+        ;
+
+        
+    
+    
+            polygon_50e35ec03773a9be7f97568c58675a82.bindTooltip(
+                `<div>
+                     Marseille-Fos Catchment (1.5M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_44b54f8d7b9dc62114cc72f70ca774fc = L.polygon(
+                [[39.9253, 8.4035], [39.1718, 8.4283], [38.9896, 8.689], [39.1835, 8.6306], [39.9253, 8.4035]],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f97316", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_2aaa8971d6c49d293fd580e1f10e5f30 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_20933d26d45972da255995f049bbf249 = $(`<div id="html_20933d26d45972da255995f049bbf249" style="width: 100.0%; height: 100.0%;"><b>Marseille-Fos Catchment (1.5M TEU)</b><br></div>`)[0];
+                popup_2aaa8971d6c49d293fd580e1f10e5f30.setContent(html_20933d26d45972da255995f049bbf249);
+            
+        
+
+        polygon_44b54f8d7b9dc62114cc72f70ca774fc.bindPopup(popup_2aaa8971d6c49d293fd580e1f10e5f30)
+        ;
+
+        
+    
+    
+            polygon_44b54f8d7b9dc62114cc72f70ca774fc.bindTooltip(
+                `<div>
+                     Marseille-Fos Catchment (1.5M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_d6f1d60be3506d69677900c47c6fcb02 = L.polygon(
+                [[38.9896, 8.689], [38.9066, 8.8069], [39.2405, 9.2148], [39.1774, 9.6695], [40.5, 9.81], [41.21, 9.21], [40.9, 8.71], [40.95, 8.16], [40.3783, 8.3883], [39.9253, 8.4035], [38.9896, 8.689]],
+                {"bubblingMouseEvents": true, "color": "#6366f1", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#6366f1", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_0054ae855da02bdec124a84141c6d713 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_72b4e8d173738bfa6aff00a53b0cc64f = $(`<div id="html_72b4e8d173738bfa6aff00a53b0cc64f" style="width: 100.0%; height: 100.0%;"><b>Genoa / Vado / La Spezia Catchment (4.8M TEU)</b><br></div>`)[0];
+                popup_0054ae855da02bdec124a84141c6d713.setContent(html_72b4e8d173738bfa6aff00a53b0cc64f);
+            
+        
+
+        polygon_d6f1d60be3506d69677900c47c6fcb02.bindPopup(popup_0054ae855da02bdec124a84141c6d713)
+        ;
+
+        
+    
+    
+            polygon_d6f1d60be3506d69677900c47c6fcb02.bindTooltip(
+                `<div>
+                     Genoa / Vado / La Spezia Catchment (4.8M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_b3a006a38841ab37b9f09387ad4c84b2 = L.polygon(
+                [[43.5518, 7.2045], [43.6938, 7.4352], [43.7671, 7.8508], [44.2312, 8.4286], [44.3663, 8.8889], [44.0363, 9.7025], [43.92, 10.2], [42.9315, 10.5119], [42.3554, 11.1919], [41.7045, 12.1067], [41.2531, 12.8881], [41.1988, 13.5121], [48.7048, 9.3911], [47.5898, 5.7367], [47.5427, 5.6778], [43.5518, 7.2045]],
+                {"bubblingMouseEvents": true, "color": "#6366f1", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#6366f1", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_eafec7c41028b8faa984fed33200b2c3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c0ce7e22150e18ef868bc147d2d6b4b9 = $(`<div id="html_c0ce7e22150e18ef868bc147d2d6b4b9" style="width: 100.0%; height: 100.0%;"><b>Genoa / Vado / La Spezia Catchment (4.8M TEU)</b><br></div>`)[0];
+                popup_eafec7c41028b8faa984fed33200b2c3.setContent(html_c0ce7e22150e18ef868bc147d2d6b4b9);
+            
+        
+
+        polygon_b3a006a38841ab37b9f09387ad4c84b2.bindPopup(popup_eafec7c41028b8faa984fed33200b2c3)
+        ;
+
+        
+    
+    
+            polygon_b3a006a38841ab37b9f09387ad4c84b2.bindTooltip(
+                `<div>
+                     Genoa / Vado / La Spezia Catchment (4.8M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_96b5fd3fa06820f5d6bce18d12ee9fa6 = L.polygon(
+                [[38.1043, 14.3786], [38.035, 13.7412], [38.1264, 12.5709], [37.6129, 12.431], [37.1193, 13.7872], [38.1043, 14.3786]],
+                {"bubblingMouseEvents": true, "color": "#6366f1", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#6366f1", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_f6c6b7d4fe2951fc7d0d689842e60771 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5e07aad2199d34112902aaeb648bba9a = $(`<div id="html_5e07aad2199d34112902aaeb648bba9a" style="width: 100.0%; height: 100.0%;"><b>Genoa / Vado / La Spezia Catchment (4.8M TEU)</b><br></div>`)[0];
+                popup_f6c6b7d4fe2951fc7d0d689842e60771.setContent(html_5e07aad2199d34112902aaeb648bba9a);
+            
+        
+
+        polygon_96b5fd3fa06820f5d6bce18d12ee9fa6.bindPopup(popup_f6c6b7d4fe2951fc7d0d689842e60771)
+        ;
+
+        
+    
+    
+            polygon_96b5fd3fa06820f5d6bce18d12ee9fa6.bindTooltip(
+                `<div>
+                     Genoa / Vado / La Spezia Catchment (4.8M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_422efd9394e4a4ba49924d608400bfec = L.polygon(
+                [[43.01, 9.39], [42.6281, 8.746], [42.2565, 8.5442], [41.5836, 8.7757], [41.38, 9.2298], [42.1525, 9.56], [43.01, 9.39]],
+                {"bubblingMouseEvents": true, "color": "#6366f1", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#6366f1", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_9ee6fb2154c2807122f6dca4fc52d343 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_252ad288d48a1b2b538a879a10ff22ea = $(`<div id="html_252ad288d48a1b2b538a879a10ff22ea" style="width: 100.0%; height: 100.0%;"><b>Genoa / Vado / La Spezia Catchment (4.8M TEU)</b><br></div>`)[0];
+                popup_9ee6fb2154c2807122f6dca4fc52d343.setContent(html_252ad288d48a1b2b538a879a10ff22ea);
+            
+        
+
+        polygon_422efd9394e4a4ba49924d608400bfec.bindPopup(popup_9ee6fb2154c2807122f6dca4fc52d343)
+        ;
+
+        
+    
+    
+            polygon_422efd9394e4a4ba49924d608400bfec.bindTooltip(
+                `<div>
+                     Genoa / Vado / La Spezia Catchment (4.8M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_f5450186f90a875216a209e7b617536a = L.polygon(
+                [[48.7048, 9.3911], [41.1988, 13.5121], [41.1883, 13.628], [40.7863, 14.0607], [40.6046, 14.7033], [40.1729, 14.9985], [40.0484, 15.4136], [39.5337, 15.7259], [40.9327, 17.3858], [41.5411, 15.8893], [41.7403, 16.1699], [41.9613, 15.9262], [41.9551, 15.1426], [42.761, 14.0298], [43.5877, 13.5269], [44.0914, 12.5892], [44.6005, 12.2615], [44.8854, 12.3839], [45.3818, 12.3286], [45.7367, 13.1416], [45.591, 13.9376], [45.4841, 13.6794], [45.1369, 13.657], [44.8021, 13.9523], [45.2338, 14.2587], [45.0761, 14.9016], [44.7385, 14.9203], [44.3179, 15.3763], [44.2432, 15.1745], [43.5072, 16.0154], [43.21, 16.93], [42.85, 17.51], [42.48, 18.45], [42.2815, 18.8821], [42.1812, 18.9686], [43.7784, 21.1558], [48.4778, 22.0469], [50.1586, 15.2728], [49.0641, 9.9146], [48.7048, 9.3911]],
+                {"bubblingMouseEvents": true, "color": "#84cc16", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#84cc16", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_085f82eb6417a35e2e21ee858bb9e513 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ef5b8d66e5ddfd1fe53135505c017cac = $(`<div id="html_ef5b8d66e5ddfd1fe53135505c017cac" style="width: 100.0%; height: 100.0%;"><b>Koper / Trieste / Rijeka — 3SI Adriatic Catchment (2.3M TEU)</b><br></div>`)[0];
+                popup_085f82eb6417a35e2e21ee858bb9e513.setContent(html_ef5b8d66e5ddfd1fe53135505c017cac);
+            
+        
+
+        polygon_f5450186f90a875216a209e7b617536a.bindPopup(popup_085f82eb6417a35e2e21ee858bb9e513)
+        ;
+
+        
+    
+    
+            polygon_f5450186f90a875216a209e7b617536a.bindTooltip(
+                `<div>
+                     Koper / Trieste / Rijeka — 3SI Adriatic Catchment (2.3M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_2bbe6c87dce53f347046bf731f4433fa = L.polygon(
+                [[37.1193, 13.7872], [37.1045, 13.8267], [36.9966, 14.3352], [36.62, 15.1], [37.1342, 15.3099], [37.444, 15.1602], [38.2312, 15.5204], [38.1043, 14.3786], [37.1193, 13.7872]],
+                {"bubblingMouseEvents": true, "color": "#06b6d4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#06b6d4", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_f3c558707fa93804577d07a16c0973da = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_125e9ecad71d917a094b693e5173cde7 = $(`<div id="html_125e9ecad71d917a094b693e5173cde7" style="width: 100.0%; height: 100.0%;"><b>Piraeus / Thessaloniki Catchment (5.2M TEU)</b><br></div>`)[0];
+                popup_f3c558707fa93804577d07a16c0973da.setContent(html_125e9ecad71d917a094b693e5173cde7);
+            
+        
+
+        polygon_2bbe6c87dce53f347046bf731f4433fa.bindPopup(popup_f3c558707fa93804577d07a16c0973da)
+        ;
+
+        
+    
+    
+            polygon_2bbe6c87dce53f347046bf731f4433fa.bindTooltip(
+                `<div>
+                     Piraeus / Thessaloniki Catchment (5.2M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_574345376883fb2f9a5c0afb5065d3d7 = L.polygon(
+                [[39.5337, 15.7259], [38.9645, 16.1093], [38.7509, 15.892], [38.2146, 15.688], [37.9088, 15.6841], [37.9859, 16.101], [38.8436, 16.6351], [38.9029, 17.0528], [39.4247, 17.1715], [39.7954, 16.4487], [40.4422, 16.8696], [40.2777, 17.7384], [39.8108, 18.2934], [40.1689, 18.4802], [40.3556, 18.3767], [40.8771, 17.5192], [40.9327, 17.3858], [39.5337, 15.7259]],
+                {"bubblingMouseEvents": true, "color": "#06b6d4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#06b6d4", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_eb7115ae1d1f7c55c1e0c70091370131 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cc0bf3daf067483977ae7f01d1051f38 = $(`<div id="html_cc0bf3daf067483977ae7f01d1051f38" style="width: 100.0%; height: 100.0%;"><b>Piraeus / Thessaloniki Catchment (5.2M TEU)</b><br></div>`)[0];
+                popup_eb7115ae1d1f7c55c1e0c70091370131.setContent(html_cc0bf3daf067483977ae7f01d1051f38);
+            
+        
+
+        polygon_574345376883fb2f9a5c0afb5065d3d7.bindPopup(popup_eb7115ae1d1f7c55c1e0c70091370131)
+        ;
+
+        
+    
+    
+            polygon_574345376883fb2f9a5c0afb5065d3d7.bindTooltip(
+                `<div>
+                     Piraeus / Thessaloniki Catchment (5.2M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_11a0a44586902bdd77426aa845701efe = L.polygon(
+                [[42.1812, 18.9686], [41.955, 19.1625], [41.8776, 19.3718], [41.72, 19.54], [41.4096, 19.4035], [40.7272, 19.3191], [40.2508, 19.4061], [39.915, 19.96], [39.695, 19.98], [39.625, 20.15], [39.3402, 20.2177], [38.3103, 21.12], [37.645, 21.295], [36.845, 21.67], [36.41, 22.49], [36.4225, 23.1542], [37.305, 22.775], [37.41, 23.41], [37.92, 23.115], [37.655, 24.04], [38.22, 24.025], [38.51, 23.53], [38.9709, 22.9731], [39.19, 23.35], [39.6593, 22.8497], [40.2566, 22.6263], [40.476, 22.814], [39.961, 23.343], [39.962, 23.9], [40.125, 24.408], [40.6871, 23.7148], [40.9471, 24.9258], [40.8525, 25.4477], [40.8241, 26.0569], [40.9363, 26.2946], [41.1429, 26.3959], [43.7784, 21.1558], [42.1812, 18.9686]],
+                {"bubblingMouseEvents": true, "color": "#06b6d4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#06b6d4", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_9ef4a0945422052e30c9ffa3b7a7a197 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c7217dad7dd758cf60e740ba7f4e38ab = $(`<div id="html_c7217dad7dd758cf60e740ba7f4e38ab" style="width: 100.0%; height: 100.0%;"><b>Piraeus / Thessaloniki Catchment (5.2M TEU)</b><br></div>`)[0];
+                popup_9ef4a0945422052e30c9ffa3b7a7a197.setContent(html_c7217dad7dd758cf60e740ba7f4e38ab);
+            
+        
+
+        polygon_11a0a44586902bdd77426aa845701efe.bindPopup(popup_9ef4a0945422052e30c9ffa3b7a7a197)
+        ;
+
+        
+    
+    
+            polygon_11a0a44586902bdd77426aa845701efe.bindTooltip(
+                `<div>
+                     Piraeus / Thessaloniki Catchment (5.2M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_13c1245d3f879e958d92a73ec16e8cc0 = L.polygon(
+                [[35.425, 25.025], [35.368, 24.2467], [35.705, 23.7], [35.28, 23.515], [35.085, 24.735], [34.92, 24.725], [35.005, 26.165], [35.3, 26.29], [35.18, 25.745], [35.354, 25.7692], [35.425, 25.025]],
+                {"bubblingMouseEvents": true, "color": "#06b6d4", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#06b6d4", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_b63e6b80b627491b7aebee5fde45911d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_89721bdf657c5ea1039f7e8df4d35d1d = $(`<div id="html_89721bdf657c5ea1039f7e8df4d35d1d" style="width: 100.0%; height: 100.0%;"><b>Piraeus / Thessaloniki Catchment (5.2M TEU)</b><br></div>`)[0];
+                popup_b63e6b80b627491b7aebee5fde45911d.setContent(html_89721bdf657c5ea1039f7e8df4d35d1d);
+            
+        
+
+        polygon_13c1245d3f879e958d92a73ec16e8cc0.bindPopup(popup_b63e6b80b627491b7aebee5fde45911d)
+        ;
+
+        
+    
+    
+            polygon_13c1245d3f879e958d92a73ec16e8cc0.bindTooltip(
+                `<div>
+                     Piraeus / Thessaloniki Catchment (5.2M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_6b4c3f7ca5029b048e7a9a02c0b3dcda = L.polygon(
+                [[41.1429, 26.3959], [41.5621, 26.6042], [41.8269, 26.117], [42.1415, 27.1357], [42.0074, 27.9967], [42.5779, 27.6739], [43.2932, 28.0391], [43.7075, 28.5581], [44.9139, 28.8379], [44.8202, 29.1416], [45.0354, 29.6265], [45.2933, 29.6033], [45.4649, 29.1497], [45.304, 28.6798], [45.4883, 28.2336], [45.9446, 28.0544], [46.3716, 28.16], [46.8105, 28.128], [47.4051, 27.5512], [47.8268, 27.2339], [48.1233, 26.9242], [48.2207, 26.6193], [48.2209, 26.1975], [47.9871, 25.9459], [47.8911, 25.2077], [47.7375, 24.8663], [47.9819, 24.4021], [47.9856, 23.761], [48.0963, 23.1422], [47.8822, 22.7105], [48.1502, 22.6408], [48.4223, 22.0856], [48.5141, 22.1297], [48.4778, 22.0469], [43.7784, 21.1558], [41.1429, 26.3959]],
+                {"bubblingMouseEvents": true, "color": "#ef4444", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ef4444", "fillOpacity": 0.15, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 1.5}
+            ).addTo(feature_group_cef63894854da7b159d4a269c0c2ce7c);
+        
+    
+        var popup_8f65002ddbda1ddc2f8a63655bcc8a98 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cf558e696fa102507491368bdba7bed9 = $(`<div id="html_cf558e696fa102507491368bdba7bed9" style="width: 100.0%; height: 100.0%;"><b>Constanța — 3SI Black Sea Catchment (1.1M TEU)</b><br></div>`)[0];
+                popup_8f65002ddbda1ddc2f8a63655bcc8a98.setContent(html_cf558e696fa102507491368bdba7bed9);
+            
+        
+
+        polygon_6b4c3f7ca5029b048e7a9a02c0b3dcda.bindPopup(popup_8f65002ddbda1ddc2f8a63655bcc8a98)
+        ;
+
+        
+    
+    
+            polygon_6b4c3f7ca5029b048e7a9a02c0b3dcda.bindTooltip(
+                `<div>
+                     Constanța — 3SI Black Sea Catchment (1.1M TEU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_3b588ebe5666438b046800769cd7ac85 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_ec70d23723bdc37162bb6eb725d76824 = L.circle(
+                [51.4344, 6.7623],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_ec70d23723bdc37162bb6eb725d76824.bindTooltip(
+                `<div>
+                     Duisburg (DIT / D3T) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_45e8be966b93010dc8d887d419f26c6c = L.circle(
+                [45.415, 10.945],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_45e8be966b93010dc8d887d419f26c6c.bindTooltip(
+                `<div>
+                     Verona (Quadrante Europa) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_275251cdd2e49e30804ad9bf2adb42cc = L.circle(
+                [52.4064, 17.0785],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_275251cdd2e49e30804ad9bf2adb42cc.bindTooltip(
+                `<div>
+                     Poznań (CLIP Swarzędz) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_f6dca35efdc77faa13e9f617cae3bb95 = L.circle(
+                [48.165, 16.475],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_f6dca35efdc77faa13e9f617cae3bb95.bindTooltip(
+                `<div>
+                     Vienna (WienCont) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_a91445f79a7b3f02b1149cb6ab0c74be = L.circle(
+                [45.708, 4.886],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_a91445f79a7b3f02b1149cb6ab0c74be.bindTooltip(
+                `<div>
+                     Lyon (Terminal de Vénissieux) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_e114e6a5fe5103c35cd5e731b23095f6 = L.circle(
+                [47.392, 19.085],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_e114e6a5fe5103c35cd5e731b23095f6.bindTooltip(
+                `<div>
+                     Budapest (BILK) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_5769300c9a34f32b598a12b6bde8ded2 = L.circle(
+                [48.148, 11.696],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_5769300c9a34f32b598a12b6bde8ded2.bindTooltip(
+                `<div>
+                     Munich (München-Riem) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_bc7a4a0666af6a5be8a1f0ae95d9b97d = L.circle(
+                [45.498, 9.423],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_bc7a4a0666af6a5be8a1f0ae95d9b97d.bindTooltip(
+                `<div>
+                     Milan (Melzo / RHM) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_c8140501513b711cb8da9a12abe32de4 = L.circle(
+                [40.4238, -3.5613],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_c8140501513b711cb8da9a12abe32de4.bindTooltip(
+                `<div>
+                     Madrid (Coslada Dry Port) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_f581398930c7bc3666dd9a4d7433fbb6 = L.circle(
+                [41.6488, -0.8891],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_f581398930c7bc3666dd9a4d7433fbb6.bindTooltip(
+                `<div>
+                     Zaragoza (tmZ / PLAZA) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_ffe765ab7cd730cc077bb9a4b42e26b2 = L.circle(
+                [50.03, 14.6],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_ffe765ab7cd730cc077bb9a4b42e26b2.bindTooltip(
+                `<div>
+                     Prague (Uhříněves / METRANS) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_b799b6958e983e8607de30d2c329b243 = L.circle(
+                [47.9928, 17.6121],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_b799b6958e983e8607de30d2c329b243.bindTooltip(
+                `<div>
+                     Bratislava / Dunajská Streda — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_d1ac65b439790475e6fe58839c7b0798 = L.circle(
+                [44.826, 20.225],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_d1ac65b439790475e6fe58839c7b0798.bindTooltip(
+                `<div>
+                     Belgrade (Nelt / Dobanovci) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_a7db9d296851ac3c3e33f21c2541f60f = L.circle(
+                [45.8, 15.86],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_a7db9d296851ac3c3e33f21c2541f60f.bindTooltip(
+                `<div>
+                     Zagreb (Jankomir) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_9ccb81f97917e402af469f5430b25da0 = L.circle(
+                [46.942, 15.432],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_9ccb81f97917e402af469f5430b25da0.bindTooltip(
+                `<div>
+                     Graz (Cargo Center Graz) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_1c8bc15e7e603e64753d7a517bda4f06 = L.circle(
+                [49.73, 18.29],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_1c8bc15e7e603e64753d7a517bda4f06.bindTooltip(
+                `<div>
+                     Ostrava (Paskov) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_17184e24875ad5373091b457e8dcf880 = L.circle(
+                [47.583, 7.589],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_17184e24875ad5373091b457e8dcf880.bindTooltip(
+                `<div>
+                     Basel (Frenkendorf / Kleinhüningen) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_77af3e6dc4aa3bf5b21e841b17e00798 = L.circle(
+                [46.342, 21.306],
+                {"bubblingMouseEvents": true, "color": "#d97706", "dashArray": "5, 5", "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.04, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.6, "radius": 300000, "stroke": true, "weight": 1.0}
+            ).addTo(feature_group_3b588ebe5666438b046800769cd7ac85);
+        
+    
+            circle_77af3e6dc4aa3bf5b21e841b17e00798.bindTooltip(
+                `<div>
+                     Curtici / Arad (Railport Arad) — 300 km Breakeven
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_4a51d678e714fed7baa57dc13ae399f1 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_b866c07fdbc8000bcc116e952504c1ce = L.circle(
+                [51.4344, 6.7623],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_b866c07fdbc8000bcc116e952504c1ce.bindTooltip(
+                `<div>
+                     Duisburg (DIT / D3T) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_78681391e44df999134e790f6e776faa = L.circle(
+                [45.415, 10.945],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_78681391e44df999134e790f6e776faa.bindTooltip(
+                `<div>
+                     Verona (Quadrante Europa) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_927985578f6554f1f6c38fb87f13f7e6 = L.circle(
+                [52.4064, 17.0785],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_927985578f6554f1f6c38fb87f13f7e6.bindTooltip(
+                `<div>
+                     Poznań (CLIP Swarzędz) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_026f545d474d5c393e45243c6c3cb3d0 = L.circle(
+                [48.165, 16.475],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_026f545d474d5c393e45243c6c3cb3d0.bindTooltip(
+                `<div>
+                     Vienna (WienCont) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_349533153f85a7e43d4f73d80176aacb = L.circle(
+                [45.708, 4.886],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_349533153f85a7e43d4f73d80176aacb.bindTooltip(
+                `<div>
+                     Lyon (Terminal de Vénissieux) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_cdc30204ab2c54beb245e921fa4c0646 = L.circle(
+                [47.392, 19.085],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_cdc30204ab2c54beb245e921fa4c0646.bindTooltip(
+                `<div>
+                     Budapest (BILK) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_c12be3406e9e0965eb2bc760a2d71aab = L.circle(
+                [48.148, 11.696],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_c12be3406e9e0965eb2bc760a2d71aab.bindTooltip(
+                `<div>
+                     Munich (München-Riem) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_ded5ab588b72c3447b00589db42456d1 = L.circle(
+                [45.498, 9.423],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_ded5ab588b72c3447b00589db42456d1.bindTooltip(
+                `<div>
+                     Milan (Melzo / RHM) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_0c939f5168033dafccc7f6a137a0dc2e = L.circle(
+                [40.4238, -3.5613],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_0c939f5168033dafccc7f6a137a0dc2e.bindTooltip(
+                `<div>
+                     Madrid (Coslada Dry Port) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_243af9beb46577bcdcf0671c863183f6 = L.circle(
+                [41.6488, -0.8891],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_243af9beb46577bcdcf0671c863183f6.bindTooltip(
+                `<div>
+                     Zaragoza (tmZ / PLAZA) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_fb25a041ffaea9ffd8c9110932885ccc = L.circle(
+                [50.03, 14.6],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_fb25a041ffaea9ffd8c9110932885ccc.bindTooltip(
+                `<div>
+                     Prague (Uhříněves / METRANS) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_77a5bb9d6476edf4e261af3e33960c91 = L.circle(
+                [47.9928, 17.6121],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_77a5bb9d6476edf4e261af3e33960c91.bindTooltip(
+                `<div>
+                     Bratislava / Dunajská Streda — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_f778138199f0f9ce7264ebbee7314849 = L.circle(
+                [44.826, 20.225],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_f778138199f0f9ce7264ebbee7314849.bindTooltip(
+                `<div>
+                     Belgrade (Nelt / Dobanovci) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_6b3472fa38b839408f1622f0d97df2e2 = L.circle(
+                [45.8, 15.86],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_6b3472fa38b839408f1622f0d97df2e2.bindTooltip(
+                `<div>
+                     Zagreb (Jankomir) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_0bb236e2fa7d11d02d7e46b46d277d7e = L.circle(
+                [46.942, 15.432],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_0bb236e2fa7d11d02d7e46b46d277d7e.bindTooltip(
+                `<div>
+                     Graz (Cargo Center Graz) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_45ce6ad5ac4e8662b8434d9476b660ff = L.circle(
+                [49.73, 18.29],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_45ce6ad5ac4e8662b8434d9476b660ff.bindTooltip(
+                `<div>
+                     Ostrava (Paskov) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_577a5928dcd1c69cd3572378edc1f268 = L.circle(
+                [47.583, 7.589],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_577a5928dcd1c69cd3572378edc1f268.bindTooltip(
+                `<div>
+                     Basel (Frenkendorf / Kleinhüningen) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_815229b19ed758a824945b18aa796097 = L.circle(
+                [46.342, 21.306],
+                {"bubblingMouseEvents": true, "color": "#2563eb", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.07, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 0.65, "radius": 150000, "stroke": true, "weight": 1.2}
+            ).addTo(feature_group_4a51d678e714fed7baa57dc13ae399f1);
+        
+    
+            circle_815229b19ed758a824945b18aa796097.bindTooltip(
+                `<div>
+                     Curtici / Arad (Railport Arad) — 150 km OTR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_4a51d678e714fed7baa57dc13ae399f1.addTo(map_b0a7e30a04700b54d8000e6b1c75b369);
+        
+    
+            var feature_group_6bd37ead2345137fea6672522e66430f = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_7516bfad268c52ed2d65bcdeaeaf614c = L.polyline(
+                [[37.942, 23.637], [40.6401, 22.9444], [44.7866, 20.4489], [47.4979, 19.0402], [48.1486, 17.1077], [49.8209, 18.2625]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_a03bdbf2ab78203eb998f326a81a5f7f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_2e46a4ffe0553a7548d20a4c0700de76 = $(`<div id="html_2e46a4ffe0553a7548d20a4c0700de76" style="width: 100.0%; height: 100.0%;"><b>Port of Piraeus -> Thessaloniki -> Belgrade -> Budapest -> Bratislava -> Ostrava</b><br></div>`)[0];
+                popup_a03bdbf2ab78203eb998f326a81a5f7f.setContent(html_2e46a4ffe0553a7548d20a4c0700de76);
+            
+        
+
+        poly_line_7516bfad268c52ed2d65bcdeaeaf614c.bindPopup(popup_a03bdbf2ab78203eb998f326a81a5f7f)
+        ;
+
+        
+    
+    
+            poly_line_7516bfad268c52ed2d65bcdeaeaf614c.bindTooltip(
+                `<div>
+                     Port of Piraeus -> Thessaloniki -> Belgrade -> Budapest -> Bratislava -> Ostrava
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_7a3fb8e46f56839774cb719749894e47 = L.polyline(
+                [[45.636, 13.758], [46.6111, 13.8506], [47.8095, 13.055], [48.1351, 11.582], [48.4011, 9.9876]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_14222bc912a913ec99fc960a9fa73b26 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b62027f684f4e31f7a08c53c82338eb5 = $(`<div id="html_b62027f684f4e31f7a08c53c82338eb5" style="width: 100.0%; height: 100.0%;"><b>Port of Trieste -> Villach -> Salzburg -> Munich -> Ulm</b><br></div>`)[0];
+                popup_14222bc912a913ec99fc960a9fa73b26.setContent(html_b62027f684f4e31f7a08c53c82338eb5);
+            
+        
+
+        poly_line_7a3fb8e46f56839774cb719749894e47.bindPopup(popup_14222bc912a913ec99fc960a9fa73b26)
+        ;
+
+        
+    
+    
+            poly_line_7a3fb8e46f56839774cb719749894e47.bindTooltip(
+                `<div>
+                     Port of Trieste -> Villach -> Salzburg -> Munich -> Ulm
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_845a600b6c7236c70b74f6fee507e88e = L.polyline(
+                [[45.556, 13.736], [46.0569, 14.5058], [47.0707, 15.4395], [48.2082, 16.3738], [48.1486, 17.1077], [49.2231, 18.7408]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_b9d8a409a50e41632d0ac8da3847fb68 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ad7a1395e7aeda9592b87f5f793be555 = $(`<div id="html_ad7a1395e7aeda9592b87f5f793be555" style="width: 100.0%; height: 100.0%;"><b>Port of Koper -> Ljubljana -> Graz -> Vienna -> Bratislava -> Žilina</b><br></div>`)[0];
+                popup_b9d8a409a50e41632d0ac8da3847fb68.setContent(html_ad7a1395e7aeda9592b87f5f793be555);
+            
+        
+
+        poly_line_845a600b6c7236c70b74f6fee507e88e.bindPopup(popup_b9d8a409a50e41632d0ac8da3847fb68)
+        ;
+
+        
+    
+    
+            poly_line_845a600b6c7236c70b74f6fee507e88e.bindTooltip(
+                `<div>
+                     Port of Koper -> Ljubljana -> Graz -> Vienna -> Bratislava -> Žilina
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_255adae625215a398e67903d4359c843 = L.polyline(
+                [[45.324, 14.432], [45.815, 15.9819], [47.4979, 19.0402]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_91041e11e44b543ae582835f1296b63a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_91a44b0e735df19ee34d7ee41bf76fed = $(`<div id="html_91a44b0e735df19ee34d7ee41bf76fed" style="width: 100.0%; height: 100.0%;"><b>Port of Rijeka -> Zagreb -> Budapest</b><br></div>`)[0];
+                popup_91041e11e44b543ae582835f1296b63a.setContent(html_91a44b0e735df19ee34d7ee41bf76fed);
+            
+        
+
+        poly_line_255adae625215a398e67903d4359c843.bindPopup(popup_91041e11e44b543ae582835f1296b63a)
+        ;
+
+        
+    
+    
+            poly_line_255adae625215a398e67903d4359c843.bindTooltip(
+                `<div>
+                     Port of Rijeka -> Zagreb -> Budapest
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_a861814af97fcfbea44b8f714f409dae = L.polyline(
+                [[44.106, 9.852], [45.4642, 9.19], [47.3769, 8.5417], [47.5596, 7.5886]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_31ff933ac046c6d094f643020818e8b2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_21b3b9d0099ad52d2439f198fbf0cd4f = $(`<div id="html_21b3b9d0099ad52d2439f198fbf0cd4f" style="width: 100.0%; height: 100.0%;"><b>Port of La Spezia -> Milan (Melzo) -> Zurich -> Basel</b><br></div>`)[0];
+                popup_31ff933ac046c6d094f643020818e8b2.setContent(html_21b3b9d0099ad52d2439f198fbf0cd4f);
+            
+        
+
+        poly_line_a861814af97fcfbea44b8f714f409dae.bindPopup(popup_31ff933ac046c6d094f643020818e8b2)
+        ;
+
+        
+    
+    
+            poly_line_a861814af97fcfbea44b8f714f409dae.bindTooltip(
+                `<div>
+                     Port of La Spezia -> Milan (Melzo) -> Zurich -> Basel
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_3aba14bcd16e203d1223456ba0552356 = L.polyline(
+                [[43.405, 4.863], [43.9493, 4.8055], [45.764, 4.8357], [47.322, 5.0415]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_c3f344f44b609726633fcf1ae9511d8e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0a7ef4d267b9b4ac1a8301f66b8299ec = $(`<div id="html_0a7ef4d267b9b4ac1a8301f66b8299ec" style="width: 100.0%; height: 100.0%;"><b>Port of Marseille-Fos -> Avignon -> Lyon -> Dijon</b><br></div>`)[0];
+                popup_c3f344f44b609726633fcf1ae9511d8e.setContent(html_0a7ef4d267b9b4ac1a8301f66b8299ec);
+            
+        
+
+        poly_line_3aba14bcd16e203d1223456ba0552356.bindPopup(popup_c3f344f44b609726633fcf1ae9511d8e)
+        ;
+
+        
+    
+    
+            poly_line_3aba14bcd16e203d1223456ba0552356.bindTooltip(
+                `<div>
+                     Port of Marseille-Fos -> Avignon -> Lyon -> Dijon
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_49b57491688913849f5d482033bbc340 = L.polyline(
+                [[39.444, -0.317], [40.424, -3.561], [41.6523, -4.7245]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_9bfc0945cadab20a53e599337a5cdf5b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bbab1f77324f25286f0f07c39669964d = $(`<div id="html_bbab1f77324f25286f0f07c39669964d" style="width: 100.0%; height: 100.0%;"><b>Port of Valencia -> Madrid (Coslada) -> Valladolid [Central Spoke]</b><br></div>`)[0];
+                popup_9bfc0945cadab20a53e599337a5cdf5b.setContent(html_bbab1f77324f25286f0f07c39669964d);
+            
+        
+
+        poly_line_49b57491688913849f5d482033bbc340.bindPopup(popup_9bfc0945cadab20a53e599337a5cdf5b)
+        ;
+
+        
+    
+    
+            poly_line_49b57491688913849f5d482033bbc340.bindTooltip(
+                `<div>
+                     Port of Valencia -> Madrid (Coslada) -> Valladolid [Central Spoke]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_4e90b12078d332168a6246f3a1a78162 = L.polyline(
+                [[39.444, -0.317], [39.68, -0.278], [40.3456, -1.1065], [41.6488, -0.8891]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_5d4005f242ebde27cb352dfd0d575e23 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_56cfa37ede2598b1c3bf371d69da94ca = $(`<div id="html_56cfa37ede2598b1c3bf371d69da94ca" style="width: 100.0%; height: 100.0%;"><b>Port of Valencia -> Sagunto -> Teruel -> Zaragoza (PLAZA) [Northern Spoke]</b><br></div>`)[0];
+                popup_5d4005f242ebde27cb352dfd0d575e23.setContent(html_56cfa37ede2598b1c3bf371d69da94ca);
+            
+        
+
+        poly_line_4e90b12078d332168a6246f3a1a78162.bindPopup(popup_5d4005f242ebde27cb352dfd0d575e23)
+        ;
+
+        
+    
+    
+            poly_line_4e90b12078d332168a6246f3a1a78162.bindTooltip(
+                `<div>
+                     Port of Valencia -> Sagunto -> Teruel -> Zaragoza (PLAZA) [Northern Spoke]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_aa0eb622cf55ab2a17c6f65e774cdbb9 = L.polyline(
+                [[36.128, -5.434], [37.8882, -4.7794], [40.424, -3.561]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_53373106c4f1a983f570095b34e58d1c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_668fd3620aa31a00a4662b497950e49d = $(`<div id="html_668fd3620aa31a00a4662b497950e49d" style="width: 100.0%; height: 100.0%;"><b>Port of Algeciras -> Córdoba -> Madrid (Coslada)</b><br></div>`)[0];
+                popup_53373106c4f1a983f570095b34e58d1c.setContent(html_668fd3620aa31a00a4662b497950e49d);
+            
+        
+
+        poly_line_aa0eb622cf55ab2a17c6f65e774cdbb9.bindPopup(popup_53373106c4f1a983f570095b34e58d1c)
+        ;
+
+        
+    
+    
+            poly_line_aa0eb622cf55ab2a17c6f65e774cdbb9.bindTooltip(
+                `<div>
+                     Port of Algeciras -> Córdoba -> Madrid (Coslada)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_613ba1166f946fcdaf44eadd570344b4 = L.polyline(
+                [[37.951, -8.869], [38.5714, -7.9135], [38.8794, -6.9707], [40.424, -3.561]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_b012cbaefe204ed0af3478e57fb83734 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_66de52f53f82b5670de2da762f997ab4 = $(`<div id="html_66de52f53f82b5670de2da762f997ab4" style="width: 100.0%; height: 100.0%;"><b>Port of Sines / Lisbon -> Évora -> Badajoz -> Madrid (Coslada)</b><br></div>`)[0];
+                popup_b012cbaefe204ed0af3478e57fb83734.setContent(html_66de52f53f82b5670de2da762f997ab4);
+            
+        
+
+        poly_line_613ba1166f946fcdaf44eadd570344b4.bindPopup(popup_b012cbaefe204ed0af3478e57fb83734)
+        ;
+
+        
+    
+    
+            poly_line_613ba1166f946fcdaf44eadd570344b4.bindTooltip(
+                `<div>
+                     Port of Sines / Lisbon -> Évora -> Badajoz -> Madrid (Coslada)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_48e2db42cddc8c8dfa429916cd052cc8 = L.polyline(
+                [[49.476, 0.141], [49.4431, 1.0993], [48.751, 2.457], [49.1193, 6.1757]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_9b1262281d9d12875b151eb03a0b89bf = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4370d0ce5cb806963b0da3621c99f522 = $(`<div id="html_4370d0ce5cb806963b0da3621c99f522" style="width: 100.0%; height: 100.0%;"><b>Port of Le Havre (HAROPA) -> Rouen -> Paris (Valenton) -> Metz</b><br></div>`)[0];
+                popup_9b1262281d9d12875b151eb03a0b89bf.setContent(html_4370d0ce5cb806963b0da3621c99f522);
+            
+        
+
+        poly_line_48e2db42cddc8c8dfa429916cd052cc8.bindPopup(popup_9b1262281d9d12875b151eb03a0b89bf)
+        ;
+
+        
+    
+    
+            poly_line_48e2db42cddc8c8dfa429916cd052cc8.bindTooltip(
+                `<div>
+                     Port of Le Havre (HAROPA) -> Rouen -> Paris (Valenton) -> Metz
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_549077d35ea9b68969127c79bb539412 = L.polyline(
+                [[44.119, 28.659], [44.4268, 26.1025], [46.1866, 21.3123], [47.4979, 19.0402]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_8f337fd9bdb2fd39ffd0b7da9a93cabd = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8cfabb56c0da198b4c972166056ee2b9 = $(`<div id="html_8cfabb56c0da198b4c972166056ee2b9" style="width: 100.0%; height: 100.0%;"><b>Port of Constanța -> Bucharest -> Arad -> Budapest</b><br></div>`)[0];
+                popup_8f337fd9bdb2fd39ffd0b7da9a93cabd.setContent(html_8cfabb56c0da198b4c972166056ee2b9);
+            
+        
+
+        poly_line_549077d35ea9b68969127c79bb539412.bindPopup(popup_8f337fd9bdb2fd39ffd0b7da9a93cabd)
+        ;
+
+        
+    
+    
+            poly_line_549077d35ea9b68969127c79bb539412.bindTooltip(
+                `<div>
+                     Port of Constanța -> Bucharest -> Arad -> Budapest
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_d7018679feee339197cce5773d77f50e = L.polyline(
+                [[54.391, 18.718], [52.2297, 21.0122], [51.7592, 19.456], [49.8209, 18.2625]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_a2c2b758ef4445e36c520a3d1919aabd = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_64b29f9bd10747fe0bec25d8529465d6 = $(`<div id="html_64b29f9bd10747fe0bec25d8529465d6" style="width: 100.0%; height: 100.0%;"><b>Baltic Hub (DCT Gdańsk) -> Warsaw -> Łódź -> Ostrava</b><br></div>`)[0];
+                popup_a2c2b758ef4445e36c520a3d1919aabd.setContent(html_64b29f9bd10747fe0bec25d8529465d6);
+            
+        
+
+        poly_line_d7018679feee339197cce5773d77f50e.bindPopup(popup_a2c2b758ef4445e36c520a3d1919aabd)
+        ;
+
+        
+    
+    
+            poly_line_d7018679feee339197cce5773d77f50e.bindTooltip(
+                `<div>
+                     Baltic Hub (DCT Gdańsk) -> Warsaw -> Łódź -> Ostrava
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_0f8c7de5419fcb3b5004137a6a9439e7 = L.polyline(
+                [[51.954, 4.022], [51.3704, 6.1724], [51.4344, 6.7623], [50.9375, 6.9603], [49.4875, 8.466], [47.5596, 7.5886]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_9870ff6e5b8471e61601b8422efb038a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ef6ba457ec90d9d188fb94c9c6510cb8 = $(`<div id="html_ef6ba457ec90d9d188fb94c9c6510cb8" style="width: 100.0%; height: 100.0%;"><b>Port of Rotterdam -> Venlo -> Duisburg -> Cologne -> Mannheim -> Basel</b><br></div>`)[0];
+                popup_9870ff6e5b8471e61601b8422efb038a.setContent(html_ef6ba457ec90d9d188fb94c9c6510cb8);
+            
+        
+
+        poly_line_0f8c7de5419fcb3b5004137a6a9439e7.bindPopup(popup_9870ff6e5b8471e61601b8422efb038a)
+        ;
+
+        
+    
+    
+            poly_line_0f8c7de5419fcb3b5004137a6a9439e7.bindTooltip(
+                `<div>
+                     Port of Rotterdam -> Venlo -> Duisburg -> Cologne -> Mannheim -> Basel
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_761f456e7cb945fd9005f5c0063e221d = L.polyline(
+                [[51.298, 4.265], [50.8503, 4.3517], [49.1193, 6.1757], [45.764, 4.8357]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_25e774d93c4f92369bd865980e4ef037 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_657daff9deb34725930935c333459368 = $(`<div id="html_657daff9deb34725930935c333459368" style="width: 100.0%; height: 100.0%;"><b>Port of Antwerp-Bruges -> Brussels -> Metz -> Lyon</b><br></div>`)[0];
+                popup_25e774d93c4f92369bd865980e4ef037.setContent(html_657daff9deb34725930935c333459368);
+            
+        
+
+        poly_line_761f456e7cb945fd9005f5c0063e221d.bindPopup(popup_25e774d93c4f92369bd865980e4ef037)
+        ;
+
+        
+    
+    
+            poly_line_761f456e7cb945fd9005f5c0063e221d.bindTooltip(
+                `<div>
+                     Port of Antwerp-Bruges -> Brussels -> Metz -> Lyon
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_2d808671e1069da2587efd177a354bfd = L.polyline(
+                [[53.532, 9.932], [52.3759, 9.732], [51.3397, 12.3731], [50.0755, 14.4378]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_a65af847bad0d33ba7fb6e9aa3cf8ea5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0585629b0a24ce1ed16af724b0e464e2 = $(`<div id="html_0585629b0a24ce1ed16af724b0e464e2" style="width: 100.0%; height: 100.0%;"><b>Port of Hamburg -> Hanover -> Leipzig -> Prague</b><br></div>`)[0];
+                popup_a65af847bad0d33ba7fb6e9aa3cf8ea5.setContent(html_0585629b0a24ce1ed16af724b0e464e2);
+            
+        
+
+        poly_line_2d808671e1069da2587efd177a354bfd.bindPopup(popup_a65af847bad0d33ba7fb6e9aa3cf8ea5)
+        ;
+
+        
+    
+    
+            poly_line_2d808671e1069da2587efd177a354bfd.bindTooltip(
+                `<div>
+                     Port of Hamburg -> Hanover -> Leipzig -> Prague
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_34e2e9f5af84b38159ca06c1b0d01350 = L.polyline(
+                [[51.954, 1.318], [52.3458, -1.1444], [52.4862, -1.8904], [53.4808, -2.2426], [55.8188, -4.0116]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_fd12311b924f3159703ccf7104afba8f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_0cb0448447959134a143aff6ab57b955 = $(`<div id="html_0cb0448447959134a143aff6ab57b955" style="width: 100.0%; height: 100.0%;"><b>Port of Felixstowe -> DIRFT (Daventry) -> Birmingham -> Manchester -> Mossend</b><br></div>`)[0];
+                popup_fd12311b924f3159703ccf7104afba8f.setContent(html_0cb0448447959134a143aff6ab57b955);
+            
+        
+
+        poly_line_34e2e9f5af84b38159ca06c1b0d01350.bindPopup(popup_fd12311b924f3159703ccf7104afba8f)
+        ;
+
+        
+    
+    
+            poly_line_34e2e9f5af84b38159ca06c1b0d01350.bindTooltip(
+                `<div>
+                     Port of Felixstowe -> DIRFT (Daventry) -> Birmingham -> Manchester -> Mossend
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_252481e0c68b7d21d028c872f07ede91 = L.polyline(
+                [[57.695, 11.852], [59.0667, 15.1086], [59.3293, 18.0686]],
+                {"bubblingMouseEvents": true, "color": "#1e293b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#1e293b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(feature_group_6bd37ead2345137fea6672522e66430f);
+        
+    
+        var popup_2dafe3befb11a8be39df2f4373699f28 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_699cffd30b8253eab9d3c40233204087 = $(`<div id="html_699cffd30b8253eab9d3c40233204087" style="width: 100.0%; height: 100.0%;"><b>Port of Gothenburg -> Hallsberg -> Stockholm</b><br></div>`)[0];
+                popup_2dafe3befb11a8be39df2f4373699f28.setContent(html_699cffd30b8253eab9d3c40233204087);
+            
+        
+
+        poly_line_252481e0c68b7d21d028c872f07ede91.bindPopup(popup_2dafe3befb11a8be39df2f4373699f28)
+        ;
+
+        
+    
+    
+            poly_line_252481e0c68b7d21d028c872f07ede91.bindTooltip(
+                `<div>
+                     Port of Gothenburg -> Hallsberg -> Stockholm
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_6bd37ead2345137fea6672522e66430f.addTo(map_b0a7e30a04700b54d8000e6b1c75b369);
+        
+    
+            var feature_group_08c0f691036077599ea4ea710ef3f3ef = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_ed47546f4a23225c42acdfac03f0a8a7 = L.polyline(
+                [[51.65, 4.15], [51.4344, 6.7623], [47.5596, 7.5886], [45.4642, 9.19]],
+                {"bubblingMouseEvents": true, "color": "#dc2626", "dashArray": "6, 6", "dashOffset": null, "fill": false, "fillColor": "#dc2626", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.2}
+            ).addTo(feature_group_08c0f691036077599ea4ea710ef3f3ef);
+        
+    
+        var popup_d17212024928ecc75cb35c635604b6f3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9a87eafbf4e4bff921e7e3ee719aa1f4 = $(`<div id="html_9a87eafbf4e4bff921e7e3ee719aa1f4" style="width: 100.0%; height: 100.0%;"><b>Legacy Overreach: Rotterdam / Antwerp -> Duisburg -> Milan</b><br></div>`)[0];
+                popup_d17212024928ecc75cb35c635604b6f3.setContent(html_9a87eafbf4e4bff921e7e3ee719aa1f4);
+            
+        
+
+        poly_line_ed47546f4a23225c42acdfac03f0a8a7.bindPopup(popup_d17212024928ecc75cb35c635604b6f3)
+        ;
+
+        
+    
+    
+            poly_line_ed47546f4a23225c42acdfac03f0a8a7.bindTooltip(
+                `<div>
+                     Legacy Overreach: Rotterdam / Antwerp -> Duisburg -> Milan
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_67a8d9769b23c9e116c6155e813f3e83 = L.polyline(
+                [[51.65, 4.15], [51.4344, 6.7623], [50.1109, 8.6821], [48.1351, 11.582], [48.2082, 16.3738]],
+                {"bubblingMouseEvents": true, "color": "#dc2626", "dashArray": "6, 6", "dashOffset": null, "fill": false, "fillColor": "#dc2626", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.2}
+            ).addTo(feature_group_08c0f691036077599ea4ea710ef3f3ef);
+        
+    
+        var popup_1fcbc24fccbdd525d47f24bae909fdfb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_fe602df9acfd46e50143a0c23d0c79a0 = $(`<div id="html_fe602df9acfd46e50143a0c23d0c79a0" style="width: 100.0%; height: 100.0%;"><b>Legacy Overreach: Rotterdam / Antwerp -> Duisburg -> Munich -> Vienna</b><br></div>`)[0];
+                popup_1fcbc24fccbdd525d47f24bae909fdfb.setContent(html_fe602df9acfd46e50143a0c23d0c79a0);
+            
+        
+
+        poly_line_67a8d9769b23c9e116c6155e813f3e83.bindPopup(popup_1fcbc24fccbdd525d47f24bae909fdfb)
+        ;
+
+        
+    
+    
+            poly_line_67a8d9769b23c9e116c6155e813f3e83.bindTooltip(
+                `<div>
+                     Legacy Overreach: Rotterdam / Antwerp -> Duisburg -> Munich -> Vienna
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_28ec50fdf3530ca98d87a6b7f027de7f = L.polyline(
+                [[53.532, 9.932], [52.3759, 9.732], [49.4521, 11.0767], [48.1351, 11.582]],
+                {"bubblingMouseEvents": true, "color": "#dc2626", "dashArray": "6, 6", "dashOffset": null, "fill": false, "fillColor": "#dc2626", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.2}
+            ).addTo(feature_group_08c0f691036077599ea4ea710ef3f3ef);
+        
+    
+        var popup_ae9035f8e9cdb9e12bafee6c9e897f85 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_36b2f637c1182b0a58164c793d18a91e = $(`<div id="html_36b2f637c1182b0a58164c793d18a91e" style="width: 100.0%; height: 100.0%;"><b>Legacy Overreach: Hamburg / Bremerhaven -> Munich</b><br></div>`)[0];
+                popup_ae9035f8e9cdb9e12bafee6c9e897f85.setContent(html_36b2f637c1182b0a58164c793d18a91e);
+            
+        
+
+        poly_line_28ec50fdf3530ca98d87a6b7f027de7f.bindPopup(popup_ae9035f8e9cdb9e12bafee6c9e897f85)
+        ;
+
+        
+    
+    
+            poly_line_28ec50fdf3530ca98d87a6b7f027de7f.bindTooltip(
+                `<div>
+                     Legacy Overreach: Hamburg / Bremerhaven -> Munich
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_3a46d973f0eda9e9721cc38b79fd53ab = L.polyline(
+                [[53.532, 9.932], [51.0504, 13.7373], [50.0755, 14.4378], [48.2082, 16.3738], [47.4979, 19.0402]],
+                {"bubblingMouseEvents": true, "color": "#dc2626", "dashArray": "6, 6", "dashOffset": null, "fill": false, "fillColor": "#dc2626", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 2.2}
+            ).addTo(feature_group_08c0f691036077599ea4ea710ef3f3ef);
+        
+    
+        var popup_fd64db01fd10f94935c46466d977de5e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_3daae87059591ca58fae159f679c1a2c = $(`<div id="html_3daae87059591ca58fae159f679c1a2c" style="width: 100.0%; height: 100.0%;"><b>Legacy Overreach: Hamburg / Bremerhaven -> Prague -> Vienna -> Budapest</b><br></div>`)[0];
+                popup_fd64db01fd10f94935c46466d977de5e.setContent(html_3daae87059591ca58fae159f679c1a2c);
+            
+        
+
+        poly_line_3a46d973f0eda9e9721cc38b79fd53ab.bindPopup(popup_fd64db01fd10f94935c46466d977de5e)
+        ;
+
+        
+    
+    
+            poly_line_3a46d973f0eda9e9721cc38b79fd53ab.bindTooltip(
+                `<div>
+                     Legacy Overreach: Hamburg / Bremerhaven -> Prague -> Vienna -> Budapest
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_500ca5240bcee9dc5910fc0adfe69249 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_cc406cab16656f9db3d805747a687db0 = L.marker(
+                [37.942, 23.637],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_7201e04970de38ec094a46fc91a65c5b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_588739d5c9ffa945b8f594513f1fcc63 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_bc3142dcfdb44f27c91d2b708dafc507 = $(`<div id="html_bc3142dcfdb44f27c91d2b708dafc507" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Piraeus (Athens) [COSCO Shipping Ports]</b><br>                 <b>Domain:</b> Domain 1: Aegean & Balkan Landbridge<br>                 <b>Carrier / Equity:</b> COSCO holds 67% of Piraeus Port Authority (PPA) & 100% of Piers II & III (Ocean Alliance hub)<br>                 <b>EU Rail Corridor:</b> RFC Orient / East-Med (Corridor VII / OEM)<br>                 <b>Dry-Port Catchments:</b> Belgrade, Budapest, Bratislava, Ostrava<br>                 <b>Vessel Time Saved:</b> 17-21 days (~2.5-3 weeks) vs North Sea loop<br>                 <b>Key Shippers:</b> Asian electronics, solar, automotive Tier-1, retail             </div>             </div>`)[0];
+                popup_588739d5c9ffa945b8f594513f1fcc63.setContent(html_bc3142dcfdb44f27c91d2b708dafc507);
+            
+        
+
+        marker_cc406cab16656f9db3d805747a687db0.bindPopup(popup_588739d5c9ffa945b8f594513f1fcc63)
+        ;
+
+        
+    
+    
+            marker_cc406cab16656f9db3d805747a687db0.bindTooltip(
+                `<div>
+                     Port of Piraeus (Athens) [COSCO Shipping Ports]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_cc406cab16656f9db3d805747a687db0.setIcon(icon_7201e04970de38ec094a46fc91a65c5b);
+            
+    
+            var marker_23efb72ffb2bf37125e002ffd8c86b1d = L.marker(
+                [45.636, 13.758],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_523ea11b54231945c2cf334c7f3a0f25 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f5a28f305ae7f2b855860de3e4d37a44 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_4b4e60eda4319dbcda56208bb29bd2f6 = $(`<div id="html_4b4e60eda4319dbcda56208bb29bd2f6" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Trieste [MSC (TIL) / HHLA]</b><br>                 <b>Domain:</b> Domain 2: North Adriatic & Southern 3SI<br>                 <b>Carrier / Equity:</b> MSC (TIL) controls Pier VII (TMT); HHLA (Hamburg + 49.9% MSC) controls PLT platform<br>                 <b>EU Rail Corridor:</b> RFC Baltic-Adriatic (V) & Mediterranean (VI)<br>                 <b>Dry-Port Catchments:</b> Villach, Vienna, Munich, Ulm, Budapest<br>                 <b>Vessel Time Saved:</b> 14-17 days (~2-2.5 weeks) vs North Sea loop<br>                 <b>Key Shippers:</b> German/Austrian automotive, industrial machinery, CEE manufacturing             </div>             </div>`)[0];
+                popup_f5a28f305ae7f2b855860de3e4d37a44.setContent(html_4b4e60eda4319dbcda56208bb29bd2f6);
+            
+        
+
+        marker_23efb72ffb2bf37125e002ffd8c86b1d.bindPopup(popup_f5a28f305ae7f2b855860de3e4d37a44)
+        ;
+
+        
+    
+    
+            marker_23efb72ffb2bf37125e002ffd8c86b1d.bindTooltip(
+                `<div>
+                     Port of Trieste [MSC (TIL) / HHLA]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_23efb72ffb2bf37125e002ffd8c86b1d.setIcon(icon_523ea11b54231945c2cf334c7f3a0f25);
+            
+    
+            var marker_e6fe14d096f04adc57053a9af92a66d9 = L.marker(
+                [45.556, 13.736],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_ba1de6cfc519fe1d0e721248201a1af3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_55d46faa15f295e4618ade4fa3456482 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_10eba79fb6f5baeeb4fec6529985f804 = $(`<div id="html_10eba79fb6f5baeeb4fec6529985f804" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Koper (Luka Koper) [Independent Multi-Carrier]</b><br>                 <b>Domain:</b> Domain 2: North Adriatic & Southern 3SI<br>                 <b>Carrier / Equity:</b> State-backed Luka Koper; heavy rail utilization by Maersk, CMA CGM & Ocean Alliance<br>                 <b>EU Rail Corridor:</b> RFC Baltic-Adriatic (V) & Mediterranean (VI)<br>                 <b>Dry-Port Catchments:</b> Graz, Vienna, Bratislava, Žilina, Southern Poland<br>                 <b>Vessel Time Saved:</b> 14-17 days (~2-2.5 weeks) vs North Sea loop<br>                 <b>Key Shippers:</b> Automotive OEMs/Tier-1s (Slovakia, Austria, Hungary), electronics             </div>             </div>`)[0];
+                popup_55d46faa15f295e4618ade4fa3456482.setContent(html_10eba79fb6f5baeeb4fec6529985f804);
+            
+        
+
+        marker_e6fe14d096f04adc57053a9af92a66d9.bindPopup(popup_55d46faa15f295e4618ade4fa3456482)
+        ;
+
+        
+    
+    
+            marker_e6fe14d096f04adc57053a9af92a66d9.bindTooltip(
+                `<div>
+                     Port of Koper (Luka Koper) [Independent Multi-Carrier]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e6fe14d096f04adc57053a9af92a66d9.setIcon(icon_ba1de6cfc519fe1d0e721248201a1af3);
+            
+    
+            var marker_2362463fef1f89f14bb69b867ce7acf2 = L.marker(
+                [45.324, 14.432],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_766675458e3186bb45849cd48cb6bc84 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a0983545fc8773d8d0576df427c31633 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_5cb2d531749a2631f1c8e0a9b5715348 = $(`<div id="html_5cb2d531749a2631f1c8e0a9b5715348" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Rijeka [Maersk (APM Terminals)]</b><br>                 <b>Domain:</b> Domain 2: North Adriatic & Southern 3SI<br>                 <b>Carrier / Equity:</b> APM Terminals (51%) + ENNA Logic (49%) operate Rijeka Gateway; ICTSI operates AGCT<br>                 <b>EU Rail Corridor:</b> RFC Mediterranean (VI) & 3SI Adriatic Spine<br>                 <b>Dry-Port Catchments:</b> Zagreb, Budapest, Belgrade<br>                 <b>Vessel Time Saved:</b> 14-17 days (~2-2.5 weeks) vs North Sea loop<br>                 <b>Key Shippers:</b> Gemini Cooperation (Maersk/Hapag-Lloyd) CEE & Western Balkan shippers             </div>             </div>`)[0];
+                popup_a0983545fc8773d8d0576df427c31633.setContent(html_5cb2d531749a2631f1c8e0a9b5715348);
+            
+        
+
+        marker_2362463fef1f89f14bb69b867ce7acf2.bindPopup(popup_a0983545fc8773d8d0576df427c31633)
+        ;
+
+        
+    
+    
+            marker_2362463fef1f89f14bb69b867ce7acf2.bindTooltip(
+                `<div>
+                     Port of Rijeka [Maersk (APM Terminals)]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2362463fef1f89f14bb69b867ce7acf2.setIcon(icon_766675458e3186bb45849cd48cb6bc84);
+            
+    
+            var marker_fa70211feed9eeba832cbd71a169a1d6 = L.marker(
+                [44.106, 9.852],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_28d50016560c437a4fb723c82017c499 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6affe8cf4524acd31a472d0ef027532f = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_9cbfd798695ca75b7044e4c7901f5170 = $(`<div id="html_9cbfd798695ca75b7044e4c7901f5170" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of La Spezia / Genoa-Vado [MSC (TIL) / Contship / APMT]</b><br>                 <b>Domain:</b> Domain 3: Ligurian & Alpine-Med Axis<br>                 <b>Carrier / Equity:</b> Contship Italia (60%) & MSC TIL (40%) at LSCT; APM Terminals + COSCO (40%) at Vado Gateway<br>                 <b>EU Rail Corridor:</b> RFC Rhine-Alpine (I) & Mediterranean (VI)<br>                 <b>Dry-Port Catchments:</b> Milan (Melzo), Verona, Bologna, Padua, Basel<br>                 <b>Vessel Time Saved:</b> 13-16 days (~2 weeks) vs North Sea loop<br>                 <b>Key Shippers:</b> Northern Italian precision industry, fashion, retail, Swiss Alpine trade             </div>             </div>`)[0];
+                popup_6affe8cf4524acd31a472d0ef027532f.setContent(html_9cbfd798695ca75b7044e4c7901f5170);
+            
+        
+
+        marker_fa70211feed9eeba832cbd71a169a1d6.bindPopup(popup_6affe8cf4524acd31a472d0ef027532f)
+        ;
+
+        
+    
+    
+            marker_fa70211feed9eeba832cbd71a169a1d6.bindTooltip(
+                `<div>
+                     Port of La Spezia / Genoa-Vado [MSC (TIL) / Contship / APMT]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_fa70211feed9eeba832cbd71a169a1d6.setIcon(icon_28d50016560c437a4fb723c82017c499);
+            
+    
+            var marker_88c1b37b352764cc38420ce306928fd1 = L.marker(
+                [43.405, 4.863],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_69f8713952ffe1554e42d71793a6f93a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_858e98904220ff13282a495cbf445815 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_f79d95532897ce1befedb215c8b05118 = $(`<div id="html_f79d95532897ce1befedb215c8b05118" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Marseille-Fos [MSC (TIL) / CMA CGM / DP World]</b><br>                 <b>Domain:</b> Domain 3: Ligurian & Rhône-Med Axis<br>                 <b>Carrier / Equity:</b> Eurofos (DP World + CMA CGM Terminal Link) & Seayard Fos 2XL (MSC TIL & APM Terminals)<br>                 <b>EU Rail Corridor:</b> RFC North Sea-Med (II) & Mediterranean (VI)<br>                 <b>Dry-Port Catchments:</b> Lyon, Avignon, Dijon, Clermont-Ferrand, Geneva<br>                 <b>Vessel Time Saved:</b> 11-14 days (~1.5-2 weeks) vs North Sea loop<br>                 <b>Key Shippers:</b> French Rhône-Alpes industrial, chemicals, retail & agri-food             </div>             </div>`)[0];
+                popup_858e98904220ff13282a495cbf445815.setContent(html_f79d95532897ce1befedb215c8b05118);
+            
+        
+
+        marker_88c1b37b352764cc38420ce306928fd1.bindPopup(popup_858e98904220ff13282a495cbf445815)
+        ;
+
+        
+    
+    
+            marker_88c1b37b352764cc38420ce306928fd1.bindTooltip(
+                `<div>
+                     Port of Marseille-Fos [MSC (TIL) / CMA CGM / DP World]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_88c1b37b352764cc38420ce306928fd1.setIcon(icon_69f8713952ffe1554e42d71793a6f93a);
+            
+    
+            var marker_29a40ed90500e2a728b3e57d0d161352 = L.marker(
+                [39.444, -0.317],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_33a835c29d9f2ad69dbef3f95758f88e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7c0385ef87be15005bafaa0c26572b72 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_febab198a0ed91413f20456e6eb65d86 = $(`<div id="html_febab198a0ed91413f20456e6eb65d86" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Valencia [COSCO / MSC (TIL) / Maersk (APMT)]</b><br>                 <b>Domain:</b> Domain 4: Iberian & Western Med Hub<br>                 <b>Carrier / Equity:</b> COSCO (51% CSP Iberian), MSC Terminal Valencia + North Expansion, & APM Terminals<br>                 <b>EU Rail Corridor:</b> RFC Mediterranean (VI) & Atlantic (IV)<br>                 <b>Dry-Port Catchments:</b> Madrid (Coslada), Zaragoza (PLAZA), Valladolid<br>                 <b>Vessel Time Saved:</b> 7-10 days Suez / 3-5 days Cape vs North Sea loop<br>                 <b>Key Shippers:</b> Iberian automotive plants, retail, agri-industrial exporters             </div>             </div>`)[0];
+                popup_7c0385ef87be15005bafaa0c26572b72.setContent(html_febab198a0ed91413f20456e6eb65d86);
+            
+        
+
+        marker_29a40ed90500e2a728b3e57d0d161352.bindPopup(popup_7c0385ef87be15005bafaa0c26572b72)
+        ;
+
+        
+    
+    
+            marker_29a40ed90500e2a728b3e57d0d161352.bindTooltip(
+                `<div>
+                     Port of Valencia [COSCO / MSC (TIL) / Maersk (APMT)]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_29a40ed90500e2a728b3e57d0d161352.setIcon(icon_33a835c29d9f2ad69dbef3f95758f88e);
+            
+    
+            var marker_28d0216de5c7f22cfa09fc15d525c1c1 = L.marker(
+                [36.128, -5.434],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_126a3f03e12ad3263d32f0b278239de7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5cc59cce55704f26b604755571a21ca6 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_e5144b7c3c709e95d3038a55945ad732 = $(`<div id="html_e5144b7c3c709e95d3038a55945ad732" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Algeciras [Maersk (APMT) / CMA CGM / HMM]</b><br>                 <b>Domain:</b> Domain 4: Iberian & Western Med Hub<br>                 <b>Carrier / Equity:</b> APM Terminals Algeciras (Gemini mega-hub) & Total Terminal International Algeciras (HMM + CMA CGM)<br>                 <b>EU Rail Corridor:</b> RFC Atlantic (IV) & Mediterranean (VI) — Algeciras-Bobadilla-Madrid Rail Highway<br>                 <b>Dry-Port Catchments:</b> Cordoba, Seville, Madrid (Coslada), Zaragoza<br>                 <b>Vessel Time Saved:</b> 8-11 days Suez / 5-6 days Cape (Zero-diversion Strait of Gibraltar call)<br>                 <b>Key Shippers:</b> Fast-fashion (Inditex), automotive, refrigerated produce, transatlantic/Suez BCOs             </div>             </div>`)[0];
+                popup_5cc59cce55704f26b604755571a21ca6.setContent(html_e5144b7c3c709e95d3038a55945ad732);
+            
+        
+
+        marker_28d0216de5c7f22cfa09fc15d525c1c1.bindPopup(popup_5cc59cce55704f26b604755571a21ca6)
+        ;
+
+        
+    
+    
+            marker_28d0216de5c7f22cfa09fc15d525c1c1.bindTooltip(
+                `<div>
+                     Port of Algeciras [Maersk (APMT) / CMA CGM / HMM]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_28d0216de5c7f22cfa09fc15d525c1c1.setIcon(icon_126a3f03e12ad3263d32f0b278239de7);
+            
+    
+            var marker_8c7d2cb66d97a25fa97451667162338f = L.marker(
+                [37.951, -8.869],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_6d2cb36f68bb08c93616a426a88ad3d9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_09722b2f3d671b12d3db41c06e6af119 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_f3c3b4cc0d8d24151d9a77fcc29f045b = $(`<div id="html_f3c3b4cc0d8d24151d9a77fcc29f045b" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Sines / Lisbon [PSA International / MSC (TIL)]</b><br>                 <b>Domain:</b> Domain 4: Iberian & Western Med Hub<br>                 <b>Carrier / Equity:</b> PSA Sines operates Terminal XXI (deep-water 24k-TEU hub with heavy MSC utilization); Yilport at Lisbon<br>                 <b>EU Rail Corridor:</b> RFC Atlantic (IV) — Sines-Évora-Elvas-Madrid Electrified Corridor<br>                 <b>Dry-Port Catchments:</b> Lisbon, Porto, Badajoz, Mérida, Madrid<br>                 <b>Vessel Time Saved:</b> 5-7 days vs Northern Range loop (First Atlantic European deep-water call)<br>                 <b>Key Shippers:</b> Portuguese & Western Spanish manufacturing, retail, automotive, cork/pulp exports             </div>             </div>`)[0];
+                popup_09722b2f3d671b12d3db41c06e6af119.setContent(html_f3c3b4cc0d8d24151d9a77fcc29f045b);
+            
+        
+
+        marker_8c7d2cb66d97a25fa97451667162338f.bindPopup(popup_09722b2f3d671b12d3db41c06e6af119)
+        ;
+
+        
+    
+    
+            marker_8c7d2cb66d97a25fa97451667162338f.bindTooltip(
+                `<div>
+                     Port of Sines / Lisbon [PSA International / MSC (TIL)]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8c7d2cb66d97a25fa97451667162338f.setIcon(icon_6d2cb36f68bb08c93616a426a88ad3d9);
+            
+    
+            var marker_1ef4fb8986f71e9d34abfbceb261b9ba = L.marker(
+                [49.476, 0.141],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_78beec63978f092cf161fe70be2b4b0c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_00e52a597c3a8f29293c5aa2b2135328 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_fe88259fb5e2bc0261186e67ea0864c1 = $(`<div id="html_fe88259fb5e2bc0261186e67ea0864c1" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Le Havre — HAROPA [MSC (TIL) / CMA CGM]</b><br>                 <b>Domain:</b> Domain 7: Northern Range & Seine Axis<br>                 <b>Carrier / Equity:</b> Port 2000: Terminal de France (GMP / CMA CGM) & Terminal de Normandie / TPO (MSC TiL)<br>                 <b>EU Rail Corridor:</b> RFC Atlantic (IV) — Seine-Paris-Eastern France Intermodal Axis<br>                 <b>Dry-Port Catchments:</b> Paris Basin (Valenton / Bonneuil), Rouen, Orléans, Metz<br>                 <b>Vessel Time Saved:</b> 2-3 days vs Eastern North Sea loop (First English Channel 24k-TEU call)<br>                 <b>Key Shippers:</b> French consumer retail, aerospace, automotive, pharmaceuticals & luxury exports             </div>             </div>`)[0];
+                popup_00e52a597c3a8f29293c5aa2b2135328.setContent(html_fe88259fb5e2bc0261186e67ea0864c1);
+            
+        
+
+        marker_1ef4fb8986f71e9d34abfbceb261b9ba.bindPopup(popup_00e52a597c3a8f29293c5aa2b2135328)
+        ;
+
+        
+    
+    
+            marker_1ef4fb8986f71e9d34abfbceb261b9ba.bindTooltip(
+                `<div>
+                     Port of Le Havre — HAROPA [MSC (TIL) / CMA CGM]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1ef4fb8986f71e9d34abfbceb261b9ba.setIcon(icon_78beec63978f092cf161fe70be2b4b0c);
+            
+    
+            var marker_8863a785f86eaad4e86a603afc0ec58f = L.marker(
+                [44.119, 28.659],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_5659f3ff42dbd4e8862d527584be5248 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_694a9f576d4c49a9fcd3988bf484705a = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_1f0a7a7aebe2562320029ccea3fb1f3b = $(`<div id="html_1f0a7a7aebe2562320029ccea3fb1f3b" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Constanța [DP World]</b><br>                 <b>Domain:</b> Domain 5: Black Sea & Eastern 3SI Spine<br>                 <b>Carrier / Equity:</b> DP World operates Constanța South Container Terminal (CSCT) + ro-ro/rail hub<br>                 <b>EU Rail Corridor:</b> RFC Rhine-Danube (IX) & 3SI Rail-2-Sea<br>                 <b>Dry-Port Catchments:</b> Bucharest, Arad, Budapest, Middle Corridor links<br>                 <b>Vessel Time Saved:</b> Direct Black Sea / Middle Corridor gateway<br>                 <b>Key Shippers:</b> Romanian automotive (Dacia/Ford Otosan), CEE industrial, reconstruction             </div>             </div>`)[0];
+                popup_694a9f576d4c49a9fcd3988bf484705a.setContent(html_1f0a7a7aebe2562320029ccea3fb1f3b);
+            
+        
+
+        marker_8863a785f86eaad4e86a603afc0ec58f.bindPopup(popup_694a9f576d4c49a9fcd3988bf484705a)
+        ;
+
+        
+    
+    
+            marker_8863a785f86eaad4e86a603afc0ec58f.bindTooltip(
+                `<div>
+                     Port of Constanța [DP World]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8863a785f86eaad4e86a603afc0ec58f.setIcon(icon_5659f3ff42dbd4e8862d527584be5248);
+            
+    
+            var marker_a03ab438a3fbf73dc6c2e76d9f2426d4 = L.marker(
+                [54.391, 18.718],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_480c4167e0925ec1312104ee2811d2b0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6d77f4c0103c779200b822bf6c760589 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_7ca5b72694612eb7b06be98b4f610f9d = $(`<div id="html_7ca5b72694612eb7b06be98b4f610f9d" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Baltic Hub (DCT Gdańsk) [PSA International / PFR]</b><br>                 <b>Domain:</b> Domain 6: Baltic & Northern 3SI Spine<br>                 <b>Carrier / Equity:</b> PSA International, Polish Development Fund (PFR) & IFM; calls by MSC, Gemini & Ocean<br>                 <b>EU Rail Corridor:</b> RFC Baltic-Adriatic (V) & North Sea-Baltic (VIII)<br>                 <b>Dry-Port Catchments:</b> Warsaw, Łódź, Poznań, Ostrava, Bratislava<br>                 <b>Vessel Time Saved:</b> Direct 24k-TEU Baltic mother-vessel call (skips feeder transshipment)<br>                 <b>Key Shippers:</b> Polish, Czech & Slovak electronics, battery & automotive supply chains             </div>             </div>`)[0];
+                popup_6d77f4c0103c779200b822bf6c760589.setContent(html_7ca5b72694612eb7b06be98b4f610f9d);
+            
+        
+
+        marker_a03ab438a3fbf73dc6c2e76d9f2426d4.bindPopup(popup_6d77f4c0103c779200b822bf6c760589)
+        ;
+
+        
+    
+    
+            marker_a03ab438a3fbf73dc6c2e76d9f2426d4.bindTooltip(
+                `<div>
+                     Baltic Hub (DCT Gdańsk) [PSA International / PFR]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a03ab438a3fbf73dc6c2e76d9f2426d4.setIcon(icon_480c4167e0925ec1312104ee2811d2b0);
+            
+    
+            var marker_b9fbefbc4a744121b6217f7878d32f7b = L.marker(
+                [51.954, 4.022],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_8fdc47ebad9e4728a1c4358b6bc8aa1c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7bf6bfdb3a7efd3549410470c7f3c228 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_a59e3710f0279b37ef058f236d25995c = $(`<div id="html_a59e3710f0279b37ef058f236d25995c" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Rotterdam [Maersk (APMT) / Hutchison ECT / RWG]</b><br>                 <b>Domain:</b> Domain 7: Northern Range Mega-Hubs<br>                 <b>Carrier / Equity:</b> APMT Maasvlakte II, Hutchison ECT (Euromax 35% COSCO), RWG (DPW, CMA CGM, COSCO, ONE)<br>                 <b>EU Rail Corridor:</b> RFC Rhine-Alpine (I) & North Sea-Baltic (VIII)<br>                 <b>Dry-Port Catchments:</b> Venlo, Duisburg, Cologne, Mannheim, Basel<br>                 <b>Vessel Time Saved:</b> Baseline Northern Range First-Call Mega-Hub<br>                 <b>Key Shippers:</b> Pan-European consumer, chemical, industrial & high-volume BCOs             </div>             </div>`)[0];
+                popup_7bf6bfdb3a7efd3549410470c7f3c228.setContent(html_a59e3710f0279b37ef058f236d25995c);
+            
+        
+
+        marker_b9fbefbc4a744121b6217f7878d32f7b.bindPopup(popup_7bf6bfdb3a7efd3549410470c7f3c228)
+        ;
+
+        
+    
+    
+            marker_b9fbefbc4a744121b6217f7878d32f7b.bindTooltip(
+                `<div>
+                     Port of Rotterdam [Maersk (APMT) / Hutchison ECT / RWG]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b9fbefbc4a744121b6217f7878d32f7b.setIcon(icon_8fdc47ebad9e4728a1c4358b6bc8aa1c);
+            
+    
+            var marker_f205fe341c95534014595306e9983d35 = L.marker(
+                [51.298, 4.265],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_b69002b8a653f133bb800603c15e56c2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_22a0ebd274e495c197d4bd677363ca22 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_9d90efc24b98c48c5c540d1d2332ad32 = $(`<div id="html_9d90efc24b98c48c5c540d1d2332ad32" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Antwerp-Bruges [MSC (TIL) / PSA / DP World]</b><br>                 <b>Domain:</b> Domain 7: Northern Range Mega-Hubs<br>                 <b>Carrier / Equity:</b> MPET (50% MSC TIL / 50% PSA) is Europe's largest single terminal; Antwerp Gateway (DPW + COSCO + CMA CGM)<br>                 <b>EU Rail Corridor:</b> RFC North Sea-Med (II) & Rhine-Alpine (I)<br>                 <b>Dry-Port Catchments:</b> Duisburg, Brussels, Metz, Luxembourg, Lyon<br>                 <b>Vessel Time Saved:</b> Baseline Northern Range Hub<br>                 <b>Key Shippers:</b> Petrochemicals, pharmaceuticals, Western EU manufacturing & retail             </div>             </div>`)[0];
+                popup_22a0ebd274e495c197d4bd677363ca22.setContent(html_9d90efc24b98c48c5c540d1d2332ad32);
+            
+        
+
+        marker_f205fe341c95534014595306e9983d35.bindPopup(popup_22a0ebd274e495c197d4bd677363ca22)
+        ;
+
+        
+    
+    
+            marker_f205fe341c95534014595306e9983d35.bindTooltip(
+                `<div>
+                     Port of Antwerp-Bruges [MSC (TIL) / PSA / DP World]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f205fe341c95534014595306e9983d35.setIcon(icon_b69002b8a653f133bb800603c15e56c2);
+            
+    
+            var marker_5c8071d3f7aa1d024e17179d1aeea4f1 = L.marker(
+                [53.532, 9.932],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_e00d84b09e43028d648566e9c94dc66a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_eab91231f2d23f00561f7527cc8f8545 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_19efa6ad6b7e7d143de40645c175f9f7 = $(`<div id="html_19efa6ad6b7e7d143de40645c175f9f7" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Hamburg [Hapag-Lloyd / MSC (HHLA) / Eurogate]</b><br>                 <b>Domain:</b> Domain 7: Northern Range Mega-Hubs<br>                 <b>Carrier / Equity:</b> MSC holds 49.9% JV in HHLA; Hapag-Lloyd at Altenwerder (25.1%) & Eurogate; COSCO 24.99% at Tollerort<br>                 <b>EU Rail Corridor:</b> RFC ScanMed (III), Orient/East-Med (VII) & North Sea-Baltic (VIII)<br>                 <b>Dry-Port Catchments:</b> Hanover, Leipzig, Prague, Munich, Poznań<br>                 <b>Vessel Time Saved:</b> Baseline Northern Range Rail Super-Hub<br>                 <b>Key Shippers:</b> German & Czech automotive OEMs, machinery, Central EU exporters             </div>             </div>`)[0];
+                popup_eab91231f2d23f00561f7527cc8f8545.setContent(html_19efa6ad6b7e7d143de40645c175f9f7);
+            
+        
+
+        marker_5c8071d3f7aa1d024e17179d1aeea4f1.bindPopup(popup_eab91231f2d23f00561f7527cc8f8545)
+        ;
+
+        
+    
+    
+            marker_5c8071d3f7aa1d024e17179d1aeea4f1.bindTooltip(
+                `<div>
+                     Port of Hamburg [Hapag-Lloyd / MSC (HHLA) / Eurogate]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5c8071d3f7aa1d024e17179d1aeea4f1.setIcon(icon_e00d84b09e43028d648566e9c94dc66a);
+            
+    
+            var marker_eac814620bfa23eb8a525d910f941ccb = L.marker(
+                [51.954, 1.318],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_21d1e6d9c39801ee90f59ddaefed1323 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0a8710a515061c3a9f90031f1f056e39 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_68e40b9378a185c60a3034dfa7b58ce1 = $(`<div id="html_68e40b9378a185c60a3034dfa7b58ce1" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Felixstowe [Hutchison Ports (Multi-Alliance)]</b><br>                 <b>Domain:</b> Domain 8: UK & Nordic Rail Corridors<br>                 <b>Carrier / Equity:</b> 100% Hutchison Ports UK; primary UK call for MSC, Gemini & Ocean Alliance (30+ trains/day)<br>                 <b>EU Rail Corridor:</b> UK Felixstowe-Midlands-North Rail Spine<br>                 <b>Dry-Port Catchments:</b> DIRFT (Daventry), Birmingham, Manchester, Leeds, Mossend<br>                 <b>Vessel Time Saved:</b> UK Deep-Sea Direct Call<br>                 <b>Key Shippers:</b> UK retail, automotive Midlands triangle, FMCG             </div>             </div>`)[0];
+                popup_0a8710a515061c3a9f90031f1f056e39.setContent(html_68e40b9378a185c60a3034dfa7b58ce1);
+            
+        
+
+        marker_eac814620bfa23eb8a525d910f941ccb.bindPopup(popup_0a8710a515061c3a9f90031f1f056e39)
+        ;
+
+        
+    
+    
+            marker_eac814620bfa23eb8a525d910f941ccb.bindTooltip(
+                `<div>
+                     Port of Felixstowe [Hutchison Ports (Multi-Alliance)]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_eac814620bfa23eb8a525d910f941ccb.setIcon(icon_21d1e6d9c39801ee90f59ddaefed1323);
+            
+    
+            var marker_166670d4af1df86be377587e0d6465f2 = L.marker(
+                [57.695, 11.852],
+                {
+}
+            ).addTo(feature_group_500ca5240bcee9dc5910fc0adfe69249);
+        
+    
+            var icon_9ec3557dd634945cfd47a305c39b777f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_befeeffb73938e6b63959a686c19d771 = L.popup({
+  "maxWidth": 340,
+});
+
+        
+            
+                var html_217149ea258926e28def461f4e2a4394 = $(`<div id="html_217149ea258926e28def461f4e2a4394" style="width: 100.0%; height: 100.0%;">             <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">                 <b>Port of Gothenburg [Maersk (APM Terminals)]</b><br>                 <b>Domain:</b> Domain 8: UK & Nordic Rail Corridors<br>                 <b>Carrier / Equity:</b> APM Terminals operates Gothenburg Container Terminal; >50% rail modal share via Railport Scandinavia<br>                 <b>EU Rail Corridor:</b> RFC ScanMed (III) — Railport Scandinavia<br>                 <b>Dry-Port Catchments:</b> Hallsberg, Stockholm, Jönköping, Oslo<br>                 <b>Vessel Time Saved:</b> Direct Nordic Deep-Sea Call (benchmark >50% rail share)<br>                 <b>Key Shippers:</b> Nordic automotive (Volvo/Scania), forestry, industrial machinery             </div>             </div>`)[0];
+                popup_befeeffb73938e6b63959a686c19d771.setContent(html_217149ea258926e28def461f4e2a4394);
+            
+        
+
+        marker_166670d4af1df86be377587e0d6465f2.bindPopup(popup_befeeffb73938e6b63959a686c19d771)
+        ;
+
+        
+    
+    
+            marker_166670d4af1df86be377587e0d6465f2.bindTooltip(
+                `<div>
+                     Port of Gothenburg [Maersk (APM Terminals)]
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_166670d4af1df86be377587e0d6465f2.setIcon(icon_9ec3557dd634945cfd47a305c39b777f);
+            
+    
+            feature_group_500ca5240bcee9dc5910fc0adfe69249.addTo(map_b0a7e30a04700b54d8000e6b1c75b369);
+        
+    
+            var feature_group_2f1c0541928d2f3278830a061cf213df = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_08f33c13dbb9c3b940f9d0e9781841b5 = L.circleMarker(
+                [51.4344, 6.7623],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_2b01b2e02972507987f7ed2e9bfcbbf4 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_cd36ff15d55e26cff00aeae5c4704648 = $(`<div id="html_cd36ff15d55e26cff00aeae5c4704648" style="width: 100.0%; height: 100.0%;"><b>Duisburg (DIT / D3T)</b><br>ZONE_A_DUI — Rhine-Ruhr Intermodal Hub</div>`)[0];
+                popup_2b01b2e02972507987f7ed2e9bfcbbf4.setContent(html_cd36ff15d55e26cff00aeae5c4704648);
+            
+        
+
+        circle_marker_08f33c13dbb9c3b940f9d0e9781841b5.bindPopup(popup_2b01b2e02972507987f7ed2e9bfcbbf4)
+        ;
+
+        
+    
+    
+            circle_marker_08f33c13dbb9c3b940f9d0e9781841b5.bindTooltip(
+                `<div>
+                     Duisburg (DIT / D3T)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d45c373508374a490df97700c9dee39f = L.circleMarker(
+                [45.415, 10.945],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_69fbeb5d30819d00e539af2f17314f83 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_7abaa1d62b98e7d24e04c6a00494dae0 = $(`<div id="html_7abaa1d62b98e7d24e04c6a00494dae0" style="width: 100.0%; height: 100.0%;"><b>Verona (Quadrante Europa)</b><br>ZONE_B_VER — Brenner / North Italy Hub</div>`)[0];
+                popup_69fbeb5d30819d00e539af2f17314f83.setContent(html_7abaa1d62b98e7d24e04c6a00494dae0);
+            
+        
+
+        circle_marker_d45c373508374a490df97700c9dee39f.bindPopup(popup_69fbeb5d30819d00e539af2f17314f83)
+        ;
+
+        
+    
+    
+            circle_marker_d45c373508374a490df97700c9dee39f.bindTooltip(
+                `<div>
+                     Verona (Quadrante Europa)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b5b7de9ba3778cbb260b224c84f9e859 = L.circleMarker(
+                [52.4064, 17.0785],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_f3d7f40bf55d4b3e8c24a6ae45a4444a = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_ac75e14feb7814da9650e486ad7ef3f4 = $(`<div id="html_ac75e14feb7814da9650e486ad7ef3f4" style="width: 100.0%; height: 100.0%;"><b>Poznań (CLIP Swarzędz)</b><br>ZONE_C_POZ — Poland East-West Hub</div>`)[0];
+                popup_f3d7f40bf55d4b3e8c24a6ae45a4444a.setContent(html_ac75e14feb7814da9650e486ad7ef3f4);
+            
+        
+
+        circle_marker_b5b7de9ba3778cbb260b224c84f9e859.bindPopup(popup_f3d7f40bf55d4b3e8c24a6ae45a4444a)
+        ;
+
+        
+    
+    
+            circle_marker_b5b7de9ba3778cbb260b224c84f9e859.bindTooltip(
+                `<div>
+                     Poznań (CLIP Swarzędz)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_00a751995c0343373316265a5346cb6a = L.circleMarker(
+                [48.165, 16.475],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_b619984fba031e9b1bb504c608bdbe1a = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_3b33c5b58d30f7c3d20e4b0e45c8afcc = $(`<div id="html_3b33c5b58d30f7c3d20e4b0e45c8afcc" style="width: 100.0%; height: 100.0%;"><b>Vienna (WienCont)</b><br>ZONE_D_VIE — Danube / CEE Gateway</div>`)[0];
+                popup_b619984fba031e9b1bb504c608bdbe1a.setContent(html_3b33c5b58d30f7c3d20e4b0e45c8afcc);
+            
+        
+
+        circle_marker_00a751995c0343373316265a5346cb6a.bindPopup(popup_b619984fba031e9b1bb504c608bdbe1a)
+        ;
+
+        
+    
+    
+            circle_marker_00a751995c0343373316265a5346cb6a.bindTooltip(
+                `<div>
+                     Vienna (WienCont)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_edd918c014b02fa1f8a8e0d88f02ee34 = L.circleMarker(
+                [45.708, 4.886],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_eba0afcaf23b0c289c8675db59d36561 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_fe40649fafd6c24a6a2f46071fd17064 = $(`<div id="html_fe40649fafd6c24a6a2f46071fd17064" style="width: 100.0%; height: 100.0%;"><b>Lyon (Terminal de Vénissieux)</b><br>ZONE_E_LYO — Rhône-Alpes Hub</div>`)[0];
+                popup_eba0afcaf23b0c289c8675db59d36561.setContent(html_fe40649fafd6c24a6a2f46071fd17064);
+            
+        
+
+        circle_marker_edd918c014b02fa1f8a8e0d88f02ee34.bindPopup(popup_eba0afcaf23b0c289c8675db59d36561)
+        ;
+
+        
+    
+    
+            circle_marker_edd918c014b02fa1f8a8e0d88f02ee34.bindTooltip(
+                `<div>
+                     Lyon (Terminal de Vénissieux)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3ef41f8382423dab1b2c43ea367ce7ac = L.circleMarker(
+                [47.392, 19.085],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_562b26c3387a6bdc460ed7912c233d72 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_f0cdf52e32f869fa45ef0c81ed33476f = $(`<div id="html_f0cdf52e32f869fa45ef0c81ed33476f" style="width: 100.0%; height: 100.0%;"><b>Budapest (BILK)</b><br>ZONE_F_BUD — Central/SE Europe Hub</div>`)[0];
+                popup_562b26c3387a6bdc460ed7912c233d72.setContent(html_f0cdf52e32f869fa45ef0c81ed33476f);
+            
+        
+
+        circle_marker_3ef41f8382423dab1b2c43ea367ce7ac.bindPopup(popup_562b26c3387a6bdc460ed7912c233d72)
+        ;
+
+        
+    
+    
+            circle_marker_3ef41f8382423dab1b2c43ea367ce7ac.bindTooltip(
+                `<div>
+                     Budapest (BILK)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e90d53de176b0c6e5a071a399b820a18 = L.circleMarker(
+                [48.148, 11.696],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_a8e8f8c8f21ff6e8ca4bb8dad03767c8 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_1b0fb4f1f2a62bbdfd375f21c054a990 = $(`<div id="html_1b0fb4f1f2a62bbdfd375f21c054a990" style="width: 100.0%; height: 100.0%;"><b>Munich (München-Riem)</b><br>Bavaria / Alpine Rail Hub</div>`)[0];
+                popup_a8e8f8c8f21ff6e8ca4bb8dad03767c8.setContent(html_1b0fb4f1f2a62bbdfd375f21c054a990);
+            
+        
+
+        circle_marker_e90d53de176b0c6e5a071a399b820a18.bindPopup(popup_a8e8f8c8f21ff6e8ca4bb8dad03767c8)
+        ;
+
+        
+    
+    
+            circle_marker_e90d53de176b0c6e5a071a399b820a18.bindTooltip(
+                `<div>
+                     Munich (München-Riem)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_97a78071cd5e81f042e4724600d920e4 = L.circleMarker(
+                [45.498, 9.423],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_9c419a7bbe8d4d1bfe4043e6e80633da = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_b984011ce9b06e1d75829555e14f9636 = $(`<div id="html_b984011ce9b06e1d75829555e14f9636" style="width: 100.0%; height: 100.0%;"><b>Milan (Melzo / RHM)</b><br>Lombardy Intermodal Hub</div>`)[0];
+                popup_9c419a7bbe8d4d1bfe4043e6e80633da.setContent(html_b984011ce9b06e1d75829555e14f9636);
+            
+        
+
+        circle_marker_97a78071cd5e81f042e4724600d920e4.bindPopup(popup_9c419a7bbe8d4d1bfe4043e6e80633da)
+        ;
+
+        
+    
+    
+            circle_marker_97a78071cd5e81f042e4724600d920e4.bindTooltip(
+                `<div>
+                     Milan (Melzo / RHM)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_94d72652828fd78c6a8370acb74480a7 = L.circleMarker(
+                [40.4238, -3.5613],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_2066ca2038998c98d5739f0e8be8110c = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_e03c5813afd6e46c3237f5ebb8e14ce4 = $(`<div id="html_e03c5813afd6e46c3237f5ebb8e14ce4" style="width: 100.0%; height: 100.0%;"><b>Madrid (Coslada Dry Port)</b><br>Iberian Central Dry Port</div>`)[0];
+                popup_2066ca2038998c98d5739f0e8be8110c.setContent(html_e03c5813afd6e46c3237f5ebb8e14ce4);
+            
+        
+
+        circle_marker_94d72652828fd78c6a8370acb74480a7.bindPopup(popup_2066ca2038998c98d5739f0e8be8110c)
+        ;
+
+        
+    
+    
+            circle_marker_94d72652828fd78c6a8370acb74480a7.bindTooltip(
+                `<div>
+                     Madrid (Coslada Dry Port)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d0bab36ce2c9912c581a50d3d710f43a = L.circleMarker(
+                [41.6488, -0.8891],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_767c3d22d155f5d7ca966be8691ad302 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_fae7294f5d8db06a2505a9d5f403cd36 = $(`<div id="html_fae7294f5d8db06a2505a9d5f403cd36" style="width: 100.0%; height: 100.0%;"><b>Zaragoza (tmZ / PLAZA)</b><br>Ebro Corridor Dry Port</div>`)[0];
+                popup_767c3d22d155f5d7ca966be8691ad302.setContent(html_fae7294f5d8db06a2505a9d5f403cd36);
+            
+        
+
+        circle_marker_d0bab36ce2c9912c581a50d3d710f43a.bindPopup(popup_767c3d22d155f5d7ca966be8691ad302)
+        ;
+
+        
+    
+    
+            circle_marker_d0bab36ce2c9912c581a50d3d710f43a.bindTooltip(
+                `<div>
+                     Zaragoza (tmZ / PLAZA)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2007536ce4656f4d9c884b1497da1f4d = L.circleMarker(
+                [50.03, 14.6],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_9ba0da6263be0029dc2ea98386954e54 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_21fd2465ab7476e123dfcb388abba171 = $(`<div id="html_21fd2465ab7476e123dfcb388abba171" style="width: 100.0%; height: 100.0%;"><b>Prague (Uhříněves / METRANS)</b><br>Czech Rail Hub</div>`)[0];
+                popup_9ba0da6263be0029dc2ea98386954e54.setContent(html_21fd2465ab7476e123dfcb388abba171);
+            
+        
+
+        circle_marker_2007536ce4656f4d9c884b1497da1f4d.bindPopup(popup_9ba0da6263be0029dc2ea98386954e54)
+        ;
+
+        
+    
+    
+            circle_marker_2007536ce4656f4d9c884b1497da1f4d.bindTooltip(
+                `<div>
+                     Prague (Uhříněves / METRANS)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6cfe3118f4719faaee2c55557b2f606b = L.circleMarker(
+                [47.9928, 17.6121],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_9207c432422aeeae76a24c50de8dca08 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_d74f5baa67241540af4eb582f4ddd141 = $(`<div id="html_d74f5baa67241540af4eb582f4ddd141" style="width: 100.0%; height: 100.0%;"><b>Bratislava / Dunajská Streda</b><br>Slovakia Automotive Rail Hub</div>`)[0];
+                popup_9207c432422aeeae76a24c50de8dca08.setContent(html_d74f5baa67241540af4eb582f4ddd141);
+            
+        
+
+        circle_marker_6cfe3118f4719faaee2c55557b2f606b.bindPopup(popup_9207c432422aeeae76a24c50de8dca08)
+        ;
+
+        
+    
+    
+            circle_marker_6cfe3118f4719faaee2c55557b2f606b.bindTooltip(
+                `<div>
+                     Bratislava / Dunajská Streda
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c65c8b9f89f20539a73cb42842f454eb = L.circleMarker(
+                [44.826, 20.225],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_78042b5273cdedae37ed9590002f9e6d = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_7ff53e688af8b62417fb40c66c134f0a = $(`<div id="html_7ff53e688af8b62417fb40c66c134f0a" style="width: 100.0%; height: 100.0%;"><b>Belgrade (Nelt / Dobanovci)</b><br>Western Balkans Hub</div>`)[0];
+                popup_78042b5273cdedae37ed9590002f9e6d.setContent(html_7ff53e688af8b62417fb40c66c134f0a);
+            
+        
+
+        circle_marker_c65c8b9f89f20539a73cb42842f454eb.bindPopup(popup_78042b5273cdedae37ed9590002f9e6d)
+        ;
+
+        
+    
+    
+            circle_marker_c65c8b9f89f20539a73cb42842f454eb.bindTooltip(
+                `<div>
+                     Belgrade (Nelt / Dobanovci)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ca0dc176cc1e4f1399b8d097dab9a6ea = L.circleMarker(
+                [45.8, 15.86],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_4865cc5a310c4f25c5bc4d7aedc97399 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_de89c6825fa5bd8119eaf58264517cbb = $(`<div id="html_de89c6825fa5bd8119eaf58264517cbb" style="width: 100.0%; height: 100.0%;"><b>Zagreb (Jankomir)</b><br>Croatia Inland Rail Hub</div>`)[0];
+                popup_4865cc5a310c4f25c5bc4d7aedc97399.setContent(html_de89c6825fa5bd8119eaf58264517cbb);
+            
+        
+
+        circle_marker_ca0dc176cc1e4f1399b8d097dab9a6ea.bindPopup(popup_4865cc5a310c4f25c5bc4d7aedc97399)
+        ;
+
+        
+    
+    
+            circle_marker_ca0dc176cc1e4f1399b8d097dab9a6ea.bindTooltip(
+                `<div>
+                     Zagreb (Jankomir)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_574b970520b310de5fa8c7da9e684ccc = L.circleMarker(
+                [46.942, 15.432],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_c3c77488f9f864fab83b641322d1c26f = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_bc08c534a5e1cb9342848c2cb95fcd8a = $(`<div id="html_bc08c534a5e1cb9342848c2cb95fcd8a" style="width: 100.0%; height: 100.0%;"><b>Graz (Cargo Center Graz)</b><br>Styria / Adriatic Rail Hub</div>`)[0];
+                popup_c3c77488f9f864fab83b641322d1c26f.setContent(html_bc08c534a5e1cb9342848c2cb95fcd8a);
+            
+        
+
+        circle_marker_574b970520b310de5fa8c7da9e684ccc.bindPopup(popup_c3c77488f9f864fab83b641322d1c26f)
+        ;
+
+        
+    
+    
+            circle_marker_574b970520b310de5fa8c7da9e684ccc.bindTooltip(
+                `<div>
+                     Graz (Cargo Center Graz)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6c3d6638f1504cc8e7c09cde67baa834 = L.circleMarker(
+                [49.73, 18.29],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_9ef512f40c4b6a4a6e45fee840300f1a = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_d809e79523692af4c9a43a6ce792b92b = $(`<div id="html_d809e79523692af4c9a43a6ce792b92b" style="width: 100.0%; height: 100.0%;"><b>Ostrava (Paskov)</b><br>Silesia / Northern CEE Hub</div>`)[0];
+                popup_9ef512f40c4b6a4a6e45fee840300f1a.setContent(html_d809e79523692af4c9a43a6ce792b92b);
+            
+        
+
+        circle_marker_6c3d6638f1504cc8e7c09cde67baa834.bindPopup(popup_9ef512f40c4b6a4a6e45fee840300f1a)
+        ;
+
+        
+    
+    
+            circle_marker_6c3d6638f1504cc8e7c09cde67baa834.bindTooltip(
+                `<div>
+                     Ostrava (Paskov)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_08ae319f83dd04b9a3abe343af7c0b1c = L.circleMarker(
+                [47.583, 7.589],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_f11f3767cbfb03603dc5844e58b75252 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_565e5b44686e06158309aa049b5d29b6 = $(`<div id="html_565e5b44686e06158309aa049b5d29b6" style="width: 100.0%; height: 100.0%;"><b>Basel (Frenkendorf / Kleinhüningen)</b><br>Swiss Rhine-Alpine Hub</div>`)[0];
+                popup_f11f3767cbfb03603dc5844e58b75252.setContent(html_565e5b44686e06158309aa049b5d29b6);
+            
+        
+
+        circle_marker_08ae319f83dd04b9a3abe343af7c0b1c.bindPopup(popup_f11f3767cbfb03603dc5844e58b75252)
+        ;
+
+        
+    
+    
+            circle_marker_08ae319f83dd04b9a3abe343af7c0b1c.bindTooltip(
+                `<div>
+                     Basel (Frenkendorf / Kleinhüningen)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f06401c79273a017738de1072e0cf8f4 = L.circleMarker(
+                [46.342, 21.306],
+                {"bubblingMouseEvents": true, "color": "#1e3a8a", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3b82f6", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_2f1c0541928d2f3278830a061cf213df);
+        
+    
+        var popup_f5030953e9291516a1d7aaa298b55051 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_80f962655345b98894fa0c60339ea6e3 = $(`<div id="html_80f962655345b98894fa0c60339ea6e3" style="width: 100.0%; height: 100.0%;"><b>Curtici / Arad (Railport Arad)</b><br>Romania Western Border Dry Port</div>`)[0];
+                popup_f5030953e9291516a1d7aaa298b55051.setContent(html_80f962655345b98894fa0c60339ea6e3);
+            
+        
+
+        circle_marker_f06401c79273a017738de1072e0cf8f4.bindPopup(popup_f5030953e9291516a1d7aaa298b55051)
+        ;
+
+        
+    
+    
+            circle_marker_f06401c79273a017738de1072e0cf8f4.bindTooltip(
+                `<div>
+                     Curtici / Arad (Railport Arad)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_2f1c0541928d2f3278830a061cf213df.addTo(map_b0a7e30a04700b54d8000e6b1c75b369);
+        
+    
+            var feature_group_947e553c81741c93808ac659fec67ebc = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var regular_polygon_marker_a6925b97f698738a422f26023ef9fbc1 = new L.RegularPolygonMarker(
+                [51.835, 6.242],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_4b0f85a536af7ccb2f335b5c2e0a59e6 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_1b5e482320c4e724fc40293e7eee0b34 = $(`<div id="html_1b5e482320c4e724fc40293e7eee0b34" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Emmerich–Zevenaar (NL/DE)</b><br>Betuweroute bottleneck; 1.5kV DC / 15kV AC & signaling handoff</div>`)[0];
+                popup_4b0f85a536af7ccb2f335b5c2e0a59e6.setContent(html_1b5e482320c4e724fc40293e7eee0b34);
+            
+        
+
+        regular_polygon_marker_a6925b97f698738a422f26023ef9fbc1.bindPopup(popup_4b0f85a536af7ccb2f335b5c2e0a59e6)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_a6925b97f698738a422f26023ef9fbc1.bindTooltip(
+                `<div>
+                     Border: Emmerich–Zevenaar (NL/DE)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_396594c1f353bacd57a1cbd625399808 = new L.RegularPolygonMarker(
+                [47.005, 11.506],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_8b4f6a5a331ae1dda9e077e0ccf8cff5 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_bc457985ebd9df5e0b8e792a27aca757 = $(`<div id="html_bc457985ebd9df5e0b8e792a27aca757" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Brenner (AT/IT)</b><br>Alpine gradient; 15kV AC / 3kV DC voltage & signaling swap</div>`)[0];
+                popup_8b4f6a5a331ae1dda9e077e0ccf8cff5.setContent(html_bc457985ebd9df5e0b8e792a27aca757);
+            
+        
+
+        regular_polygon_marker_396594c1f353bacd57a1cbd625399808.bindPopup(popup_8b4f6a5a331ae1dda9e077e0ccf8cff5)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_396594c1f353bacd57a1cbd625399808.bindTooltip(
+                `<div>
+                     Border: Brenner (AT/IT)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_45f9e627decef5293b861721a650a88c = new L.RegularPolygonMarker(
+                [45.833, 9.031],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_40c6c59849be1dcbc06adec999a944b1 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_73412f2faff300029accd00f3b8a9008 = $(`<div id="html_73412f2faff300029accd00f3b8a9008" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Chiasso (CH/IT)</b><br>Gotthard southern gate; Swiss/Italian voltage & customs handoff</div>`)[0];
+                popup_40c6c59849be1dcbc06adec999a944b1.setContent(html_73412f2faff300029accd00f3b8a9008);
+            
+        
+
+        regular_polygon_marker_45f9e627decef5293b861721a650a88c.bindPopup(popup_40c6c59849be1dcbc06adec999a944b1)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_45f9e627decef5293b861721a650a88c.bindTooltip(
+                `<div>
+                     Border: Chiasso (CH/IT)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_ab5d7bc064f7f71426fbc9212ce811f2 = new L.RegularPolygonMarker(
+                [47.567, 7.607],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_5915b8ee91f8c45f9430d1d1ba4bcd16 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_8c169f92c5a2eb250df08fb5a94023cb = $(`<div id="html_8c169f92c5a2eb250df08fb5a94023cb" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Basel Bad / Muttenz (DE/CH)</b><br>Rhine-Alpine non-EU customs & transit formalities</div>`)[0];
+                popup_5915b8ee91f8c45f9430d1d1ba4bcd16.setContent(html_8c169f92c5a2eb250df08fb5a94023cb);
+            
+        
+
+        regular_polygon_marker_ab5d7bc064f7f71426fbc9212ce811f2.bindPopup(popup_5915b8ee91f8c45f9430d1d1ba4bcd16)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_ab5d7bc064f7f71426fbc9212ce811f2.bindTooltip(
+                `<div>
+                     Border: Basel Bad / Muttenz (DE/CH)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_cfd80088e92ab3c258f43a0433e23e38 = new L.RegularPolygonMarker(
+                [42.426, 3.159],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_6cca854c4246553820cb519fdeef654b = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_282e1950c21626acca2ad7ac9234df67 = $(`<div id="html_282e1950c21626acca2ad7ac9234df67" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Portbou / Cerbère (ES/FR)</b><br>Mediterranean Iberian (1668 mm) to standard (1435 mm) gauge break</div>`)[0];
+                popup_6cca854c4246553820cb519fdeef654b.setContent(html_282e1950c21626acca2ad7ac9234df67);
+            
+        
+
+        regular_polygon_marker_cfd80088e92ab3c258f43a0433e23e38.bindPopup(popup_6cca854c4246553820cb519fdeef654b)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_cfd80088e92ab3c258f43a0433e23e38.bindTooltip(
+                `<div>
+                     Border: Portbou / Cerbère (ES/FR)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_caa51a79b240edcea2d9a798579ae529 = new L.RegularPolygonMarker(
+                [43.339, -1.789],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_b4eaa28b522e96869ac35982b33cf50a = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_a7d381a41ab0c82babd3190a4c41561d = $(`<div id="html_a7d381a41ab0c82babd3190a4c41561d" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Irún / Hendaye (ES/FR)</b><br>Atlantic Corridor Iberian-to-standard gauge break</div>`)[0];
+                popup_b4eaa28b522e96869ac35982b33cf50a.setContent(html_a7d381a41ab0c82babd3190a4c41561d);
+            
+        
+
+        regular_polygon_marker_caa51a79b240edcea2d9a798579ae529.bindPopup(popup_b4eaa28b522e96869ac35982b33cf50a)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_caa51a79b240edcea2d9a798579ae529.bindTooltip(
+                `<div>
+                     Border: Irún / Hendaye (ES/FR)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_ee33b0ed11ad81d301c00e3db02cc228 = new L.RegularPolygonMarker(
+                [52.341, 14.55],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_1da6581156c0beeb985fae70450186ea = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_1fb22a5ba25ae843b57736c343cf6beb = $(`<div id="html_1fb22a5ba25ae843b57736c343cf6beb" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Frankfurt (Oder) (DE/PL)</b><br>15kV AC / 3kV DC swap & crew/language handoff</div>`)[0];
+                popup_1da6581156c0beeb985fae70450186ea.setContent(html_1fb22a5ba25ae843b57736c343cf6beb);
+            
+        
+
+        regular_polygon_marker_ee33b0ed11ad81d301c00e3db02cc228.bindPopup(popup_1da6581156c0beeb985fae70450186ea)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_ee33b0ed11ad81d301c00e3db02cc228.bindTooltip(
+                `<div>
+                     Border: Frankfurt (Oder) (DE/PL)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_e83c4f2b391401fb8acaf08d3b7fe13d = new L.RegularPolygonMarker(
+                [48.574, 13.451],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_4b2a74276559399dfd3a2a6a0d27f0b5 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_6ef361aaa6b64e0269a299433a614975 = $(`<div id="html_6ef361aaa6b64e0269a299433a614975" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Passau (DE/AT)</b><br>Rhine-Danube corridor operational & crew handoff</div>`)[0];
+                popup_4b2a74276559399dfd3a2a6a0d27f0b5.setContent(html_6ef361aaa6b64e0269a299433a614975);
+            
+        
+
+        regular_polygon_marker_e83c4f2b391401fb8acaf08d3b7fe13d.bindPopup(popup_4b2a74276559399dfd3a2a6a0d27f0b5)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_e83c4f2b391401fb8acaf08d3b7fe13d.bindTooltip(
+                `<div>
+                     Border: Passau (DE/AT)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_205fdad4ac876ba3b517c89dce08a68f = new L.RegularPolygonMarker(
+                [47.912, 17.152],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_819d5b3feb7c3cfdf2cf1b436860032b = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_6c14482545d544f0b060fddb02b9bab2 = $(`<div id="html_6c14482545d544f0b060fddb02b9bab2" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Hegyeshalom (AT/HU)</b><br>15kV AC / 25kV AC voltage swap; high-volume CEE rail gate</div>`)[0];
+                popup_819d5b3feb7c3cfdf2cf1b436860032b.setContent(html_6c14482545d544f0b060fddb02b9bab2);
+            
+        
+
+        regular_polygon_marker_205fdad4ac876ba3b517c89dce08a68f.bindPopup(popup_819d5b3feb7c3cfdf2cf1b436860032b)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_205fdad4ac876ba3b517c89dce08a68f.bindTooltip(
+                `<div>
+                     Border: Hegyeshalom (AT/HU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_6f5f7db0b91b4be5a831a11d42cf0915 = new L.RegularPolygonMarker(
+                [47.8, 18.72],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_54fdec2b2af341a39acbc458ae8c4b68 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_98caa9dfe0366d1a26474a16961c2e0f = $(`<div id="html_98caa9dfe0366d1a26474a16961c2e0f" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Štúrovo / Szob (SK/HU)</b><br>Danube north-bank freight corridor border</div>`)[0];
+                popup_54fdec2b2af341a39acbc458ae8c4b68.setContent(html_98caa9dfe0366d1a26474a16961c2e0f);
+            
+        
+
+        regular_polygon_marker_6f5f7db0b91b4be5a831a11d42cf0915.bindPopup(popup_54fdec2b2af341a39acbc458ae8c4b68)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_6f5f7db0b91b4be5a831a11d42cf0915.bindTooltip(
+                `<div>
+                     Border: Štúrovo / Szob (SK/HU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_8a10281c4bcb57b9fd7252705c8e85a7 = new L.RegularPolygonMarker(
+                [46.707, 15.635],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_cb9ddf45e57ff93309e4139f4b0c9df6 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_ac21f995544ce0ef02674067e9803500 = $(`<div id="html_ac21f995544ce0ef02674067e9803500" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Spielfeld-Straß (AT/SI)</b><br>15kV AC / 3kV DC swap; Baltic-Adriatic pinch point</div>`)[0];
+                popup_cb9ddf45e57ff93309e4139f4b0c9df6.setContent(html_ac21f995544ce0ef02674067e9803500);
+            
+        
+
+        regular_polygon_marker_8a10281c4bcb57b9fd7252705c8e85a7.bindPopup(popup_cb9ddf45e57ff93309e4139f4b0c9df6)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_8a10281c4bcb57b9fd7252705c8e85a7.bindTooltip(
+                `<div>
+                     Border: Spielfeld-Straß (AT/SI)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_672e84d131c5cdd6e95f967a303f263a = new L.RegularPolygonMarker(
+                [46.342, 21.306],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_dd1abcf876ca980b10237ed4e704521b = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_8c9067e20d1b3bb1557e5121ff744d6c = $(`<div id="html_8c9067e20d1b3bb1557e5121ff744d6c" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Curtici–Lőkösháza (RO/HU)</b><br>Constanța corridor locomotive/crew handoff & border checks</div>`)[0];
+                popup_dd1abcf876ca980b10237ed4e704521b.setContent(html_8c9067e20d1b3bb1557e5121ff744d6c);
+            
+        
+
+        regular_polygon_marker_672e84d131c5cdd6e95f967a303f263a.bindPopup(popup_dd1abcf876ca980b10237ed4e704521b)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_672e84d131c5cdd6e95f967a303f263a.bindTooltip(
+                `<div>
+                     Border: Curtici–Lőkösháza (RO/HU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_8146d9cd9791a9099dba8f122c3b1ac5 = new L.RegularPolygonMarker(
+                [46.166, 19.616],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_00b554ae389d380d99847a9ba85c2e2d = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_a3854366ace51621d7687bd87d5ca6a1 = $(`<div id="html_a3854366ace51621d7687bd87d5ca6a1" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Subotica–Kelebia (RS/HU)</b><br>EU external border; customs, phytosanitary & eFTI/ICS2 checks</div>`)[0];
+                popup_00b554ae389d380d99847a9ba85c2e2d.setContent(html_a3854366ace51621d7687bd87d5ca6a1);
+            
+        
+
+        regular_polygon_marker_8146d9cd9791a9099dba8f122c3b1ac5.bindPopup(popup_00b554ae389d380d99847a9ba85c2e2d)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_8146d9cd9791a9099dba8f122c3b1ac5.bindTooltip(
+                `<div>
+                     Border: Subotica–Kelebia (RS/HU)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var regular_polygon_marker_485d0a761f2060a376c4000901dd1133 = new L.RegularPolygonMarker(
+                [52.023, 23.516],
+                {
+  "stroke": true,
+  "color": "#991b1b",
+  "weight": 1.5,
+  "opacity": 1.0,
+  "lineCap": "round",
+  "lineJoin": "round",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#f59e0b",
+  "fillOpacity": 0.95,
+  "fillRule": "evenodd",
+  "bubblingMouseEvents": true,
+  "radius": 7,
+  "numberOfSides": 4,
+  "rotation": 45,
+}
+            ).addTo(feature_group_947e553c81741c93808ac659fec67ebc);
+        
+    
+        var popup_ab06e03fcc04059ba9d5aabd934125ca = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_872be7b5d2eb62a1b05bcaef965757c7 = $(`<div id="html_872be7b5d2eb62a1b05bcaef965757c7" style="width: 100.0%; height: 100.0%;"><b>Border Chokepoint: Małaszewicze–Brest (PL/BY)</b><br>EU external border + 1520 mm broad-to-standard gauge transshipment</div>`)[0];
+                popup_ab06e03fcc04059ba9d5aabd934125ca.setContent(html_872be7b5d2eb62a1b05bcaef965757c7);
+            
+        
+
+        regular_polygon_marker_485d0a761f2060a376c4000901dd1133.bindPopup(popup_ab06e03fcc04059ba9d5aabd934125ca)
+        ;
+
+        
+    
+    
+            regular_polygon_marker_485d0a761f2060a376c4000901dd1133.bindTooltip(
+                `<div>
+                     Border: Małaszewicze–Brest (PL/BY)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var layer_control_2898dc9421b7ce21c4efbe93eb5b64f8_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_5b8f444211991ad7445a30f3a781eba5,
+                },
+                overlays :  {
+                    "11 Seaport Catchment Zones (Voronoi)" : feature_group_cef63894854da7b159d4a269c0c2ce7c,
+                    "OTR Radius: 300 km (Breakeven)" : feature_group_3b588ebe5666438b046800769cd7ac85,
+                    "OTR Radius: 150 km (Single-Day)" : feature_group_4a51d678e714fed7baa57dc13ae399f1,
+                    "TEN-T Rail Corridors (18 Spines)" : feature_group_6bd37ead2345137fea6672522e66430f,
+                    "Legacy North-Range Overreach" : feature_group_08c0f691036077599ea4ea710ef3f3ef,
+                    "Seaport Gateways (17)" : feature_group_500ca5240bcee9dc5910fc0adfe69249,
+                    "Inland Dry Ports" : feature_group_2f1c0541928d2f3278830a061cf213df,
+                    "Rail Border Crossings (14 Chokepoints)" : feature_group_947e553c81741c93808ac659fec67ebc,
+                },
+            };
+            let layer_control_2898dc9421b7ce21c4efbe93eb5b64f8 = L.control.layers(
+                layer_control_2898dc9421b7ce21c4efbe93eb5b64f8_layers.base_layers,
+                layer_control_2898dc9421b7ce21c4efbe93eb5b64f8_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_b0a7e30a04700b54d8000e6b1c75b369);
+
+        
+</script>
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Project ZeST: Legacy North-Range Rail Overreach</name>
+    <description>Legacy Northern Range rail flows pulling cargo across 2-3 closer Mediterranean and Adriatic port catchment zones.</description>
+    <Style id="overreach_orange">
+      <LineStyle><color>ff1673f9</color><width>4.0</width></LineStyle>
+    </Style>
+    <Folder>
+      <name>Legacy North-Range Rail Overreach</name>
+      <Placemark>
+        <name>Legacy Overreach: Rotterdam / Antwerp -&gt; Duisburg -&gt; Milan</name>
+        <styleUrl>#overreach_orange</styleUrl>
+        <ExtendedData>
+  <Data name="Origin Mega-Hub"><value>Rotterdam / Antwerp-Bruges (27.9M TEU)</value></Data>
+  <Data name="Inland Target"><value>Milan / Northern Italy (Natural Genoa / La Spezia Zone)</value></Data>
+  <Data name="Routing Asymmetry"><value>Crosses 2 closer catchment zones (Le Havre/Marseille &amp; Genoa/La Spezia)</value></Data>
+  <Data name="Suez Loop Time Penalty"><value>+13 to +16 vessel round-trip sea days vs. Ligurian direct call</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>4.1500,51.6500,0 6.7623,51.4344,0 7.5886,47.5596,0 9.1900,45.4642,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Legacy Overreach: Rotterdam / Antwerp -&gt; Duisburg -&gt; Munich -&gt; Vienna</name>
+        <styleUrl>#overreach_orange</styleUrl>
+        <ExtendedData>
+  <Data name="Origin Mega-Hub"><value>Rotterdam / Antwerp-Bruges (27.9M TEU)</value></Data>
+  <Data name="Inland Target"><value>Munich &amp; Vienna (Natural 3SI Adriatic Zone: Koper / Trieste / Rijeka)</value></Data>
+  <Data name="Routing Asymmetry"><value>Crosses 2 closer catchment zones into the Adriatic hinterland</value></Data>
+  <Data name="Suez Loop Time Penalty"><value>+14 to +17 vessel round-trip sea days vs. North Adriatic direct call</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>4.1500,51.6500,0 6.7623,51.4344,0 8.6821,50.1109,0 11.5820,48.1351,0 16.3738,48.2082,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Legacy Overreach: Hamburg / Bremerhaven -&gt; Munich</name>
+        <styleUrl>#overreach_orange</styleUrl>
+        <ExtendedData>
+  <Data name="Origin Mega-Hub"><value>Hamburg / Bremerhaven (13.2M TEU)</value></Data>
+  <Data name="Inland Target"><value>Munich / Bavaria (Natural 3SI Adriatic Zone: Trieste / Koper)</value></Data>
+  <Data name="Routing Asymmetry"><value>Crosses natural catchment boundary into Adriatic zone (~610 km vs ~325 km from Trieste)</value></Data>
+  <Data name="Suez Loop Time Penalty"><value>+14 to +17 vessel round-trip sea days vs. North Adriatic direct call</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>9.9320,53.5320,0 9.7320,52.3759,0 11.0767,49.4521,0 11.5820,48.1351,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Legacy Overreach: Hamburg / Bremerhaven -&gt; Prague -&gt; Vienna -&gt; Budapest</name>
+        <styleUrl>#overreach_orange</styleUrl>
+        <ExtendedData>
+  <Data name="Origin Mega-Hub"><value>Hamburg / Bremerhaven (13.2M TEU)</value></Data>
+  <Data name="Inland Target"><value>Vienna &amp; Budapest (Natural 3SI Adriatic &amp; Aegean Catchments)</value></Data>
+  <Data name="Routing Asymmetry"><value>Pulls CEE cargo north across the Danube/Adriatic catchment divide</value></Data>
+  <Data name="Suez Loop Time Penalty"><value>+14 to +17 vessel round-trip sea days vs. Koper / Trieste / Rijeka</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>9.9320,53.5320,0 13.7373,51.0504,0 14.4378,50.0755,0 16.3738,48.2082,0 19.0402,47.4979,0</coordinates></LineString>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

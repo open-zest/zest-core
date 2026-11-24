@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Project ZeST: Complete TEN-T Seaport-to-Dry-Port Rail Corridors (18 Spines)</name>
+    <description>All 11 EU catchment gateways + UK/Nordic rail corridors (includes Le Havre, Marseille-Fos, Algeciras, and Sines).</description>
+    <Style id="cosco_red"><LineStyle><color>ff2828d6</color><width>3.5</width></LineStyle></Style>
+    <Style id="msc_gold"><LineStyle><color>ff00a5ff</color><width>3.5</width></LineStyle></Style>
+    <Style id="maersk_blue"><LineStyle><color>ffd47800</color><width>3.5</width></LineStyle></Style>
+    <Style id="multi_green"><LineStyle><color>ff509e2f</color><width>3.5</width></LineStyle></Style>
+    <Folder>
+      <name>Seaport-to-Dry-Port Rail Corridors</name>
+      <Placemark>
+        <name>Port of Piraeus -&gt; Thessaloniki -&gt; Belgrade -&gt; Budapest -&gt; Bratislava -&gt; Ostrava</name>
+        <styleUrl>#cosco_red</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 1: Aegean &amp; Balkan Landbridge</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Orient / East-Med (Corridor VII)</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Belgrade, Budapest, Bratislava, Ostrava</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>23.6370,37.9420,0 22.9444,40.6401,0 20.4489,44.7866,0 19.0402,47.4979,0 17.1077,48.1486,0 18.2625,49.8209,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Trieste -&gt; Villach -&gt; Salzburg -&gt; Munich -&gt; Ulm</name>
+        <styleUrl>#msc_gold</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 2: North Adriatic &amp; Southern 3SI</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Baltic-Adriatic (V) &amp; Mediterranean (VI)</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Villach, Salzburg, Munich, Ulm</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>13.7580,45.6360,0 13.8506,46.6111,0 13.0550,47.8095,0 11.5820,48.1351,0 9.9876,48.4011,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Koper -&gt; Ljubljana -&gt; Graz -&gt; Vienna -&gt; Bratislava -&gt; Žilina</name>
+        <styleUrl>#multi_green</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 2: North Adriatic &amp; Southern 3SI</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Baltic-Adriatic (V) &amp; Mediterranean (VI)</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Graz, Vienna, Bratislava, Žilina, Southern Poland</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>13.7360,45.5560,0 14.5058,46.0569,0 15.4395,47.0707,0 16.3738,48.2082,0 17.1077,48.1486,0 18.7408,49.2231,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Rijeka -&gt; Zagreb -&gt; Budapest</name>
+        <styleUrl>#maersk_blue</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 2: North Adriatic &amp; Southern 3SI</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Mediterranean (VI) &amp; 3SI Adriatic Spine</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Zagreb, Budapest</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>14.4320,45.3240,0 15.9819,45.8150,0 19.0402,47.4979,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of La Spezia -&gt; Milan (Melzo) -&gt; Zurich -&gt; Basel</name>
+        <styleUrl>#msc_gold</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 3: Ligurian &amp; Alpine-Med Axis</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Rhine-Alpine (I) &amp; Mediterranean (VI)</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Milan (Melzo), Verona, Zurich, Basel</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>9.8520,44.1060,0 9.1900,45.4642,0 8.5417,47.3769,0 7.5886,47.5596,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Marseille-Fos -&gt; Avignon -&gt; Lyon -&gt; Dijon</name>
+        <styleUrl>#msc_gold</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 3: Ligurian &amp; Rhône-Med Axis</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC North Sea-Med (II) &amp; Mediterranean (VI)</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Avignon, Lyon, Dijon</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>4.8630,43.4050,0 4.8055,43.9493,0 4.8357,45.7640,0 5.0415,47.3220,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Valencia -&gt; Madrid (Coslada) -&gt; Valladolid [Central Spoke]</name>
+        <styleUrl>#cosco_red</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 4: Iberian &amp; Western Med Hub</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Atlantic (IV) &amp; Central Iberian Electrified Trunk</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Madrid (Coslada), Valladolid</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>-0.3170,39.4440,0 -3.5610,40.4240,0 -4.7245,41.6523,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Valencia -&gt; Sagunto -&gt; Teruel -&gt; Zaragoza (PLAZA) [Northern Spoke]</name>
+        <styleUrl>#cosco_red</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 4: Iberian &amp; Western Med Hub</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>Direct Valencia-Teruel-Zaragoza Spine &amp; RFC Med (VI)</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Sagunto, Teruel, Zaragoza (PLAZA)</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>-0.3170,39.4440,0 -0.2780,39.6800,0 -1.1065,40.3456,0 -0.8891,41.6488,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Algeciras -&gt; Córdoba -&gt; Madrid (Coslada)</name>
+        <styleUrl>#maersk_blue</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 4: Iberian &amp; Western Med Hub</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Atlantic (IV) &amp; Med (VI) — Algeciras-Madrid Rail Highway</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Bobadilla, Córdoba, Madrid (Coslada)</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>-5.4340,36.1280,0 -4.7794,37.8882,0 -3.5610,40.4240,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Sines / Lisbon -&gt; Évora -&gt; Badajoz -&gt; Madrid (Coslada)</name>
+        <styleUrl>#multi_green</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 4: Iberian &amp; Western Med Hub</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Atlantic (IV) — Sines-Elvas-Madrid Corridor</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Évora, Elvas/Badajoz, Mérida, Madrid (Coslada)</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>-8.8690,37.9510,0 -7.9135,38.5714,0 -6.9707,38.8794,0 -3.5610,40.4240,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Le Havre (HAROPA) -&gt; Rouen -&gt; Paris (Valenton) -&gt; Metz</name>
+        <styleUrl>#msc_gold</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 7: Northern Range &amp; Seine Axis</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Atlantic (IV) — Seine-East Intermodal Spine</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Rouen, Paris Basin (Valenton), Reims, Metz</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>0.1410,49.4760,0 1.0993,49.4431,0 2.4570,48.7510,0 6.1757,49.1193,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Constanța -&gt; Bucharest -&gt; Arad -&gt; Budapest</name>
+        <styleUrl>#multi_green</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 5: Black Sea &amp; Eastern 3SI Spine</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Rhine-Danube (IX) &amp; 3SI Rail-2-Sea</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Bucharest, Arad, Budapest</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>28.6590,44.1190,0 26.1025,44.4268,0 21.3123,46.1866,0 19.0402,47.4979,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Baltic Hub (DCT Gdańsk) -&gt; Warsaw -&gt; Łódź -&gt; Ostrava</name>
+        <styleUrl>#multi_green</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 6: Baltic &amp; Northern 3SI Spine</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Baltic-Adriatic (V) &amp; North Sea-Baltic (VIII)</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Warsaw, Łódź, Poznań, Ostrava</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>18.7180,54.3910,0 21.0122,52.2297,0 19.4560,51.7592,0 18.2625,49.8209,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Rotterdam -&gt; Venlo -&gt; Duisburg -&gt; Cologne -&gt; Mannheim -&gt; Basel</name>
+        <styleUrl>#maersk_blue</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 7: Northern Range Mega-Hubs</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Rhine-Alpine (I)</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Venlo, Duisburg, Cologne, Mannheim, Basel</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>4.0220,51.9540,0 6.1724,51.3704,0 6.7623,51.4344,0 6.9603,50.9375,0 8.4660,49.4875,0 7.5886,47.5596,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Antwerp-Bruges -&gt; Brussels -&gt; Metz -&gt; Lyon</name>
+        <styleUrl>#msc_gold</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 7: Northern Range Mega-Hubs</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC North Sea-Med (II)</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Brussels, Metz, Luxembourg, Lyon</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>4.2650,51.2980,0 4.3517,50.8503,0 6.1757,49.1193,0 4.8357,45.7640,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Hamburg -&gt; Hanover -&gt; Leipzig -&gt; Prague</name>
+        <styleUrl>#maersk_blue</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 7: Northern Range Mega-Hubs</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC Orient/East-Med (VII) &amp; ScanMed (III)</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Hanover, Leipzig, Prague</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>9.9320,53.5320,0 9.7320,52.3759,0 12.3731,51.3397,0 14.4378,50.0755,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Felixstowe -&gt; DIRFT (Daventry) -&gt; Birmingham -&gt; Manchester -&gt; Mossend</name>
+        <styleUrl>#multi_green</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 8: UK &amp; Nordic Rail Corridors</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>UK Felixstowe-Midlands-North Rail Spine</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>DIRFT (Daventry), Birmingham, Manchester, Mossend</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>1.3180,51.9540,0 -1.1444,52.3458,0 -1.8904,52.4862,0 -2.2426,53.4808,0 -4.0116,55.8188,0</coordinates></LineString>
+      </Placemark>
+      <Placemark>
+        <name>Port of Gothenburg -&gt; Hallsberg -&gt; Stockholm</name>
+        <styleUrl>#maersk_blue</styleUrl>
+        <ExtendedData>
+  <Data name="ZeST Domain"><value>Domain 8: UK &amp; Nordic Rail Corridors</value></Data>
+  <Data name="EU Rail Freight Corridor"><value>RFC ScanMed (III) — Railport Scandinavia</value></Data>
+  <Data name="Dry-Port Milk-Run Sequence"><value>Hallsberg, Stockholm, Jönköping, Oslo</value></Data>
+</ExtendedData>
+        <LineString><tessellate>1</tessellate><coordinates>11.8520,57.6950,0 15.1086,59.0667,0 18.0686,59.3293,0</coordinates></LineString>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>
