@@ -8,7 +8,7 @@ During the smart-container session at Intermodal Europe in Rotterdam, I asked th
 
 **Yes.** IoT experts agree. Using the container as an IoT object to build a timestamp-based process model is technically possible and a good use of the technology.
 
-![ZeST Intermodal Corridor Value Stream Map: IN/OUT Timestamps](../../assets/images/ZeST-corridor-vsm-inout.jpg)
+![ZeST Intermodal Corridor Value Stream Map: IN/OUT Timestamps](../../assets/images/zest-corridor-vsm-inout.jpg)
 
 ## Building an Intermodal Value Stream Map
 
